@@ -5,6 +5,7 @@
     <TargetFramework>net472</TargetFramework>
     <RootNamespace>Cobilas</RootNamespace>
     <AssemblyName>Cobilas.Core</AssemblyName>
+   <AssemblyVersion>1.0.0</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
