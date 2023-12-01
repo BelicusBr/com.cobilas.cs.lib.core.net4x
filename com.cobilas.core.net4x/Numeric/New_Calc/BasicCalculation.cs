@@ -3,6 +3,7 @@ using System;
 namespace Cobilas.Numeric {
     public class BasicCalculation : CalculationsCollection {
         public override CalculationsCollectionItem[] Calculations { get; protected set; }
+        public override CalculationsCollectionItem[] OverwriteCalculations { get; protected set; }
 
         public override void Initialization() {
             Calculations = new CalculationsCollectionItem[] {
