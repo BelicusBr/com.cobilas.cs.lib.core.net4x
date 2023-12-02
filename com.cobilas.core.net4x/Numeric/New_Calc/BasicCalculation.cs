@@ -2,31 +2,31 @@ using System;
 
 namespace Cobilas.Numeric {
     public class BasicCalculation : CalculationsCollection {
-        public override CalculationsCollectionItem[] Calculations { get; protected set; }
-        public override CalculationsCollectionItem[] OverwriteCalculations { get; protected set; }
+        public override MathOperator[] Calculations { get; protected set; }
+        public override MathOperator[] OverwriteCalculations { get; protected set; }
 
         public override void Initialization() {
-            Calculations = new CalculationsCollectionItem[] {
-                new CalculationsCollectionItem('+', Add, SignalOrientation.both),
-                new CalculationsCollectionItem('-', Subtraction, SignalOrientation.both),
-                new CalculationsCollectionItem("~-", Subtraction, SignalOrientation.right),
-                new CalculationsCollectionItem('*', Multiplication, SignalOrientation.both),
-                new CalculationsCollectionItem('/', Division, SignalOrientation.both),
-                new CalculationsCollectionItem('%', Module, SignalOrientation.both),
-                new CalculationsCollectionItem("++", S_Add, SignalOrientation.left),
-                new CalculationsCollectionItem("--", S_Subtraction, SignalOrientation.left),
-                new CalculationsCollectionItem("**", S_Multiplication, SignalOrientation.left),
-                new CalculationsCollectionItem("//", S_Division, SignalOrientation.left),
-                new CalculationsCollectionItem("%%", S_Module, SignalOrientation.left),
-                new CalculationsCollectionItem("pow", Pow, SignalOrientation.both),
-                new CalculationsCollectionItem("sqr", Sqrt, SignalOrientation.right),
-                new CalculationsCollectionItem("cos", Cos, SignalOrientation.right),
-                new CalculationsCollectionItem("acos", Acos, SignalOrientation.right),
-                new CalculationsCollectionItem("sin", Sin, SignalOrientation.right),
-                new CalculationsCollectionItem("asin", Asin, SignalOrientation.right),
-                new CalculationsCollectionItem("log", Log, SignalOrientation.right),
-                new CalculationsCollectionItem("log2", Log2, SignalOrientation.both),
-                new CalculationsCollectionItem("log10", Log10, SignalOrientation.right)
+            Calculations = new MathOperator[] {
+                new MathOperator('+', Add, SignalOrientation.both, 2),
+                new MathOperator('-', Subtraction, SignalOrientation.both, 2),
+                new MathOperator("~-", Subtraction, SignalOrientation.right),
+                new MathOperator('*', Multiplication, SignalOrientation.both, 1),
+                new MathOperator('/', Division, SignalOrientation.both, 1),
+                new MathOperator('%', Module, SignalOrientation.both, 1),
+                new MathOperator("++", S_Add, SignalOrientation.left, 2),
+                new MathOperator("--", S_Subtraction, SignalOrientation.left, 2),
+                new MathOperator("**", S_Multiplication, SignalOrientation.left, 1),
+                new MathOperator("//", S_Division, SignalOrientation.left, 1),
+                new MathOperator("%%", S_Module, SignalOrientation.left, 1),
+                new MathOperator("pow", Pow, SignalOrientation.both),
+                new MathOperator("sqr", Sqrt, SignalOrientation.right),
+                new MathOperator("cos", Cos, SignalOrientation.right),
+                new MathOperator("acos", Acos, SignalOrientation.right),
+                new MathOperator("sin", Sin, SignalOrientation.right),
+                new MathOperator("asin", Asin, SignalOrientation.right),
+                new MathOperator("log", Log, SignalOrientation.right),
+                new MathOperator("log2", Log2, SignalOrientation.both),
+                new MathOperator("log10", Log10, SignalOrientation.right)
             };
         }
 
@@ -42,6 +42,8 @@ namespace Cobilas.Numeric {
         private double Multiplication(double a, double b) => a * b;
         private double Division(double a, double b) => a / b;
         private double Module(double a, double b) => a % b;
+
+        private double Negative(double a, double b) => -b;
 
         private double S_Add(double a, double b) => a + 1;
         private double S_Subtraction(double a, double b) => a - 1;

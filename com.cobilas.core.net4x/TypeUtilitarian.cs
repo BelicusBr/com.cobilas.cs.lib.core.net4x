@@ -4,14 +4,18 @@ using Cobilas.Collections;
 
 namespace Cobilas {
     public static class TypeUtilitarian {
-        public static bool TypeExist(string fullName) {
+        public static Type[] GetTypes() {
+            Type[] types = null;
             Assembly[] assemblies = GetAssemblies();
-            for (int A = 0; A < ArrayManipulation.ArrayLength(assemblies); A++) {
-                Type[] types = assemblies[A].GetTypes();
-                for (int B = 0; B < ArrayManipulation.ArrayLength(types); B++)
-                    if (types[B].Name == fullName)
-                        return true;
-            }
+            foreach (var item in assemblies)
+                ArrayManipulation.Add(item.GetTypes(), ref types);
+            return types;
+        }
+
+        public static bool TypeExist(string fullName) {
+            foreach (var item in GetTypes())
+                if (item.Name == fullName)
+                    return true;
             return false;
         }
 
