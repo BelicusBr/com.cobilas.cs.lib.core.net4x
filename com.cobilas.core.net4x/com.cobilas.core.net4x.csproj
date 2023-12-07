@@ -5,7 +5,14 @@
     <TargetFramework>net472</TargetFramework>
     <RootNamespace>Cobilas</RootNamespace>
     <AssemblyName>Cobilas.Core</AssemblyName>
-   <AssemblyVersion>1.0.0</AssemblyVersion>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PackageVersion>1.0.0</PackageVersion>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageTags>CSharp;C#;net472</PackageTags>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
