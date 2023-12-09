@@ -9,6 +9,9 @@ namespace Cobilas.IO.Atlf {
         public ATLFException(string message, Exception inner) : base(message, inner) { }
         protected ATLFException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
+        public static ATLFException GetATLFException(string format, params object[] args)
+            => new ATLFException(string.Format(format, args));
+
         /// <summary>msg:The ATLFWriter object has already been closed.</summary>
         public static InvalidOperationException ATLFClosed()
             => new InvalidOperationException("The ATLF object has already been closed.");

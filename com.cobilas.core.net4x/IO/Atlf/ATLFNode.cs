@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 namespace Cobilas.IO.Atlf {
     public struct ATLFNode : IDisposable {
@@ -16,6 +17,16 @@ namespace Cobilas.IO.Atlf {
             Name =
             Value = null;
             NodeType = default;
+        }
+
+        public override string ToString() {
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine("{");
+            builder.AppendLine($"\tname:{Name}");
+            builder.AppendLine($"\ttype:{NodeType}");
+            builder.AppendLine($"\tvalue:[{Value}]");
+            builder.AppendLine("}");
+            return builder.ToString();
         }
     }
 }

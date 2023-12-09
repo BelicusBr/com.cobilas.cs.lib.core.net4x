@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using Cobilas.Collections;
+using Cobilas.IO.Atlf.Text;
 
 namespace Cobilas.IO.Atlf {
     public class ATLFTextWriter : ATLFWriter {
@@ -10,6 +11,7 @@ namespace Cobilas.IO.Atlf {
         public override bool Indent { get; set; }
         public override string IndentChars { get; set;}
         public override Encoding Encoding { get; set; }
+        public override string TargetVersion { get; set; }
         public override bool Closed { get; protected set; }
         public override long NodeCount => ArrayManipulation.ArrayLongLength(Nodes);
         protected override ATLFNode[] Nodes { get; set; }
@@ -20,7 +22,7 @@ namespace Cobilas.IO.Atlf {
             => Dispose(disposing: false);
 
         public override void WriteHeader() {
-            WriteNode("version", _version);
+            WriteNode("version", GetATLFEncoding(TargetVersion).Version);
             WriteNode("encoding", (Encoding ?? Encoding.UTF8).BodyName);
         }
 
@@ -52,7 +54,7 @@ namespace Cobilas.IO.Atlf {
                 throw ATLFException.ATLFFlowAfterClosing();
             if(NodeCount == 0) return;
             Encoding encoding = Encoding ?? Encoding.UTF8;
-            Stream.Write(encoding.GetBytes(Writer(this)));
+            Stream.Write(GetATLFEncoding(TargetVersion).Writer4Byte(this.Nodes, encoding));
             ArrayManipulation.ClearArraySafe(Nodes);
             Nodes = null;
         }
@@ -66,7 +68,13 @@ namespace Cobilas.IO.Atlf {
             ArrayManipulation.ClearArraySafe(Nodes);
             Nodes = null;
         }
-        
+
+        protected override ATLFEncoding GetATLFEncoding(string targetVersion) {
+            if (EncodingsCollection.ContainsEncoding(targetVersion))
+                return EncodingsCollection.GetEncoding(targetVersion);
+            return EncodingsCollection.GetEncoding(def_version);
+        }
+
         protected void WriteIndentation() {
             if (Indent) {
                 IndentChars = IndentChars ?? "\r\n";
