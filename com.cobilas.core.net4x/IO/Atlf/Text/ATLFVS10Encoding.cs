@@ -22,13 +22,13 @@ namespace Cobilas.IO.Atlf.Text {
             foreach (var item in nodes) {
                 switch (item.NodeType) {
                     case ATLFNodeType.Tag:
-                        builder.AppendFormat("#! {0}:/*{1}*/", item.Name, item.Value);
+                        builder.AppendFormat("#! {0}:/*{1}*/", item.Name, item.Value.Replace("*/", "\\*/"));
                         break;
                     case ATLFNodeType.Spacing:
                         builder.Append(item.Value);
                         break;
                     case ATLFNodeType.Comment:
-                        builder.AppendFormat("#> {0} <#", item.Value);
+                        builder.AppendFormat("#> {0} <#", item.Value.Replace("<#", "\\<#"));
                         break;
                 }
             }

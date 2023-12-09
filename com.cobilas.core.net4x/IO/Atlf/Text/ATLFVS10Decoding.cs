@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Cobilas.Collections;
 using Cobilas.IO.Alf.Components;
 
@@ -35,16 +31,23 @@ namespace Cobilas.IO.Atlf.Text {
 
         protected virtual ATLFNode GetComment(CharacterCursor cursor) {
             StringBuilder text = new StringBuilder();
+            CharacterCursor.LineEndColumn lineEndColumn = cursor.Cursor;
+            bool closed = false;
+
             while (cursor.MoveToCharacter()) {
                 if (cursor.CharIsEqualToIndex("<#")) {
                     cursor.MoveToCharacter(1L);
+                    closed = true;
                     break;
                 } else if (cursor.CharIsEqualToIndex("\\<#"))
                     text.Append("<#");
                 else text.Append(cursor.CurrentCharacter);
             }
-            ATLFNode node = new ATLFNode("cmt", text.ToString(), ATLFNodeType.Comment);
-            return node;
+
+            if  (!closed)
+                throw ATLFException.GetATLFException("(L:{0} C:{1})The text block was not closed!"
+                , lineEndColumn.Line, lineEndColumn.Column);
+            return new ATLFNode("cmt", text.ToString(), ATLFNodeType.Comment);
         }
 
         protected virtual ATLFNode GetTag(CharacterCursor cursor) {
@@ -86,7 +89,7 @@ namespace Cobilas.IO.Atlf.Text {
             if (!getText)
                 throw ATLFException.GetATLFException("(L:{0} C:{1})The text block was not opened!"
                 , lineEndColumn.Line, lineEndColumn.Column);
-            else if  (!closed)
+            else if (!closed)
                 throw ATLFException.GetATLFException("(L:{0} C:{1})The text block was not closed!"
                 , lineEndColumn.Line, lineEndColumn.Column);
 
