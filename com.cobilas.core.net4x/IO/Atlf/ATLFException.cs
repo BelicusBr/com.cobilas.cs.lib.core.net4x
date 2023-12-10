@@ -16,6 +16,12 @@ namespace Cobilas.IO.Atlf {
         public static InvalidOperationException ATLFClosed()
             => new InvalidOperationException("The ATLF object has already been closed.");
 
+        public static InvalidOperationException ATLFReaderAfterClosing()
+            => new InvalidOperationException("The read operation cannot be done after closing the ATLF object!");
+
+        public static InvalidOperationException ATLFReaderTagAfterClosing()
+            => new InvalidOperationException("The tag reading operation cannot be done after closing the ATLF object!");
+
         /// <summary>msg:It is not possible to release resources to the flow after closing the ATLF object.</summary>
         public static InvalidOperationException ATLFFlowAfterClosing()
             => new InvalidOperationException("It is not possible to release resources to the flow after closing the ATLF object.");

@@ -5,7 +5,7 @@ using Cobilas.Collections;
 using Cobilas.IO.Atlf.Text;
 
 namespace Cobilas.IO.Atlf {
-    public class ATLFStreamWriter : ATLFWriter {
+    public class ATLFStreamWriter : ATLFSBWriter {
         private bool disposedValue;
 
         public override bool Indent { get; set; }
@@ -14,16 +14,21 @@ namespace Cobilas.IO.Atlf {
         public override string TargetVersion { get; set; }
         public override bool Closed { get; protected set; }
         public override long NodeCount => ArrayManipulation.ArrayLongLength(Nodes);
+        protected override bool CloseFlow { get; set; }
         protected override ATLFNode[] Nodes { get; set; }
         protected override MarshalByRefObject RefObject { get; set; }
-        protected virtual Stream Stream { get => (Stream)RefObject; set => RefObject = value; }
+        protected override Stream Stream { get => (Stream)RefObject; set => RefObject = value; }
 
         ~ATLFStreamWriter()
             => Dispose(disposing: false);
 
         public override void WriteHeader() {
-            WriteNode("version", GetATLFEncoding(TargetVersion).Version);
-            WriteNode("encoding", (Encoding ?? Encoding.UTF8).BodyName);
+            if (Closed)
+                throw ATLFException.ATLFTagsAfterClosing();
+            AddNode("version", GetATLFEncoding(TargetVersion).Version, ATLFNodeType.Tag);
+            WriteIndentation();
+            AddNode("encoding", (Encoding ?? Encoding.UTF8).BodyName, ATLFNodeType.Tag);
+            WriteIndentation();
         }
 
         public override void WriteComment(string value) {
@@ -63,7 +68,8 @@ namespace Cobilas.IO.Atlf {
             if (Closed)
                 throw ATLFException.ATLFClosed();
             Closed = true;
-            Stream = null;
+            if (CloseFlow) Stream.Close();
+            else  Stream = null;
             if(NodeCount == 0) return;
             ArrayManipulation.ClearArraySafe(Nodes);
             Nodes = null;
@@ -93,6 +99,7 @@ namespace Cobilas.IO.Atlf {
                 if (disposing) {
                     Flush();
                     Close();
+                    if (CloseFlow) Stream.Dispose();
                 }
                 disposedValue = true;
             }

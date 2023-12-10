@@ -1,4 +1,6 @@
+using System;
 using System.Text;
+using System.Xml;
 using Cobilas.Collections;
 using Cobilas.IO.Alf.Components;
 
@@ -12,8 +14,17 @@ namespace Cobilas.IO.Atlf.Text {
         public override ATLFNode[] Reader(params object[] args)
             => Reader(new CharacterCursor(args[0] as string));
 
+        /// <param name="args">
+        /// <para>args[0] = <seealso cref="byte"/>[]</para>
+        /// <para>args[1] = <seealso cref="Encoding"/></para>
+        /// </param>
+        public override ATLFNode[] Reader4Byte(params object[] args)
+            => Reader(new CharacterCursor((args[1] as Encoding).GetString(args[0] as byte[])));
+
         protected virtual ATLFNode[] Reader(CharacterCursor cursor) {
             ATLFNode[] res = null;
+            if (cursor.Count == 0)
+                throw new ATLFException("The ATLF object cannot read empty text!");
             while (cursor.MoveToCharacter()) {
                 if (cursor.CharIsEqualToIndex("#!")) {
                     cursor.MoveToCharacter(1L);
@@ -21,9 +32,9 @@ namespace Cobilas.IO.Atlf.Text {
                 } else if (cursor.CharIsEqualToIndex("#>")) {
                     cursor.MoveToCharacter(1L);
                     ArrayManipulation.Add(GetComment(cursor), ref res);
-                } else if (!cursor.CharIsEqualToIndex(" ")) {
+                } else if (!char.IsWhiteSpace(cursor.CurrentCharacter)) {
                     throw ATLFException.GetATLFException("(L:{0} C:{1})\"{2}\" Unidentified tag!", 
-                    cursor.Line, cursor.Column, cursor.CurrentCharacter);
+                    cursor.Line, cursor.Column, cursor.CurrentCharacter.EscapeSequenceToString());
                 }
             }
             return res;
@@ -32,30 +43,27 @@ namespace Cobilas.IO.Atlf.Text {
         protected virtual ATLFNode GetComment(CharacterCursor cursor) {
             StringBuilder text = new StringBuilder();
             CharacterCursor.LineEndColumn lineEndColumn = cursor.Cursor;
-            bool closed = false;
 
             while (cursor.MoveToCharacter()) {
                 if (cursor.CharIsEqualToIndex("<#")) {
                     cursor.MoveToCharacter(1L);
-                    closed = true;
-                    break;
+                    return new ATLFNode("cmt", text.ToString(), ATLFNodeType.Comment);
                 } else if (cursor.CharIsEqualToIndex("\\<#"))
                     text.Append("<#");
                 else text.Append(cursor.CurrentCharacter);
             }
 
-            if  (!closed)
-                throw ATLFException.GetATLFException("(L:{0} C:{1})The text block was not closed!"
+            throw ATLFException.GetATLFException("(L:{0} C:{1})The text block was not closed!"
                 , lineEndColumn.Line, lineEndColumn.Column);
-            return new ATLFNode("cmt", text.ToString(), ATLFNodeType.Comment);
         }
 
-        protected virtual ATLFNode GetTag(CharacterCursor cursor) {
+        protected virtual ATLFNode GetTag(CharacterCursor cursor) => GetTag(cursor, ATLFNodeType.Tag);
+
+        protected virtual ATLFNode GetTag(CharacterCursor cursor, ATLFNodeType nodeType) {
             StringBuilder name = new StringBuilder();
             StringBuilder text = new StringBuilder();
             CharacterCursor.LineEndColumn lineEndColumn = cursor.Cursor;
             bool getText = false;
-            bool closed = false;
             bool firstSpace = false;
             while (cursor.MoveToCharacter()) {
                 if (getText) {
@@ -64,8 +72,7 @@ namespace Cobilas.IO.Atlf.Text {
                         cursor.MoveToCharacter(2L);
                     } else if (cursor.CharIsEqualToIndex("*/")) {
                         cursor.MoveToCharacter(1L);
-                        closed = true;
-                        break;
+                        return new ATLFNode(name.ToString().Trim(), text.ToString(), nodeType);
                     } else text.Append(cursor.CurrentCharacter);
                 } else {
                     if (cursor.CharIsEqualToIndex(":/*")) {
@@ -89,14 +96,12 @@ namespace Cobilas.IO.Atlf.Text {
             if (!getText)
                 throw ATLFException.GetATLFException("(L:{0} C:{1})The text block was not opened!"
                 , lineEndColumn.Line, lineEndColumn.Column);
-            else if (!closed)
-                throw ATLFException.GetATLFException("(L:{0} C:{1})The text block was not closed!"
+            throw ATLFException.GetATLFException("(L:{0} C:{1})The text block was not closed!"
                 , lineEndColumn.Line, lineEndColumn.Column);
-
-            return new ATLFNode(name.ToString().Trim(), text.ToString(), ATLFNodeType.Tag);
         }
 
         protected override bool ValidCharacter(char c)
-            => char.IsLetterOrDigit(c) || c == '.' || c == '_' || c == '/' || c == '\\' || c == '>';
+            => char.IsLetterOrDigit(c) || c == '.' || c == '_' ||
+                c == '/' || c == '\\' || c == '>';
     }
 }

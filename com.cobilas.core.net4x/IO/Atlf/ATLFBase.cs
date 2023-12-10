@@ -9,6 +9,7 @@ namespace Cobilas.IO.Atlf {
         public abstract Encoding Encoding { get; set; }
         public abstract string TargetVersion { get; set; }
         public abstract bool Closed { get; protected set; }
+        protected abstract bool CloseFlow { get; set;}
         protected abstract ATLFNode[] Nodes { get; set; }
         protected abstract MarshalByRefObject RefObject { get; set; }
 

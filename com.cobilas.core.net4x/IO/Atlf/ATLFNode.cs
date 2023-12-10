@@ -25,7 +25,7 @@ namespace Cobilas.IO.Atlf {
             builder.AppendLine($"\tname:{Name}");
             builder.AppendLine($"\ttype:{NodeType}");
             builder.AppendLine($"\tvalue:[{Value}]");
-            builder.AppendLine("}");
+            builder.Append("}");
             return builder.ToString();
         }
     }
