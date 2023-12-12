@@ -105,6 +105,9 @@ namespace Cobilas.IO.Alf.Components {
             ArrayManipulation.ClearArraySafe(ref characters);
         }
 
+        public override string ToString() 
+            => new string(this.characters);
+
         public struct LineEndColumn {
             private readonly long line;
             private readonly long index;

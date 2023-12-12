@@ -7,26 +7,26 @@ namespace Cobilas.Numeric {
 
         public override void Initialization() {
             Calculations = new MathOperator[] {
-                new MathOperator("add", Add, SignalOrientation.both, 2),
-                new MathOperator("sub", Subtraction, SignalOrientation.both, 2),
-                new MathOperator("ngtv", Negative, SignalOrientation.right),
-                new MathOperator("mult", Multiplication, SignalOrientation.both, 1),
-                new MathOperator("div", Division, SignalOrientation.both, 1),
-                new MathOperator("mod", Module, SignalOrientation.both, 1),
-                new MathOperator("incr", S_Add, SignalOrientation.left, 2),
-                new MathOperator("decr", S_Subtraction, SignalOrientation.left, 2),
-                new MathOperator("mult+", S_Multiplication, SignalOrientation.left, 1),
-                new MathOperator("div+", S_Division, SignalOrientation.left, 1),
-                new MathOperator("mod+", S_Module, SignalOrientation.left, 1),
-                new MathOperator("pow", Pow, SignalOrientation.both),
-                new MathOperator("sqr", Sqrt, SignalOrientation.right),
-                new MathOperator("cos", Cos, SignalOrientation.right),
-                new MathOperator("acos", Acos, SignalOrientation.right),
-                new MathOperator("sin", Sin, SignalOrientation.right),
-                new MathOperator("asin", Asin, SignalOrientation.right),
-                new MathOperator("log", Log, SignalOrientation.right),
-                new MathOperator("log2", Log2, SignalOrientation.both),
-                new MathOperator("log10", Log10, SignalOrientation.right)
+                new MathOperator("~-", Negative, SignalOrientation.right),
+                new MathOperator("++", S_Add, SignalOrientation.left, 2),
+                new MathOperator("--", S_Subtraction, SignalOrientation.left, 2),
+                new MathOperator("**", S_Multiplication, SignalOrientation.left, 1),
+                new MathOperator("//", S_Division, SignalOrientation.left, 1),
+                new MathOperator("%%", S_Module, SignalOrientation.left, 1),
+                new MathOperator('+', Add, SignalOrientation.both, 2),
+                new MathOperator('-', Subtraction, SignalOrientation.both, 2),
+                new MathOperator('*', Multiplication, SignalOrientation.both, 1),
+                new MathOperator('/', Division, SignalOrientation.both, 1),
+                new MathOperator('%', Module, SignalOrientation.both, 1),
+                new MathOperator(":pow:", Pow, SignalOrientation.both),
+                new MathOperator(":sqr:", Sqrt, SignalOrientation.right),
+                new MathOperator(":cos:", Cos, SignalOrientation.right),
+                new MathOperator(":acos:", Acos, SignalOrientation.right),
+                new MathOperator(":sin:", Sin, SignalOrientation.right),
+                new MathOperator(":asin:", Asin, SignalOrientation.right),
+                new MathOperator(":log:", Log, SignalOrientation.right),
+                new MathOperator(":log-nb:", Log_nb, SignalOrientation.both),
+                new MathOperator(":log10:", Log10, SignalOrientation.right)
             };
         }
 
@@ -58,7 +58,7 @@ namespace Cobilas.Numeric {
         private double Sin(double a, double b) => Math.Sin(b);
         private double Asin(double a, double b) => Math.Asin(b);
         private double Log(double a, double b) => Math.Log(b);
-        private double Log2(double a, double b) => Math.Log(a, b);
+        private double Log_nb(double a, double b) => Math.Log(a, b);
         private double Log10(double a, double b) => Math.Log10(b);
     }
 }

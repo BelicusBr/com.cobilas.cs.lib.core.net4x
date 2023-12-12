@@ -1,10 +1,15 @@
 using System;
+using System.Diagnostics;
+using System.Text;
 using Cobilas.Collections;
+using Cobilas.IO.Alf.Components;
 
 namespace Cobilas.Numeric {
     public static class ParseCalculation {
 
         private static CalculationsCollection[] collections;
+
+        public static CalculationsCollection[] Collections { get => collections; }
 
         static ParseCalculation() {
             collections = new CalculationsCollection[1];
@@ -22,8 +27,113 @@ namespace Cobilas.Numeric {
             }
         }
 
-        public static void Parse(string text) {
-            Console.WriteLine($"Paser:{text}");
+        public static double Parse(string text)
+            => GetMathBlock(new CharacterCursor(text), GetSignals(), false);
+        
+        public static double PrintConsoleCalc(string text) {
+            double res = Parse(text);
+            Console.Write("{0}={1}\r\n", text, res);
+            return res;
+        }
+        
+        public static double DebugLogCalc(string text) {
+            double res = Parse(text);
+            Debug.Print("{0}={1}", text, res);
+            return res;
+        }
+
+        private static MathOperator[] GetSignals() {
+            MathOperator[] s = null;
+            foreach (var item in Collections)
+                ArrayManipulation.Add(item.Calculations, ref s);
+            return s;
+        }
+
+        private static double GetMathBlock(CharacterCursor txt, MathOperator[] signals, bool isMathBlock) {
+            StringBuilder builder = new StringBuilder();
+            while (txt.MoveToCharacter()) {
+                if (txt.CharIsEqualToIndex('('))
+                    builder.Append(GetMathBlock(txt, signals, true));
+                else if (txt.CharIsEqualToIndex(')'))
+                    return CalcMathBlock(new CharacterCursor(builder), signals);
+                else if (char.IsWhiteSpace(txt.CurrentCharacter))
+                    throw new FormatException("The expression cannot contain blanks!");
+                else builder.Append(txt.CurrentCharacter);
+            }
+            if (isMathBlock)
+                throw new FormatException("The parenthesis was not closed!");
+            return CalcMathBlock(new CharacterCursor(builder), signals);
+        }
+
+        private static double CalcMathBlock(CharacterCursor txt, MathOperator[] signals) {
+            string[] calc = Array.Empty<string>();
+            StringBuilder builder = new StringBuilder();
+            while (txt.MoveToCharacter()) {
+                if (IsSignal(txt, signals, out string sg)) {
+                    txt.MoveToCharacter(sg.Length - 1);
+                    if (builder.Length != 0) {
+                        ArrayManipulation.Add(builder.ToString(), ref calc);
+                        builder.Clear();
+                    }
+                    ArrayManipulation.Add(sg, ref calc);
+                } else builder.Append(txt.CurrentCharacter);
+            }
+            if (builder.Length != 0) {
+                ArrayManipulation.Add(builder.ToString(), ref calc);
+                builder.Clear();
+            }
+            byte executionLevel = 0;
+            foreach (var item in signals)
+                if (item.ExecutionLevel > executionLevel)
+                    executionLevel = item.ExecutionLevel;
+            for (int I = 0; I <= executionLevel && ArrayManipulation.ArrayLength(calc) > 1; I++) {
+                for (int J = 0; J < ArrayManipulation.ArrayLength(calc); J++) {
+                    if (IsSignal(calc[J], signals, out MathOperator math))
+                        if (math.ExecutionLevel == I)
+                            switch (math.Orientation) {
+                                case SignalOrientation.both:
+                                    calc[J - 1] = math.Function.DynamicInvoke(
+                                        double.Parse(calc[J - 1]),
+                                        double.Parse(calc[J + 1])).ToString();
+                                    ArrayManipulation.Remove(J, 2, ref calc);
+                                    J = -1;
+                                    break;
+                                case SignalOrientation.left:
+                                    calc[J - 1] = math.Function.DynamicInvoke(
+                                        double.Parse(calc[J - 1]), 0).ToString();
+                                    ArrayManipulation.Remove(J, 1, ref calc);
+                                    J = -1;
+                                    break;
+                                case SignalOrientation.right:
+                                    calc[J] = math.Function.DynamicInvoke(
+                                        0, double.Parse(calc[J + 1])).ToString();
+                                    ArrayManipulation.Remove(J + 1, 1, ref calc);
+                                    J = -1;
+                                    break;
+                            }
+                }
+            }
+            return double.Parse(calc[0]);
+        }
+
+        private static bool IsSignal(string signal, MathOperator[] signals, out MathOperator math) {
+            foreach (var item in signals)
+                if (item.Signal == signal) {
+                    math = item;
+                    return true;
+                }
+            math = default;
+            return false;
+        }
+
+        private static bool IsSignal(CharacterCursor txt, MathOperator[] signals, out string sg) {
+            foreach (var item in signals)
+                if (txt.CharIsEqualToIndex(item.Signal)) {
+                    sg = item.Signal;
+                    return true;
+                }
+            sg = null;
+            return false;
         }
     }
 }
