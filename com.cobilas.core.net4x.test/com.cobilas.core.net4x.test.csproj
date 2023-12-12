@@ -5,9 +5,14 @@
     <TargetFramework>net5.0</TargetFramework>
    <AssemblyName>test</AssemblyName>
   </PropertyGroup>
-
+<!-- 
   <ItemGroup>
     <ProjectReference Include="..\com.cobilas.core.net4x\com.cobilas.core.net4x.csproj" />
-  </ItemGroup>
-
+  </ItemGroup> -->
+<PropertyGroup>
+  <RestoreSources>..\com.cobilas.core.net4x\bin\Debug;https://api.nuget.org/v3/index.json</RestoreSources>
+</PropertyGroup>
+<ItemGroup>
+     <PackageReference Include="Cobilas.Core.Net4x" Version="1.0.0" />
+</ItemGroup>
 </Project>

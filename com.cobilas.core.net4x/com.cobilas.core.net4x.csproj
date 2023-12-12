@@ -8,9 +8,13 @@
     <AssemblyVersion>1.0.0</AssemblyVersion>
   </PropertyGroup>
   <PropertyGroup>
+    <Authors>BélicusBr</Authors>
+    <PackageId>Cobilas.Core.Net4x</PackageId>
     <PackageVersion>1.0.0</PackageVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/BelicusBr/com.cobilas.cs.lib.core.net4x</RepositoryUrl>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageTags>CSharp;C#;net472</PackageTags>
   </PropertyGroup>
