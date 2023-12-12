@@ -8,6 +8,7 @@ using Cobilas.IO.Atlf.Text;
 using System.Xml;
 using Cobilas.IO.Alf.Components;
 using Cobilas.Collections;
+using System.Globalization;
 
 namespace com.cobilas.core.net4x.test {
     class Program {
@@ -48,6 +49,10 @@ namespace com.cobilas.core.net4x.test {
                 Sinais 'left' devem verifacar a presença de numéros a esquedar e a direita um sinal.
                 Sinais 'right' devem verifacar a presença de numéros a direita e a esquerda um sinal.
                 */
+                Console.WriteLine(char.IsDigit("0,22541".ToString(CultureInfo.InvariantCulture), 0));
+                Console.WriteLine(char.IsDigit("0xff".ToString(CultureInfo.InvariantCulture), 0));
+                Console.WriteLine(char.IsDigit("4-e2".ToString(CultureInfo.InvariantCulture), 0));
+                Console.WriteLine(char.IsDigit("4e2".ToString(CultureInfo.InvariantCulture), 0));
                 ParseCalculation.DebugLogCalc("12+55+(25*7-(14+5/(21*8)))/85+52");
                 ParseCalculation.DebugLogCalc("12+55+:sqr:52+(25*7-7:pow:2+(14+5/(21*8)))/85+52%2");
                 ParseCalculation.DebugLogCalc("3++");

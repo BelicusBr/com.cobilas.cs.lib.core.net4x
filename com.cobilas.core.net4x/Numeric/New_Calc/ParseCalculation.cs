@@ -1,5 +1,7 @@
 using System;
 using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
 using System.Text;
 using Cobilas.Collections;
 using Cobilas.IO.Alf.Components;
@@ -92,6 +94,16 @@ namespace Cobilas.Numeric {
                         if (math.ExecutionLevel == I)
                             switch (math.Orientation) {
                                 case SignalOrientation.both:
+                                    if (J == 0)
+                                        throw new FormatException($"The signal({calc[J]}) must have a value on the left.");
+                                    else if (J + 1 >= ArrayManipulation.ArrayLength(calc))
+                                        throw new FormatException($"The signal({calc[J]}) must have a value to the right.");
+
+                                    if (!IsDigit(calc[J - 1]))
+                                        throw new FormatException($"The value({calc[J - 1]}{calc[J]}) on the left is not a digit.");
+                                    else if (!IsDigit(calc[J + 1]))
+                                        throw new FormatException($"The value({calc[J]}{calc[J + 1]}) on the right is not a digit.");
+
                                     calc[J - 1] = math.Function.DynamicInvoke(
                                         double.Parse(calc[J - 1]),
                                         double.Parse(calc[J + 1])).ToString();
@@ -99,12 +111,29 @@ namespace Cobilas.Numeric {
                                     J = -1;
                                     break;
                                 case SignalOrientation.left:
+                                    if (J == 0)
+                                        throw new FormatException($"The signal({calc[J]}) must have a value on the left.");
+
+                                    if (!IsDigit(calc[J - 1]))
+                                        throw new FormatException($"The value({calc[J - 1]}{calc[J]}) on the left is not a digit.");
+                                    else if (J + 1 < ArrayManipulation.ArrayLength(calc)) {
+                                        if (!IsSignal(calc[J + 1], signals, out _))
+                                            throw new FormatException($"The value({calc[J]}{calc[J + 1]}) on the right is not a signal.");
+                                    }
+
                                     calc[J - 1] = math.Function.DynamicInvoke(
                                         double.Parse(calc[J - 1]), 0).ToString();
                                     ArrayManipulation.Remove(J, 1, ref calc);
                                     J = -1;
                                     break;
                                 case SignalOrientation.right:
+                                    if (J + 1 >= ArrayManipulation.ArrayLength(calc))
+                                        throw new FormatException($"The signal({calc[J]}) must have a value to the right.");
+                                    if (J != 0) {
+                                        if (!IsSignal(calc[J - 1], signals, out _))
+                                            throw new FormatException($"The value({calc[J - 1]}{calc[J]}) on the left is not a signal.");
+                                    } else if (!IsDigit(calc[J + 1]))
+                                        throw new FormatException($"The value({calc[J]}{calc[J + 1]}) on the right is not a digit.");
                                     calc[J] = math.Function.DynamicInvoke(
                                         0, double.Parse(calc[J + 1])).ToString();
                                     ArrayManipulation.Remove(J + 1, 1, ref calc);
@@ -115,6 +144,9 @@ namespace Cobilas.Numeric {
             }
             return double.Parse(calc[0]);
         }
+
+        private static bool IsDigit(string txt)
+            => char.IsDigit(txt.ToString(CultureInfo.InvariantCulture), 0);
 
         private static bool IsSignal(string signal, MathOperator[] signals, out MathOperator math) {
             foreach (var item in signals)
