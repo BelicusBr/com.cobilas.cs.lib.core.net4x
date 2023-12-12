@@ -17,7 +17,7 @@ namespace Cobilas.Numeric.Convert {
             });
 
         public static decimal HexToDecimal(this string str) {
-            char[] carac = str.ToUpper().Replace("X", "").Remove(0, 1).ToCharArray();
+            char[] carac = str.ToUpper().Replace("0X", "").Remove(0, 1).ToCharArray();
             ArrayManipulation.Reverse(carac);
             decimal res = 0;
             for (int I = 0; I < carac.Length; I++)
