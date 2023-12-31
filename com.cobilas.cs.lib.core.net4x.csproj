@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<TargetFrameworks>net472;netstandard2.1</TargetFrameworks>
+		<RootNamespace>Cobilas</RootNamespace>
+		<AssemblyName>Cobilas.Core</AssemblyName>
+		<AssemblyVersion>1.1.0</AssemblyVersion>
+	</PropertyGroup>
+	<PropertyGroup>
+		<Authors>BélicusBr</Authors>
+		<PackageId>Cobilas.Core.Net4x</PackageId>
+		<PackageVersion>1.1.0</PackageVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/BelicusBr/com.cobilas.cs.lib.core.net4x</RepositoryUrl>
+		<NeutralLanguage>en</NeutralLanguage>
+		<PackageTags>CSharp;C#;net472;netstandard2.1</PackageTags>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageOutputPath>C:\local.nuget</PackageOutputPath>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="\" />
+		<None Include="LICENSE.md" Pack="true" PackagePath="\" />
+	  	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
+</Project>
