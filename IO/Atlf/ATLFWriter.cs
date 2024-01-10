@@ -6,7 +6,7 @@ using Cobilas.IO.Atlf.Text;
 namespace Cobilas.IO.Atlf {
     public abstract class ATLFWriter : ATLFBase {
 
-        public abstract string IndentChars { get; set;}
+        public abstract string IndentChars { get; set; }
 
         public abstract void Flush();
         public abstract void WriteHeader();
@@ -33,7 +33,6 @@ namespace Cobilas.IO.Atlf {
             T writer = Activator.CreateInstance<T>();
             writer.RefObject = refObject;
             writer.Indent = true;
-            writer.IndentChars = "\r\n";
             writer.CloseFlow = closeFlow;
             return writer;
         }

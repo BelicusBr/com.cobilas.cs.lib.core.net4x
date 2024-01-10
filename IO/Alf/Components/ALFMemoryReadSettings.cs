@@ -5,8 +5,8 @@ using System.Text;
 namespace Cobilas.IO.Alf.Components {
     public class ALFMemoryReadSettings : ALFReadSettings {
 
-        private Encoding encoding;
-        private MarshalByRefObject obj;
+        private Encoding encoding = Encoding.UTF8;
+        private MarshalByRefObject obj = Stream.Null;
         private bool removeEscapeOnSpecialCharacters;
 
         public override Encoding Encoding => encoding;
@@ -15,27 +15,28 @@ namespace Cobilas.IO.Alf.Components {
             set => removeEscapeOnSpecialCharacters = value;
         }
         public static ALFMemoryReadSettings DefaultSettings {
-            get => new ALFMemoryReadSettings {
+            get => new() {
                 removeEscapeOnSpecialCharacters = true
             };
         }
 
         public override void Close() {
+            if (obj is null) return;
             if (IsStream()) {
-                (obj as Stream).Close();
+                (obj as Stream)!.Close();
                 return;
             }
-            (obj as TextReader).Close();
+            (obj as TextReader)!.Close();
         }
 
         public override void Dispose() {
-            this.encoding = (Encoding)null;
-            this.obj = (MarshalByRefObject)null;
+            this.encoding = default!;
+            this.obj = Stream.Null;
         }
 
         public override void Flush() {
             if (IsStream()) {
-                (obj as Stream).Flush();
+                (obj as Stream)!.Flush();
                 return;
             }
         }
@@ -44,8 +45,8 @@ namespace Cobilas.IO.Alf.Components {
 
         public override char[] Read() {
             if (IsStream())
-                return (obj as Stream).GetChars(encoding);
-            return (obj as TextReader).ReadToEnd().ToCharArray();
+                return (obj as Stream)!.GetChars(encoding);
+            return (obj as TextReader)!.ReadToEnd().ToCharArray();
         }
 
         public override void Set(MarshalByRefObject obj, Encoding encoding) {

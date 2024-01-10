@@ -1,3 +1,4 @@
+using System;
 using Cobilas.Collections;
 
 namespace Cobilas.Numeric {
@@ -9,7 +10,7 @@ namespace Cobilas.Numeric {
         public abstract double Clac(double V1, string S, double V2);
         
         internal static void OverrideFunction(CalculationsCollection[] collections) {
-            MathOperator[] overwriteCalculations = null;
+            MathOperator[] overwriteCalculations = Array.Empty<MathOperator>();
             foreach (var item in collections)
                 ArrayManipulation.Add(item.OverwriteCalculations, ref overwriteCalculations);
 

@@ -7,7 +7,7 @@ namespace Cobilas.IO.Serialization.Json {
             => JsonConvert.SerializeObject(value, settings);
 
         public static string Serialize(object value, bool Indented) {
-            JsonSerializerSettings resolver = new JsonSerializerSettings {
+            JsonSerializerSettings resolver = new() {
                 ContractResolver = new JsonContractResolver(),
                 Formatting = Indented ? Formatting.Indented : Formatting.None
             };
@@ -18,20 +18,20 @@ namespace Cobilas.IO.Serialization.Json {
             => Serialize(value, true);
 
         public static object Deserialize(string value, JsonSerializerSettings settings)
-            => JsonConvert.DeserializeObject(value, settings);
+            => JsonConvert.DeserializeObject(value, settings)!;
 
         public static object Deserialize(string value) {
-            JsonSerializerSettings resolver = new JsonSerializerSettings {
+            JsonSerializerSettings resolver = new() {
                 ContractResolver = new JsonContractResolver()
             };
             return Deserialize(value, resolver);
         }
 
         public static T Deserialize<T>(string value, JsonSerializerSettings settings)
-            => JsonConvert.DeserializeObject<T>(value, settings);
+            => JsonConvert.DeserializeObject<T>(value, settings)!;
 
         public static T Deserialize<T>(string value) {
-            JsonSerializerSettings resolver = new JsonSerializerSettings {
+            JsonSerializerSettings resolver = new() {
                 ContractResolver = new JsonContractResolver()
             };
             return Deserialize<T>(value, resolver);

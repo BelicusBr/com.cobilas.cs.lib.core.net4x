@@ -5,7 +5,7 @@ namespace Cobilas.IO.Alf.Components.Collections {
     public sealed class ItemReadOnlyEnumerator : IEnumerator<IItemReadOnly> {
         private IItemReadOnly item;
         private int index;
-        private object myObject;
+        private object myObject = default!;
 
         public IItemReadOnly Current => (IItemReadOnly)myObject;
         object IEnumerator.Current => myObject;
@@ -16,7 +16,7 @@ namespace Cobilas.IO.Alf.Components.Collections {
         }
 
         public void Dispose()
-            => this.item = (IItemReadOnly)null;
+            => this.item = default!;
 
         public bool MoveNext()
         {

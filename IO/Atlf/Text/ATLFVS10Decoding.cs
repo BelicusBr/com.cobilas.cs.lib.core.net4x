@@ -11,18 +11,24 @@ namespace Cobilas.IO.Atlf.Text {
         /// <param name="args">
         /// <para>args[0] = <seealso cref="string"/></para>
         /// </param>
-        public override ATLFNode[] Reader(params object[] args)
-            => Reader(new CharacterCursor(args[0] as string));
+        public override ATLFNode[] Reader(params object[] args) {
+            if (args[0] is not null)
+                return Reader(new CharacterCursor((args[0] as string)!));
+            return Array.Empty<ATLFNode>();
+        }
 
         /// <param name="args">
         /// <para>args[0] = <seealso cref="byte"/>[]</para>
         /// <para>args[1] = <seealso cref="Encoding"/></para>
         /// </param>
-        public override ATLFNode[] Reader4Byte(params object[] args)
-            => Reader(new CharacterCursor((args[1] as Encoding).GetString(args[0] as byte[])));
+        public override ATLFNode[] Reader4Byte(params object[] args) {
+            if (args[1] is not null)
+                return Reader(new CharacterCursor((args[1] as Encoding)!.GetString(args[0] as byte[])));
+            return Array.Empty<ATLFNode>();
+        }
 
         protected virtual ATLFNode[] Reader(CharacterCursor cursor) {
-            ATLFNode[] res = null;
+            ATLFNode[] res = Array.Empty<ATLFNode>();
             if (cursor.Count == 0)
                 throw new ATLFException("The ATLF object cannot read empty text!");
             while (cursor.MoveToCharacter()) {
@@ -41,7 +47,7 @@ namespace Cobilas.IO.Atlf.Text {
         }
 
         protected virtual ATLFNode GetComment(CharacterCursor cursor) {
-            StringBuilder text = new StringBuilder();
+            StringBuilder text = new();
             CharacterCursor.LineEndColumn lineEndColumn = cursor.Cursor;
 
             while (cursor.MoveToCharacter()) {
@@ -60,8 +66,8 @@ namespace Cobilas.IO.Atlf.Text {
         protected virtual ATLFNode GetTag(CharacterCursor cursor) => GetTag(cursor, ATLFNodeType.Tag);
 
         protected virtual ATLFNode GetTag(CharacterCursor cursor, ATLFNodeType nodeType) {
-            StringBuilder name = new StringBuilder();
-            StringBuilder text = new StringBuilder();
+            StringBuilder name = new();
+            StringBuilder text = new();
             CharacterCursor.LineEndColumn lineEndColumn = cursor.Cursor;
             bool getText = false;
             bool firstSpace = false;

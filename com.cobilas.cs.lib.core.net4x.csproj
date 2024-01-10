@@ -4,7 +4,9 @@
 		<TargetFrameworks>net472;netstandard2.1</TargetFrameworks>
 		<RootNamespace>Cobilas</RootNamespace>
 		<AssemblyName>Cobilas.Core</AssemblyName>
-		<AssemblyVersion>1.1.0</AssemblyVersion>
+  	  	<LangVersion>default</LangVersion>
+  	  	<Nullable>enable</Nullable>
+		<NoWarn>IDE0290</NoWarn>
 	</PropertyGroup>
 	<PropertyGroup>
 		<Authors>BélicusBr</Authors>

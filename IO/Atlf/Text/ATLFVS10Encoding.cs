@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 
 namespace Cobilas.IO.Atlf.Text {
@@ -14,11 +15,14 @@ namespace Cobilas.IO.Atlf.Text {
         /// <para>args[0] = <seealso cref="ATLFNode"/>[]</para>
         /// <para>args[1] = <seealso cref="Encoding"/></para>
         /// </param>
-        public override byte[] Writer4Byte(params object[] args)
-            => (args[1] as Encoding).GetBytes(Writer((ATLFNode[])args[0]));
+        public override byte[] Writer4Byte(params object[] args) {
+            if (args[1] is not null)
+                return (args[1] as Encoding)!.GetBytes(Writer((ATLFNode[])args[0]));
+            return Array.Empty<byte>();
+        }
 
         protected virtual string Writer(ATLFNode[] nodes) {
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new();
             foreach (var item in nodes) {
                 switch (item.NodeType) {
                     case ATLFNodeType.Tag:

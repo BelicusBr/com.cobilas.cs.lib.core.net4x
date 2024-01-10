@@ -29,11 +29,13 @@ namespace System.IO {
             => encoding.GetChars(Read(F));
 
         public static string GetString(this Stream F, Encoding encoding)
-            => new string(GetChars(F, encoding));
+            => new(GetChars(F, encoding));
 
         public static Guid GenerateGuid(this Stream F) {
+            MemoryStream memory = new();
+            F.CopyTo(memory);
             byte[] guid = new byte[16];
-            byte[] content = Read(F);
+            byte[] content = Read(memory);
             for (int I = 0, g = 0; I < content.Length; I++, g++)
                 guid[(g >= 16 ? g = 0 : g)] ^= content[I];
             return new Guid(guid);

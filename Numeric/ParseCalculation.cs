@@ -1,22 +1,19 @@
 using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
 using System.Text;
+using System.Diagnostics;
 using Cobilas.Collections;
+using System.Globalization;
 using Cobilas.IO.Alf.Components;
 
 namespace Cobilas.Numeric {
     public static class ParseCalculation {
 
-        private static CalculationsCollection[] collections;
-
-        public static CalculationsCollection[] Collections { get => collections; }
+        public static CalculationsCollection[] Collections { get; private set; } = Array.Empty<CalculationsCollection>();
 
         static ParseCalculation() {
-            collections = new CalculationsCollection[1];
-            collections[0] = new BasicCalculation();
-            collections[0].Initialization();
+            Collections = new CalculationsCollection[1];
+            Collections[0] = new BasicCalculation();
+            Collections[0].Initialization();
 
             foreach (var item in TypeUtilitarian.GetTypes()) {
                 if (item.IsSubclassOf(typeof(CalculationsCollection)) &&
@@ -24,7 +21,7 @@ namespace Cobilas.Numeric {
                     !item.CompareType<CalculationsCollection>()) {
                     CalculationsCollection calc = item.Activator<CalculationsCollection>();
                     calc.Initialization();
-                    ArrayManipulation.Add(calc, ref collections);
+                    Collections = ArrayManipulation.Add(calc, Collections);
                 }
             }
         }
@@ -45,7 +42,7 @@ namespace Cobilas.Numeric {
         }
 
         private static MathOperator[] GetSignals() {
-            MathOperator[] s = null;
+            MathOperator[] s = Array.Empty<MathOperator>();
             foreach (var item in Collections)
                 ArrayManipulation.Add(item.Calculations, ref s);
             return s;
@@ -164,7 +161,7 @@ namespace Cobilas.Numeric {
                     sg = item.Signal;
                     return true;
                 }
-            sg = null;
+            sg = string.Empty;
             return false;
         }
     }

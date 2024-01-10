@@ -9,14 +9,14 @@ namespace Cobilas.IO.Atlf {
         private bool disposedValue;
 
         public override bool Indent { get; set; }
-        public override string IndentChars { get; set;}
-        public override Encoding Encoding { get; set; }
-        public override string TargetVersion { get; set; }
+        public override string IndentChars { get; set;} = "\r\n";
+        public override Encoding Encoding { get; set; } = Encoding.UTF8;
+        public override string TargetVersion { get; set; } = string.Empty;
         public override bool Closed { get; protected set; }
         public override long NodeCount => ArrayManipulation.ArrayLongLength(Nodes);
         protected override bool CloseFlow { get; set; }
-        protected override ATLFNode[] Nodes { get; set; }
-        protected override MarshalByRefObject RefObject { get; set; }
+        protected override ATLFNode[] Nodes { get; set; } = Array.Empty<ATLFNode>();
+        protected override MarshalByRefObject RefObject { get; set; } = Stream.Null;
         protected override Stream Stream { get => (Stream)RefObject; set => RefObject = value; }
 
         ~ATLFStreamWriter()
@@ -61,7 +61,7 @@ namespace Cobilas.IO.Atlf {
             Encoding encoding = Encoding ?? Encoding.UTF8;
             Stream.Write(GetATLFEncoding(TargetVersion).Writer4Byte(this.Nodes, encoding));
             ArrayManipulation.ClearArraySafe(Nodes);
-            Nodes = null;
+            Nodes = Array.Empty<ATLFNode>();
         }
 
         public override void Close() {
@@ -69,10 +69,10 @@ namespace Cobilas.IO.Atlf {
                 throw ATLFException.ATLFClosed();
             Closed = true;
             if (CloseFlow) Stream.Close();
-            else  Stream = null;
+            else  Stream = Stream.Null;
             if(NodeCount == 0) return;
             ArrayManipulation.ClearArraySafe(Nodes);
-            Nodes = null;
+            Nodes = Array.Empty<ATLFNode>();
         }
         
         protected override ATLFEncoding GetATLFEncoding(string targetVersion) {
@@ -83,7 +83,7 @@ namespace Cobilas.IO.Atlf {
 
         protected void WriteIndentation() {
             if (Indent) {
-                IndentChars = IndentChars ?? "\r\n";
+                IndentChars ??= "\r\n";
                 WriteWhitespace(IndentChars);
             }
         }

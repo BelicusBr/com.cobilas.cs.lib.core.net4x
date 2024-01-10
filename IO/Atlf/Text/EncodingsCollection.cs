@@ -3,8 +3,8 @@ using Cobilas.Collections;
 
 namespace Cobilas.IO.Atlf.Text {
     public static class EncodingsCollection {
-        private static readonly ATLFEncoding[] encodings;
-        private static readonly ATLFDecoding[] decodings;
+        private static readonly ATLFEncoding[] encodings = Array.Empty<ATLFEncoding>();
+        private static readonly ATLFDecoding[] decodings = Array.Empty<ATLFDecoding>();
 
         static EncodingsCollection() {
             foreach(Type item in TypeUtilitarian.GetTypes()) {
@@ -47,14 +47,14 @@ namespace Cobilas.IO.Atlf.Text {
             foreach (var item in encodings)
                 if (item.Version == version)
                     return item;
-            return null;
+            return ATLFEncoding.Null;
         }
         
         public static ATLFDecoding GetDecoding(string version) {
             foreach (var item in decodings)
                 if (item.Version == version)
                     return item;
-            return null;
+            return ATLFDecoding.Null;
         }
     }
 }

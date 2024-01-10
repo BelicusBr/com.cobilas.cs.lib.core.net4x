@@ -6,16 +6,16 @@ using System.Collections.Generic;
 
 namespace Cobilas.IO.Alf.Components {
     public sealed class ALFItem : IDisposable, IEnumerable<ALFItem>, ICloneable, IConvertible {
-        public ALFItem parent;
+        public ALFItem parent = default!;
         public string name;
         public bool isRoot;
         public StringBuilder text;
-        public ALFItem[] itens;
+        public ALFItem[] itens = Array.Empty<ALFItem>();
 
         public int Count => ArrayManipulation.ArrayLength(itens);
-        public static ALFItem Empty => new ALFItem(string.Empty);
-        public static ALFItem DefaultComment => new ALFItem(ALFUtility.n_Comment);
-        public static ALFItem DefaultRoot => new ALFItem("Root", string.Empty, true);
+        public static ALFItem Empty => new(string.Empty);
+        public static ALFItem DefaultComment => new(ALFUtility.n_Comment);
+        public static ALFItem DefaultRoot => new("Root", string.Empty, true);
 
         public ALFItem this[int index] => itens[index];
 
@@ -23,8 +23,6 @@ namespace Cobilas.IO.Alf.Components {
             this.name = name;
             this.isRoot = isRoot;
             this.text = new StringBuilder(text);
-            this.itens = (ALFItem[])null;
-            parent = (ALFItem)null;
         }
 
         public ALFItem(string name, string text) : this(name, text, false) { }
@@ -70,9 +68,9 @@ namespace Cobilas.IO.Alf.Components {
 
         public void Dispose() {
             this.isRoot = default;
-            this.parent = (ALFItem)null;
-            this.name = (string)null;
-            this.text = (StringBuilder)null;
+            this.parent = default!;
+            this.name = string.Empty;
+            this.text = default!;
             for (int I = 0; I < ArrayManipulation.ArrayLength(itens); I++)
                 itens[I].Dispose();
             ArrayManipulation.ClearArraySafe(ref itens);
@@ -82,7 +80,7 @@ namespace Cobilas.IO.Alf.Components {
             => new ArrayToIEnumerator<ALFItem>(itens);
 
         public object Clone() {
-            ALFItem item = new ALFItem(name == (string)null ? string.Empty : (string)name.Clone());
+            ALFItem item = new(name is null ? string.Empty : (string)name.Clone());
             item.text.Append(text.ToString());
             item.isRoot = isRoot;
             for (int I = 0; I < Count; I++)

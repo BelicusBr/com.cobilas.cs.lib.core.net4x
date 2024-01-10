@@ -23,13 +23,13 @@ namespace Cobilas.IO.Alf.Components.Collections {
             this.parent = parent;
         }
 
-        public ALFItemReadOnly(ALFItem root) : this(root, (ALFItemReadOnly)null) { }
+        public ALFItemReadOnly(ALFItem root) : this(root, default!) { }
 
         ~ALFItemReadOnly()
             => Dispose(disposing: false);
 
         public object Clone()
-            => new ALFItemReadOnly(root == null ? null : (ALFItem)root.Clone());
+            => new ALFItemReadOnly(root is null ? default! : (ALFItem)root.Clone());
 
         public bool Contains(string name)
             => IndexOf(name) >= 0;

@@ -12,12 +12,12 @@ namespace Cobilas.IO.Atlf {
         public override long NodeCount => ArrayManipulation.ArrayLongLength(Nodes);
 
         public override bool Indent { get; set; }
-        public override Encoding Encoding { get; set; }
-        public override string TargetVersion { get; set; }
+        public override Encoding Encoding { get; set; } = Encoding.UTF8;
+        public override string TargetVersion { get; set; } = string.Empty;
         public override bool Closed { get; protected set; }
         protected override bool CloseFlow { get; set; }
-        protected override ATLFNode[] Nodes { get; set; }
-        protected override MarshalByRefObject RefObject { get; set; }
+        protected override ATLFNode[] Nodes { get; set; } = Array.Empty<ATLFNode>();
+        protected override MarshalByRefObject RefObject { get; set; } = TextReader.Null;
         protected override TextReader Stream { get => (TextReader)RefObject; set => RefObject = value; }
 
         ~ATLFTextReader()
@@ -27,10 +27,10 @@ namespace Cobilas.IO.Atlf {
             if (Closed)
                 throw ATLFException.ATLFClosed();
             Closed = true;
-            Nodes = null;
-            Encoding = null;
+            Nodes = Array.Empty<ATLFNode>();
+            Encoding = default!;
             if (CloseFlow) Stream.Close();
-            else Stream = null;
+            else Stream = TextReader.Null;
         }
 
         public override void Reader() {
@@ -60,13 +60,13 @@ namespace Cobilas.IO.Atlf {
             foreach (var item in Nodes)
                 if (item.Name == name && item.NodeType == ATLFNodeType.Tag)
                     return item.Value;
-            return null;
+            return string.Empty;
         }
 
         public override ATLFNode[] GetAllComments() {
             if (Closed)
                 throw ATLFException.ATLFReaderTagAfterClosing();
-            ATLFNode[] res = null;
+            ATLFNode[] res = Array.Empty<ATLFNode>();
             foreach (var item in Nodes)
                 if (item.NodeType == ATLFNodeType.Comment)
                     ArrayManipulation.Add(item, ref res);
@@ -76,7 +76,7 @@ namespace Cobilas.IO.Atlf {
         public override ATLFNode[] GetTagGroup(string path) {
             if (Closed)
                 throw ATLFException.ATLFReaderTagAfterClosing();
-            ATLFNode[] res = null;
+            ATLFNode[] res = Array.Empty<ATLFNode>();
             foreach (var item in Nodes)
                 if (item.Name.Contains(path) && item.NodeType == ATLFNodeType.Tag)
                     ArrayManipulation.Add(item, ref res);

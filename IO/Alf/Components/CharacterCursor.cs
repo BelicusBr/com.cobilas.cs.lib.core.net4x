@@ -55,7 +55,7 @@ namespace Cobilas.IO.Alf.Components {
                 else
                     newCharacters[I] = characters[I];
             }
-            characters = null;
+            characters = Array.Empty<char>();
             characters = newCharacters;
         }
 
@@ -86,8 +86,8 @@ namespace Cobilas.IO.Alf.Components {
         }
 
         public bool CharIsEqualToIndex(string text) {
-            if (string.IsNullOrEmpty(text)) return false;
-            long textCount = (text == (string)null) ? 0L : text.Length;
+            if (text is null) return false;
+            long textCount = text.Length;
             for (long I = index, C = 0L; C < textCount && I < Count; I++, C++)
                 if (text[(int)C] != characters[I])
                     return false;

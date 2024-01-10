@@ -15,7 +15,7 @@ namespace Cobilas.IO.Atlf {
 
         public void Dispose() {
             Name =
-            Value = null;
+            Value = string.Empty;
             NodeType = default;
         }
 
