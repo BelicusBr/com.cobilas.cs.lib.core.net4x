@@ -1,10 +1,14 @@
 using System;
 
 namespace Cobilas.Numeric; 
+/// <summary>Basic functions of mathematical operations.</summary>
 public class BasicCalculation : CalculationsCollection {
+    /// <summary>The list of calculation functions.</summary>
     public override MathOperator[] Calculations { get; protected set; } = Array.Empty<MathOperator>();
+    /// <summary>The list of calculation functions that will replace other calculation functions.</summary>
     public override MathOperator[] OverwriteCalculations { get; protected set; } = Array.Empty<MathOperator>();
 
+    /// <summary>Function to initialize the calculation functions.</summary>
     public override void Initialization() {
         Calculations = new MathOperator[] {
             new("~-", Negative, SignalOrientation.right),
@@ -30,6 +34,12 @@ public class BasicCalculation : CalculationsCollection {
         };
     }
 
+    /// <summary>
+    /// Function responsible for calling a calculation function specified the sign of the mathematical operation.
+    /// </summary>
+    /// <param name="V1"></param>
+    /// <param name="S">mathematical operator.</param>
+    /// <param name="V2"></param>
     public override double Clac(double V1, string S, double V2) {
         foreach (var item in Calculations)
             if (item.Signal == S)

@@ -1,6 +1,6 @@
 # [15/01/2024]#1.2.0
 - ## Changed
-Now the package supports `netstandard2.1`.
+Now the package supports `netstandard2.0`.
 - ## Removed
 ```c#
 //Enum_CB_Extension

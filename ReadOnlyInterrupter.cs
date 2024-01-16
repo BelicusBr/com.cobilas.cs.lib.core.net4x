@@ -5,7 +5,7 @@ using Cobilas.Collections;
 namespace Cobilas; 
 [Serializable]
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
-public struct Interrupter : IDisposable {
+public struct ReadOnlyInterrupter : IDisposable {
 #pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
     private int currentIndex;
     private bool useASwitch;
@@ -20,14 +20,10 @@ public struct Interrupter : IDisposable {
         }
     }
     ///<summary>Esta propriedade permite a troca de unico interruptor para mult interruptores e vise versa.</summary>
-    public bool UseASwitch { 
-        readonly get {
+    public readonly bool UseASwitch { 
+        get {
             WasDiscarded();
             return useASwitch;
-        }
-        set {
-            WasDiscarded();
-            useASwitch = value;
         }
     }
 
@@ -52,7 +48,7 @@ public struct Interrupter : IDisposable {
     /// <summary>Only one switch specifying the index will be used, the others will remain at false value.</summary>
     /// <param name="Capacity">How many switches.</param>
     /// <param name="UseASwitch">Allows you to use one switch at a time.</param>
-    public Interrupter(int Capacity, bool UseASwitch) {
+    public ReadOnlyInterrupter(int Capacity, bool UseASwitch) {
         _switches = new bool[Capacity];
         currentIndex = -1;
         useASwitch = UseASwitch;
@@ -60,7 +56,7 @@ public struct Interrupter : IDisposable {
 
     /// <summary>Only one switch specifying the index will be used, the others will remain at false value.</summary>
     /// <param name="Capacity">How many switches.</param>
-    public Interrupter(int Capacity) : this(Capacity, true) { }
+    public ReadOnlyInterrupter(int Capacity) : this(Capacity, true) { }
 
     /// <summary>Returns a text representation of the object.</summary>
     public override readonly string ToString() {
