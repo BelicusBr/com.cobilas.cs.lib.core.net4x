@@ -1,111 +1,62 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace Cobilas.Threading.Tasks; 
+namespace Cobilas.Threading.Tasks;
+#pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
 public static class TaskPool {
-    private static event Func<TaskPoolItem>? GetTask = null;
-    private static readonly List<TaskPoolItem> tasks = new();
+#pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
+    private readonly static List<Task> tasksList = new();
 
-    /// <summary>Numero de <seealso cref="Task"/> abertas.</summary>
-    public static int PoolCount => tasks.Count;
-    /// <summary>Numero de <seealso cref="Task"/> Concluidas.</summary>
-    public static int CountTaskCompleted => I_CountTaskCompleted();
-
-    /// <summary>
-    /// Adiciona uma nova <seealso cref="Task"/> ou reutiliza um <seealso cref="Task"/> já aberta.
-    /// </summary>
-    public static void AddTask(Action<InternalWait> action)
-        => AddTask(action, new CancellationToken(false));
-
-    /// <summary>
-    /// Adiciona uma nova <seealso cref="Task"/> ou reutiliza um <seealso cref="Task"/> já aberta.
-    /// </summary>
-    public static void AddTask(AsyncTaskWait task) {
-        (task as IAsyncTaskWait).SetCurrentTaskPoolItem(
-            I_AddTask((task as IAsyncTaskWait).AsyncAction, task.Token)
-            );
-    }
-
-    /// <summary>
-    /// Adiciona uma nova <seealso cref="Task"/> ou reutiliza um <seealso cref="Task"/> já aberta.
-    /// </summary>
-    public static void AddTask(AsyncTask task) {
-        (task as IAsyncTask).SetCurrentTaskPoolItem(
-            I_AddTask((task as IAsyncTask).AsyncAction, task.Token)
-            );
-    }
-
-    /// <summary>
-    /// Adiciona uma nova <seealso cref="Task"/> ou reutiliza um <seealso cref="Task"/> já aberta.
-    /// </summary>
-    public static void AddTask(Action action)
-        => AddTask(action, new CancellationToken(false));
-
-    /// <summary>
-    /// Adiciona uma nova <seealso cref="Task"/> ou reutiliza um <seealso cref="Task"/> já aberta.
-    /// </summary>
-    public static void AddTask(Action action, CancellationToken token)
-        => I_AddTask(action, token);
-
-    /// <summary>
-    /// Adiciona uma nova <seealso cref="Task"/> ou reutiliza um <seealso cref="Task"/> já aberta.
-    /// </summary>
-    public static void AddTask(Action<InternalWait> action, CancellationToken token)
-        => I_AddTask(action, token);
-
-    public static void Clear() {
-        tasks.ForEach((t) => { t.Dispose(); });
-        tasks.Clear();
-    }
-
-    private static TaskPoolItem I_AddTask(Action action, CancellationToken token)
-        => I_AddTask((i) => { action(); }, token);
-
-    // Adiciona uma nova Task ou reutiliza um Task já aberta.
-    private static TaskPoolItem I_AddTask(Action<InternalWait> action, CancellationToken token) {
-        TaskPoolItem temp = GetTaskCompleted();
-        if (temp != null) {
-            (temp as ITaskPoolItem<TaskPoolItem>).Reset();
-            temp.Continue((t) => {
-                GetTask -= (temp as ITaskPoolItem<TaskPoolItem>).GetTask;
-                SafeActionExecution(action, (InternalWait)t, token, temp);
-                GetTask += (temp as ITaskPoolItem<TaskPoolItem>).GetTask;
-            }, token);
-        } else {
-            temp = new TaskPoolItem();
-            temp.Start((t) => {
-                SafeActionExecution(action, (InternalWait)t, token, temp);
-                GetTask += (temp as ITaskPoolItem<TaskPoolItem>).GetTask;
-            }, token);
-            tasks.Add(temp);
-        }
-        return temp;
-    }
-
-    // Numero de Task Concluidas.
-    private static int I_CountTaskCompleted() {
-        int Res = 0;
-        tasks.ForEach((t) => { Res += t.IsCompleted ? 1 : 0; });
-        return Res;
-    }
-
-    //Executa uma ação de forma segura.
-    private static void SafeActionExecution(Action<InternalWait> action, InternalWait wait, CancellationToken token, ITaskPoolItem<TaskPoolItem> task) {
-        try {
-            action(wait);
-            if (token.IsCancellationRequested)
-                task.ConfirmCanceled(true);
-            else task.ConfirmCompleted(true);
-        } catch (Exception e) {
-            task.ConfirmFaulted(true);
-            task.ConfirmException(e);
-            Console.WriteLine(e);
+    /// <summary>Returns the number of allocated tasks.</summary>
+    public static int Count => tasksList.Count;
+    /// <summary>The number of tasks that are already vacant.</summary>
+    public static int VacantTaskCount {
+        get {
+            int res = byte.MaxValue;
+            for (int I = 0; I < Count; I++)
+                if (tasksList[I].IsFaulted || tasksList[I].IsCompleted || tasksList[I].IsCanceled)
+                    res++;
+            return res;
         }
     }
+    /// <summary>The number of tasks that are not vacant.</summary>
+    public static int NonVacantTaskCount => Count - VacantTaskCount;
 
-    //Busca uma task concluida.
-    private static TaskPoolItem GetTaskCompleted()
-        => GetTask?.Invoke()!;
+    /// <summary>The number of tasks that are not vacant.</summary>
+    public static void InitTask(Action action, out Task task) {
+        int taskIndex = GetVacantTask();
+        if (taskIndex >= 0) {
+            task = tasksList[taskIndex] = 
+                tasksList[taskIndex].ContinueWith(ct => { ct.Dispose(); action(); });
+        } else tasksList.Add(task = Task.Run(action));
+    }
+
+    /// <summary>The number of tasks that are not vacant.</summary>
+    public static void InitTask(Action action)
+        => InitTask(action, out _);
+
+    /// <summary>The number of tasks that are not vacant.</summary>
+    public static void InitTask<TRes>(Func<TRes> func, out Task<TRes> res) {
+        int taskIndex = GetVacantTask();
+        if (taskIndex >= 0) {
+            tasksList[taskIndex] = 
+                tasksList[taskIndex].ContinueWith<TRes>(ct => {
+                    ct.Dispose(); 
+                    return func();
+                });
+            res = (Task<TRes>)tasksList[taskIndex];
+        } else tasksList.Add(res = Task.Run<TRes>(func));
+    }
+
+    /// <summary>The number of tasks that are not vacant.</summary>
+    public static void InitTask<TRes>(Func<TRes> func)
+        => InitTask<TRes>(func, out _);
+
+    private static int GetVacantTask() {
+        for (int I = 0; I < Count; I++)
+            if (tasksList[I].IsFaulted || tasksList[I].IsCompleted || tasksList[I].IsCanceled)
+                return I;
+        return -1;
+    }
 }
