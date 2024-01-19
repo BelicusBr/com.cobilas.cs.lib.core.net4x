@@ -1,50 +1,147 @@
-# [15/01/2024]#1.2.0
+# [18/01/2024]#1.2.0-rc5
 - ## Changed
-Now the package supports `netstandard2.0`.
+Package has regressed to `netstandard2.0`.
 - ## Removed
+The `ReadOnlyIterrupter` class and `ALF` classes have been removed.
+
+# [17/01/2024]#1.2.0-rc3
+- ## Add
+TaskPool class objects have been added:
 ```c#
-//Enum_CB_Extension
-public static bool CompareFlag(this Enum, Enum);
-public static bool CompareFlag(this Enum, Enum[]);
-public static bool ContainsFlag(this Enum, Enum);
-public static bool ContainsFlag(this Enum, Enum[]);
+public static int Count { get; }
+public static int VacantTaskCount { get; }
+public static int NonVacantTaskCount { get; }
+public static void InitTask(Action action, out Task task);
+public static void InitTask(Action action);
+public static void InitTask<TRes>(Func<TRes> func, out Task<TRes> res);
+public static void InitTask<TRes>(Func<TRes> func);
+```
+- ## Removed
+Objects such as `TaskPoolItem`, `TaskPoolItem`, `TaskPoolItem`, `IAsyncTaskWait`, `IAsyncTask`, `AsyncTaskWait` and `AsyncTask` have been removed.<br>
+TaskPool class objects have been removed:
+```c#
+public static int PoolCount { get; }
+public static int CountTaskCompleted { get; }
+public static void AddTask(Action<InternalWait> action);
+public static void AddTask(AsyncTaskWait task);
+public static void AddTask(AsyncTask task);
+public static void AddTask(Action action);
+public static void AddTask(Action<InternalWait> action, CancellationToken token);
+```
+
+# [16/01/2024]#12.0-rc2
+- ## Obsolete
+The method `ArrayManipulation.Exists(object?, Array)` has become obsolete the alternative method is `ArrayManipulation.Exists<T>(T item, T[] array)`.
+- ## Remove
+The static class `PrintOut` has been removed.
+- ## Add
+```c#
+//String_CB_Extension extension methods have been added.
+public static sbyte ToSByte(this string S, NumberStyles style, IFormatProvider formatProvider);
+public static sbyte ToSByte(this string S, IFormatProvider formatProvider);
+public static short ToShort(this string S, NumberStyles style, IFormatProvider formatProvider);
+public static short ToShort(this string S, IFormatProvider formatProvider);
+public static int ToInt(this string S, NumberStyles style, IFormatProvider formatProvider);
+public static int ToInt(this string S, IFormatProvider formatProvider);
+public static long ToLong(this string S, NumberStyles style, IFormatProvider formatProvider);
+public static long ToLong(this string S, IFormatProvider formatProvider);
+public static byte ToByte(this string S, NumberStyles style, IFormatProvider formatProvider);
+public static byte ToByte(this string S, IFormatProvider formatProvider);
+public static ushort ToUShort(this string S, NumberStyles style, IFormatProvider formatProvider);
+public static ushort ToUShort(this string S, IFormatProvider formatProvider);
+public static uint ToUInt(this string S, NumberStyles style, IFormatProvider formatProvider);
+public static uint ToUInt(this string S, IFormatProvider formatProvider);
+public static ulong ToULong(this string S, NumberStyles style, IFormatProvider formatProvider);
+public static ulong ToULong(this string S, IFormatProvider formatProvider);
+public static float ToFloat(this string S, NumberStyles style, IFormatProvider formatProvider);
+public static float ToFloat(this string S, IFormatProvider formatProvider);
+public static double ToDouble(this string S, NumberStyles style, IFormatProvider formatProvider);
+public static double ToDouble(this string S, IFormatProvider formatProvider);
+public static decimal ToDecimal(this string S, NumberStyles style, IFormatProvider formatProvider);
+public static decimal ToDecimal(this string S, IFormatProvider formatProvider);
 ```
 ```c#
-//HashAlgorithm_CB_Extension
-public static bool CompareComprestFileHash(this HashAlgorithm, string, string);
-public static bool CompareComprestFileHash(this HashAlgorithm, FileStream, FileStream);
-public static bool CompareFileHash(this HashAlgorithm, string, string);
-public static bool CompareFileHash(this HashAlgorithm, FileStream, FileStream);
-public static byte[] ComputeHash(this HashAlgorithm, string);
-public static string ComputeHashToString(this HashAlgorithm, FileStream);
-public static string ComputeHashToString(this HashAlgorithm, string);
-public static string ComputeHashToString(this HashAlgorithm, byte[]);
-public static string ComprestComputehashFileNameToString(this HashAlgorithm, string);
-public static string ComputehashFileNameToString(this HashAlgorithm, string);
-public static byte[] ComputehashFileName(this HashAlgorithm, string);
-public static string ComprestComputehashToString(this HashAlgorithm, string);
-public static string ComprestComputehashToString(this HashAlgorithm, FileStream);
-public static string ComprestComputehashToString(this HashAlgorithm, byte[]);
-public static string ComputehashDirectoryToString(this HashAlgorithm, string);
-public static string ComprestComputehashDirectoryToString(this HashAlgorithm, string);
-public static string ComputehashDirectoryNameToString(this HashAlgorithm, string);
-public static string ComprestComputehashDirectoryNameToString(this HashAlgorithm, string);
-public static byte[] ComputehashDirectoryName(this HashAlgorithm, string);
-public static byte[] ComputehashDirectory(this HashAlgorithm, string);
+//ArrayManipulation class methods have been added.
+public static void ClearArray(Array array, int index, int length);
+public static void ClearArray<T>(int index, int length, ref T[] array);
+public static void ClearArray<T>(ref T[] array);
+public static void ClearArraySafe(Array array, int index, int length);
+public static void ClearArraySafe<T>(int index, int length, ref T[] array);
+public static int LastIndexOf(object? item, Array array, int index, int length);
+public static int LastIndexOf(object? item, Array array, int index);
+public static int LastIndexOf(object? item, Array array);
+public static int FindIndex<T>(T[] array, int index, int length, Predicate<T> match);
+public static int FindIndex<T>(T[] array, int index, Predicate<T> match);
+public static int FindIndex<T>(T[] array, Predicate<T> match);
+public static int FindLastIndex<T>(T[] array, int index, int length, Predicate<T> match);
+public static int FindLastIndex<T>(T[] array, int index, Predicate<T> match);
+public static int FindLastIndex<T>(T[] array, Predicate<T> match);
+public static T FindLast<T>(T[] array, Predicate<T> match);
+public static T[] FindAll<T>(T[] array, Predicate<T> match);
+public static T Find<T>(T[] array, Predicate<T> match);
+public static bool Exists<T>(T[] array, Predicate<T> match);
+public static bool Exists<T>(T item, T[] array);
+public static void Reverse(Array array, int index, int length);
+```
+
+# [16/01/2024]#1.2.0-rc1
+- ## Removed
+```c#
+//The Enum_CB_Extension extension methods have been removed.
+public static bool CompareFlag(this Enum E, Enum enum);
+public static bool CompareFlag(this Enum E, Enum[] enum);
+public static bool ContainsFlag(this Enum E, Enum enum);
+public static bool ContainsFlag(this Enum E, Enum[] enum);
 ```
 - ## Add
 The `HashString` structure has been added.
 ```c#
-//Enum_CB_Extension
-public static bool HasFlag(this Enum, params Enum[])
+//New extension methods for `Stream` have been added.
+public static void Write(this Stream F, string text);
+public static void Write(this Stream F, char[] chars);
+public static char[] GetChars(this Stream F);
+public static string GetString(this Stream F);
 ```
 ```c#
-//HashAlgorithm_CB_Extension
-public static byte[] ComputeHash(this HashAlgorithm, string);
-public static string ComputeHashToString(this HashAlgorithm, string);
-public static string ComputeHashToString(this HashAlgorithm, byte[]);
-public static string ComputeHashToString(this HashAlgorithm, byte[], int, int);
-public static string ComputeHashToString(this HashAlgorithm, Stream);
+//Enum_CB_Extension extension methods have been added.
+public static bool HasFlag(this Enum E, params Enum[] enum);
+public static string Format(this Enum E, object value, string format);
+```
+
+# [15/01/2024]#1.2.0
+- ## Removed
+The `T[] ArrayManipulation.Empty<T>();` method has been removed.
+```c#
+//The `HashAlgorithm_CB_Extension` extension methods have been removed.
+public static bool CompareComprestFileHash(this HashAlgorithm H, string FileName1, string FileName2);
+public static bool CompareComprestFileHash(this HashAlgorithm H, FileStream file1, FileStream file2);
+public static bool CompareFileHash(this HashAlgorithm H, string FileName1, string FileName2);
+public static bool CompareFileHash(this HashAlgorithm H, FileStream file1, FileStream file2);
+public static byte[] ComputeHash(this HashAlgorithm H, string FileName);
+public static string ComputeHashToString(this HashAlgorithm H, FileStream File);
+public static string ComputeHashToString(this HashAlgorithm H, string FileName);
+public static string ComputeHashToString(this HashAlgorithm H, byte[] bytes);
+public static string ComprestComputehashFileNameToString(this HashAlgorithm H, string FileName);
+public static string ComputehashFileNameToString(this HashAlgorithm H, string FileName);
+public static byte[] ComputehashFileName(this HashAlgorithm H, string FileName);
+public static string ComprestComputehashToString(this HashAlgorithm H, string FileName);
+public static string ComprestComputehashToString(this HashAlgorithm H, FileStream File);
+public static string ComprestComputehashToString(this HashAlgorithm H, byte[] bytes);
+public static string ComputehashDirectoryToString(this HashAlgorithm H, string DirectoryPath);
+public static string ComprestComputehashDirectoryToString(this HashAlgorithm H, string DirectoryPath);
+public static string ComputehashDirectoryNameToString(this HashAlgorithm H, string DirectoryPath);
+public static string ComprestComputehashDirectoryNameToString(this HashAlgorithm H, string DirectoryPath);
+public static byte[] ComputehashDirectoryName(this HashAlgorithm H, string DirectoryPath);
+public static byte[] ComputehashDirectory(this HashAlgorithm H, string DirectoryPath);
+```
+- ## Add
+```c#
+//`HashAlgorithm_CB_Extension` extension methods have been added.
+public static byte[] ComputeHash(this HashAlgorithm H, string FilePath);
+public static string ComputeHashToString(this HashAlgorithm H, string FilePath);
+public static string ComputeHashToString(this HashAlgorithm H, byte[] buffer);        
+public static string ComputeHashToString(this HashAlgorithm H, byte[] buffer, int offset, int count);        
+public static string ComputeHashToString(this HashAlgorithm H, Stream inputStream);
 ```
 # [31/12/2023]#1.1.0
 - ## Changed
