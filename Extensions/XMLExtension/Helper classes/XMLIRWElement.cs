@@ -11,11 +11,16 @@ public class XMLIRWElement : XMLIRW, IXMLIRWCollection {
 
     /// <summary>Element name.</summary>
     public XMLIRWValue Value { get; set; }
+#pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
     public override string Name { get; set; } = string.Empty;
     public override XMLIRW Parent { get; set; } = default!;
     public override XmlNodeType Type { get; set; }
+#pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
+    /// <summary>Checks whether the element has a text value.</summary>
     public bool ValueIsEmpty => Value == XMLIRWValue.Empty;
+    /// <summary>Checks whether the element has sub-elements or attributes.</summary>
     public bool IsEmpty => ArrayManipulation.EmpytArray(itens);
+    /// <summary>Checks whether the element has attributes.</summary>
     public bool NoAttributes {
         get {
             if (!IsEmpty)
@@ -25,6 +30,7 @@ public class XMLIRWElement : XMLIRW, IXMLIRWCollection {
             return true;
         }
     }
+    /// <summary>Checks whether the element has sub-elements.</summary>
     public bool NoElements {
         get {
             if (!IsEmpty)
@@ -34,6 +40,7 @@ public class XMLIRWElement : XMLIRW, IXMLIRWCollection {
             return true;
         }
     }
+    /// <summary>Gets the count of attributes on the element.</summary>
     public int AttributeCount {
         get {
             int res = 0;
@@ -43,6 +50,7 @@ public class XMLIRWElement : XMLIRW, IXMLIRWCollection {
             return res;
         }
     }
+    /// <summary>Gets the attributes on the element.</summary>
     public IEnumerable<XMLIRW> Attributes {
         get {
             if (!IsEmpty)
@@ -52,7 +60,8 @@ public class XMLIRWElement : XMLIRW, IXMLIRWCollection {
         }
     }
 
-    public XMLIRWElement(XMLIRWElement parent, string name, XMLIRWValue value, XmlNodeType type, params XMLIRW[] itens) 
+#pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
+    public XMLIRWElement(XMLIRWElement parent, string name, XMLIRWValue value, XmlNodeType type, params XMLIRW[] itens)
         : base(parent, name, type) {
         Name = name;
         this.itens = itens;
@@ -116,6 +125,7 @@ public class XMLIRWElement : XMLIRW, IXMLIRWCollection {
             disposedValue = true;
         }
     }
+#pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
 
     IEnumerator IEnumerable.GetEnumerator()
         => new ArrayToIEnumerator<XMLIRW>(itens);

@@ -1,8 +1,13 @@
 using System.Text;
 
-namespace System.Xml; 
+namespace System.Xml;
+#pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
 public static class CB_XML_Extension {
-#region WriterXML
+#pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
+    #region WriterXML
+    /// <summary>
+    /// Uses an <see cref="XMLIRWElement"/> to write to the xml document.
+    /// </summary>
     public static void WriterXMLIRW(this XmlWriter writer, XMLIRWElement element)
         => xmlwriter(element, writer, 0UL);
     
@@ -74,6 +79,9 @@ public static class CB_XML_Extension {
     }
 #endregion
 #region ReadXML
+    /// <summary>
+    /// Reads an XML document and returns an <see cref="XMLIRWElement"/>.
+    /// </summary>
     public static XMLIRWElement? ReadXMLIRW(this XmlReader reader) {
         XMLIRWElement element = new("Root");
         ulong cdata = 0;

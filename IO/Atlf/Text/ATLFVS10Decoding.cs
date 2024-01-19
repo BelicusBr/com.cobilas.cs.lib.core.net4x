@@ -1,13 +1,16 @@
 using System;
 using System.Text;
-using System.Xml;
 using Cobilas.Collections;
-using Cobilas.IO.Alf.Components;
+using Cobilas.IO.Atlf.Components;
 
 namespace Cobilas.IO.Atlf.Text {
+#pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
     public class ATLFVS10Decoding : ATLFDecoding {
+#pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
+        /// <inheritdoc/>
         public override string Version => "std:1.0";
 
+        /// <inheritdoc/>
         /// <param name="args">
         /// <para>args[0] = <seealso cref="string"/></para>
         /// </param>
@@ -17,6 +20,7 @@ namespace Cobilas.IO.Atlf.Text {
             return Array.Empty<ATLFNode>();
         }
 
+        /// <inheritdoc/>
         /// <param name="args">
         /// <para>args[0] = <seealso cref="byte"/>[]</para>
         /// <para>args[1] = <seealso cref="Encoding"/></para>
@@ -27,6 +31,7 @@ namespace Cobilas.IO.Atlf.Text {
             return Array.Empty<ATLFNode>();
         }
 
+#pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
         protected virtual ATLFNode[] Reader(CharacterCursor cursor) {
             ATLFNode[] res = Array.Empty<ATLFNode>();
             if (cursor.Count == 0)
@@ -105,7 +110,9 @@ namespace Cobilas.IO.Atlf.Text {
             throw ATLFException.GetATLFException("(L:{0} C:{1})The text block was not closed!"
                 , lineEndColumn.Line, lineEndColumn.Column);
         }
+#pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
 
+        /// <inheritdoc/>
         protected override bool ValidCharacter(char c)
             => char.IsLetterOrDigit(c) || c == '.' || c == '_' ||
                 c == '/' || c == '\\' || c == '>';

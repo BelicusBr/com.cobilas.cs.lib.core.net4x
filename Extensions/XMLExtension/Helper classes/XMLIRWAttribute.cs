@@ -1,5 +1,9 @@
 namespace System.Xml; 
+/// <summary>
+/// Represents an XML element of type Attribute.
+/// </summary>
 public class XMLIRWAttribute : XMLIRW {
+#pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
     private bool disposedValue;
 
     public XMLIRWValue Value {get; set;}
@@ -32,4 +36,5 @@ public class XMLIRWAttribute : XMLIRW {
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
+#pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
 }

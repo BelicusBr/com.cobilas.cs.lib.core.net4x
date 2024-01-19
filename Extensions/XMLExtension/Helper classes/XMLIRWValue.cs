@@ -1,9 +1,16 @@
 namespace System.Xml; 
+/// <summary>
+/// Represents the value of a tag.
+/// </summary>
 public struct XMLIRWValue : IDisposable, IEquatable<XMLIRWValue>, IConvertible {
     private object value;
 
-    public static XMLIRWValue Empty => new(default!);
+    /// <summary>
+    /// Represents an empty value.
+    /// </summary>
+    public readonly static XMLIRWValue Empty = new(default!);
 
+#pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
     public XMLIRWValue(object value) {
         this.value = value;
     }
@@ -22,7 +29,12 @@ public struct XMLIRWValue : IDisposable, IEquatable<XMLIRWValue>, IConvertible {
         
     public override bool Equals(object obj)
         => obj is XMLIRWValue V && Equals(V);
+#pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
 
+    /// <summary>
+    /// Returns the hash code for this instance.
+    /// </summary>
+    /// <returns>A 32-bit signed integer that is the hash code for this instance.</returns>
     public override int GetHashCode() => base.GetHashCode();
 
     TypeCode IConvertible.GetTypeCode()
@@ -73,9 +85,11 @@ public struct XMLIRWValue : IDisposable, IEquatable<XMLIRWValue>, IConvertible {
     ulong IConvertible.ToUInt64(IFormatProvider provider)
         => Convert.ToUInt64(value, provider);
 
+#pragma warning disable CS1591
     public static bool operator ==(XMLIRWValue left, XMLIRWValue right) => left.Equals(right);
     public static bool operator !=(XMLIRWValue left, XMLIRWValue right) => !(left == right);
 
     public static explicit operator string(XMLIRWValue V) 
         => V == Empty ? string.Empty : Convert.ToString(V);
+#pragma warning restore
 }

@@ -1,5 +1,9 @@
 namespace System.Xml; 
+/// <summary>
+/// Represents an XML element of type Comment.
+/// </summary>
 public class XMLIRWComment : XMLIRW, IDisposable {
+#pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
     private bool disposedValue;
 
     public override string Name { get; set; } = string.Empty;
@@ -32,4 +36,5 @@ public class XMLIRWComment : XMLIRW, IDisposable {
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
+#pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
 }

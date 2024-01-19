@@ -3,7 +3,7 @@ using System.Text;
 using System.Diagnostics;
 using Cobilas.Collections;
 using System.Globalization;
-using Cobilas.IO.Alf.Components;
+using Cobilas.IO.Atlf.Components;
 
 namespace Cobilas.Numeric;
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente

@@ -5,15 +5,10 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
 
 namespace Cobilas.IO.Serialization.Json;
-#pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
+/// <inheritdoc/>
 public class JsonContractResolver : DefaultContractResolver {
-#pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
     
-    /// <summary>
-    /// Creates properties for the given <see cref="JsonContract"/>.
-    /// </summary>
-    /// <param name="type">The type to create properties for.</param>
-    /// <param name="memberSerialization">The member serialization mode for the type.</param>
+    /// <inheritdoc/>
     protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization) {
         List<JsonProperty> props = new();
         if (type.GetCustomAttribute<SerializableAttribute>() is null)
