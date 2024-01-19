@@ -101,7 +101,7 @@ public sealed class CharacterCursor : IDisposable {
 
     /// <summary>Compare a character with the current character.</summary>
     public bool CharIsEqualToIndex(params char[] characters) {
-        for (int I = 0; I < ArrayManipulation.ArrayLength(characters) && index < Count; I++)
+        for (long I = 0; I < ArrayManipulation.ArrayLongLength(characters) && index < Count; I++)
             if (characters[I] == this.characters[index])
                 return true;
         return false;
@@ -110,12 +110,11 @@ public sealed class CharacterCursor : IDisposable {
     /// <summary>Compare a character with the current character.</summary>
     public bool CharIsEqualToIndex(string text) {
         if (text is null) return false;
-        return CharIsEqualToIndex(text.ToCharArray());
-        // long textCount = text.Length;
-        // for (long I = index, C = 0L; C < textCount && I < Count; I++, C++)
-        //     if (text[(int)C] != characters[I])
-        //         return false;
-        // return true;
+        char[] list = text.ToCharArray();
+        for (long I = index, C = 0L; C < list.LongLength && I < Count; I++, C++)
+            if (text[(int)C] != characters[I])
+                return false;
+        return true;
     }
 
     /// <summary>Compare a character with the current character.</summary>
