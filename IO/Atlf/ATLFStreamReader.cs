@@ -66,9 +66,13 @@ public class ATLFStreamReader : ATLFSBReader {
     public override ATLFNode[] GetHeader() {
         if (Closed)
             throw ATLFException.ATLFReaderTagAfterClosing();
-        ATLFNode[] res = new ATLFNode[0];
+        ATLFNode[] res = new ATLFNode[2];
+        int index = 0;
         foreach (var item in Nodes)
-            ArrayManipulation.Add(item, ref res);
+            if (item.Name == "version" || item.Name == "encoding") {
+                res[index++] = item;
+                if (index >= 2) break;
+            }
         return res;
     }
 

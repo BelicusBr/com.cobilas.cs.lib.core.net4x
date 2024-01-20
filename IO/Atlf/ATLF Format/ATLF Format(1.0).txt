@@ -1,14 +1,15 @@
-#?
-version:/*std:1.0*/
-encoding:/*utf-8*/
-?#
-#> ATLF format(1.0) <#
-#> Comentário <#
+#>Header
+The use of the header is not mandatory.<#
+#! version:/*std:1.0*/
+#! encoding:/*utf-8*/
 
-#> Marcação uni-linha <#
+#> Comment <#
+#> ATLF format(1.0) <#
+
+#> Uni-line marking <#
 #! Tag1:/*value1*/
 
-#> Marcação mult-linha <#
+#> Multi-line marking <#
 #! Tag2:/*
 value1
 value2
