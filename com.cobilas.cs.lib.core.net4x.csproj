@@ -4,6 +4,8 @@
 		<TargetFrameworks>net472;netstandard2.0</TargetFrameworks>
 		<RootNamespace>Cobilas</RootNamespace>
 		<AssemblyName>Cobilas.Core</AssemblyName>
+		<OutputPath>.libs/bin</OutputPath>
+		<BaseIntermediateOutputPath>.libs/obj</BaseIntermediateOutputPath>
   	  	<LangVersion>default</LangVersion>
   	  	<Nullable>enable</Nullable>
 		<NoWarn>IDE0290;IDE0028;IDE0300</NoWarn>
@@ -18,7 +20,7 @@
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/BelicusBr/com.cobilas.cs.lib.core.net4x</RepositoryUrl>
 		<NeutralLanguage>en</NeutralLanguage>
-		<PackageTags>CSharp;C#;net472;netstandard2.0</PackageTags>
+		<PackageTags>CSharp;C#;net472;netstandard2.0;Godot3</PackageTags>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageOutputPath>C:\local.nuget</PackageOutputPath>
