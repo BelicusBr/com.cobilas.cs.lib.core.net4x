@@ -91,10 +91,21 @@ To create a custom decoding class, the class must inherit the `ATLFVS10Decoding`
 To include the package, open the `.csproj` file and add it.
 ```xml
 <ItemGroup>
-  <PackageReference Include="Cobilas.Core.Net4x" Version="1.1.0" />
+  <PackageReference Include="Cobilas.Core.Net4x" Version="1.2.0" />
 </ItemGroup>
 ```
 Or use command line.
 ```ps1
-dotnet add package Cobilas.Core.Net4x --version 1.1.0
+dotnet add package Cobilas.Core.Net4x --version 1.2.0
+```
+# [Cobilas.Core.Net4x](https://www.npmjs.com/package/com.cobilas.unity.core.net4x) is on NPM
+Include in npm package
+```json
+"dependencies": {
+    "com.cobilas.unity.core.net4x":"1.2.0"
+}
+```
+Or use command line.
+```ps1
+npm i com.cobilas.unity.core.net4x
 ```
