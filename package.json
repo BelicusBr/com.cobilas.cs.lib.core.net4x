@@ -9,7 +9,8 @@
   "unity": "2017.4",
   "main": "index.js",
   "scripts": {
-    "test": "echo test"
+    "test": "echo test",
+    "init_pack": "npm pack --pack-destination C:/local.npm"
   },
   "repository": {
     "type": "git",
