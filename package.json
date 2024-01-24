@@ -1,0 +1,31 @@
+{
+  "name": "com.cobilas.unity.core.net4x",
+  "version": "1.2.1",
+  "description": "C# NPM package for general use in apps and games.",
+  "displayName": "Cobilas Core Net4x",
+  "changelogUrl": "https://github.com/BelicusBr/com.cobilas.cs.lib.core.net4x/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/BelicusBr/com.cobilas.cs.lib.core.net4x/blob/main/LICENSE.md",
+  "type": "library",
+  "unity": "2017.4",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo test",
+    "init_pack": "npm pack --pack-destination C:/local.npm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BelicusBr/com.cobilas.cs.lib.core.net4x.git"
+  },
+  "keywords": [
+    "CSharp",
+    "C#",
+    "net472",
+    "Unity3D"
+  ],
+  "author": "B\u00e9licusBr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BelicusBr/com.cobilas.cs.lib.core.net4x/issues"
+  },
+  "homepage": "https://github.com/BelicusBr/com.cobilas.cs.lib.core.net4x#readme"
+}
