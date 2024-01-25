@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿#if !UNITY_5_3_OR_NEWER
+using Newtonsoft.Json;
 
 namespace Cobilas.IO.Serialization.Json {
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
@@ -75,3 +76,4 @@ namespace Cobilas.IO.Serialization.Json {
         }
     }
 }
+#endif

@@ -6,7 +6,7 @@
 		<AssemblyName>Cobilas.Core</AssemblyName>
 		<OutputPath>.libs/bin</OutputPath>
 		<BaseIntermediateOutputPath>.libs/obj</BaseIntermediateOutputPath>
-  	  	<LangVersion>default</LangVersion>
+  	  	<LangVersion>7.3</LangVersion>
   	  	<Nullable>enable</Nullable>
 		<NoWarn>IDE0290;IDE0028;IDE0300</NoWarn>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>

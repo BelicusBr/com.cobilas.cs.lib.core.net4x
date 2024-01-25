@@ -13,7 +13,7 @@ namespace System.Xml {
         public XMLIRWValue Value { get; set; }
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
         public override string Name { get; set; } = string.Empty;
-        public override XMLIRW Parent { get; set; } = default!;
+        public override XMLIRW Parent { get; set; } = default;
         public override XmlNodeType Type { get; set; }
 #pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
         /// <summary>Checks whether the element has a text value.</summary>
@@ -79,10 +79,10 @@ namespace System.Xml {
         public XMLIRWElement(XMLIRWElement parent, string name, XmlNodeType type, params XMLIRW[] itens) : this(parent, name, XMLIRWValue.Empty, type, itens) {}
         public XMLIRWElement(XMLIRWElement parent, string name, XmlNodeType type) : this(parent, name, XMLIRWValue.Empty, type, Array.Empty<XMLIRW>()) {}
 
-        public XMLIRWElement(string name, XmlNodeType type, params XMLIRW[] itens) : this(default!, name, XMLIRWValue.Empty, type, itens) {}
+        public XMLIRWElement(string name, XmlNodeType type, params XMLIRW[] itens) : this(default, name, XMLIRWValue.Empty, type, itens) {}
         public XMLIRWElement(string name, XmlNodeType type) : this(name, XMLIRWValue.Empty, type, Array.Empty<XMLIRW>()) {}
 
-        public XMLIRWElement(string name, XMLIRWValue value, XmlNodeType type, params XMLIRW[] itens) : this(default!, name, value, type, itens) {}
+        public XMLIRWElement(string name, XMLIRWValue value, XmlNodeType type, params XMLIRW[] itens) : this(default, name, value, type, itens) {}
         public XMLIRWElement(string name, object value, XmlNodeType type, params XMLIRW[] itens) : this(name, new XMLIRWValue(value), type, itens) {}
         public XMLIRWElement(string name, XMLIRWValue value, params XMLIRW[] itens) : this(name, value, XmlNodeType.None, itens) {}
         public XMLIRWElement(string name, object value, params XMLIRW[] itens) : this(name, value, XmlNodeType.None, itens) {}
@@ -117,7 +117,7 @@ namespace System.Xml {
             if (!disposedValue) {
                 if (disposing) {
                     Name = string.Empty;
-                    Parent = default!;
+                    Parent = default;
                     Type = default;
                     Value = default;
                     ArrayManipulation.ClearArraySafe(ref itens);

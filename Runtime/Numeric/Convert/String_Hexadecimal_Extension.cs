@@ -9,11 +9,16 @@ namespace Cobilas.Numeric.Convert {
         /// <summary>Checks whether the text value is a hexadecimal value.</summary>
         public static bool IsHexadecimal(this string str)
             => str.ToUpper().All((c) => {
-                return c switch {
-                    '0' or '1' or '2' or '3' or '4' or '5' or '6' or '7' or '8' or '9' 
-                    or 'A' or 'B' or 'C' or 'D' or 'E' or 'F' or 'X' => true,
-                    _ => false,
-                };
+                switch (c) {
+                    case '0': case '1': case '2':
+                    case '3': case '4': case '5':
+                    case '6': case '7': case '8':
+                    case '9': case 'A': case 'B':
+                    case 'C': case 'D': case 'E':
+                    case 'F': case 'X': return true;
+                    default: return false;
+                }
+                
             });
 
         /// <summary>Converts hexadecimal value to decimal.</summary>
@@ -27,15 +32,15 @@ namespace Cobilas.Numeric.Convert {
         }
 
         private static byte HexToByte(char c) {
-            return c switch {
-                'A' or 'a' => 10,
-                'B' or 'b' => 11,
-                'C' or 'c' => 12,
-                'D' or 'd' => 13,
-                'E' or 'e' => 14,
-                'F' or 'f' => 15,
-                _ => byte.Parse(c.ToString()),
-            };
+            switch (c) {
+                case 'A': case 'a': return 10;
+                case 'B': case 'b': return 11;
+                case 'C': case 'c': return 12;
+                case 'D': case 'd': return 13;
+                case 'E': case 'e': return 14;
+                case 'F': case 'f': return 15;
+                default: return byte.Parse(c.ToString());
+            }
         }
     }
 }

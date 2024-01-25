@@ -21,14 +21,14 @@ namespace Cobilas.IO.Atlf.Text {
         /// <para>args[1] = <seealso cref="Encoding"/></para>
         /// </param>
         public override byte[] Writer4Byte(params object[] args) {
-            if (args[1] is not null)
-                return (args[1] as Encoding)!.GetBytes(Writer((ATLFNode[])args[0]));
+            if (!(args[1] is null))
+                return (args[1] as Encoding).GetBytes(Writer((ATLFNode[])args[0]));
             return Array.Empty<byte>();
         }
 
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
         protected virtual string Writer(ATLFNode[] nodes) {
-            StringBuilder builder = new();
+            StringBuilder builder = new StringBuilder();
             foreach (var item in nodes) {
                 switch (item.NodeType) {
                     case ATLFNodeType.Tag:

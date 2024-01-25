@@ -15,8 +15,8 @@ namespace Cobilas.IO.Atlf.Text {
         /// <para>args[0] = <seealso cref="string"/></para>
         /// </param>
         public override ATLFNode[] Reader(params object[] args) {
-            if (args[0] is not null)
-                return Reader(new CharacterCursor((args[0] as string)!));
+            if (!(args[0] is null))
+                return Reader(new CharacterCursor(args[0] as string));
             return Array.Empty<ATLFNode>();
         }
 
@@ -26,8 +26,8 @@ namespace Cobilas.IO.Atlf.Text {
         /// <para>args[1] = <seealso cref="Encoding"/></para>
         /// </param>
         public override ATLFNode[] Reader4Byte(params object[] args) {
-            if (args[1] is not null)
-                return Reader(new CharacterCursor((args[1] as Encoding)!.GetString(args[0] as byte[])));
+            if (!(args[1] is null))
+                return Reader(new CharacterCursor((args[1] as Encoding).GetString(args[0] as byte[])));
             return Array.Empty<ATLFNode>();
         }
 
@@ -52,7 +52,7 @@ namespace Cobilas.IO.Atlf.Text {
         }
 
         protected virtual ATLFNode GetComment(CharacterCursor cursor) {
-            StringBuilder text = new();
+            StringBuilder text = new StringBuilder();
             CharacterCursor.LineEndColumn lineEndColumn = cursor.Cursor;
 
             while (cursor.MoveToCharacter()) {
@@ -71,8 +71,8 @@ namespace Cobilas.IO.Atlf.Text {
         protected virtual ATLFNode GetTag(CharacterCursor cursor) => GetTag(cursor, ATLFNodeType.Tag);
 
         protected virtual ATLFNode GetTag(CharacterCursor cursor, ATLFNodeType nodeType) {
-            StringBuilder name = new();
-            StringBuilder text = new();
+            StringBuilder name = new StringBuilder();
+            StringBuilder text = new StringBuilder();
             CharacterCursor.LineEndColumn lineEndColumn = cursor.Cursor;
             bool getText = false;
             bool firstSpace = false;

@@ -8,7 +8,7 @@ namespace System.Xml {
         /// <summary>
         /// Represents an empty value.
         /// </summary>
-        public readonly static XMLIRWValue Empty = new(default!);
+        public readonly static XMLIRWValue Empty = new XMLIRWValue(default);
 
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
         public XMLIRWValue(object value) {
@@ -16,7 +16,7 @@ namespace System.Xml {
         }
 
         public void Dispose() {
-            value = default!;
+            value = default;
         }
 
         public bool Equals(XMLIRWValue other) => other.value == value;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !UNITY_5_3_OR_NEWER
+using System;
 using Newtonsoft.Json;
 using System.Reflection;
 using System.Collections.Generic;
@@ -38,3 +39,4 @@ namespace Cobilas.IO.Serialization.Json {
         }
     }
 }
+#endif

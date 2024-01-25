@@ -8,13 +8,13 @@ namespace Cobilas.Collections {
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
         protected T[] list;
         protected long index;
-        protected T current = default!;
+        protected T current = default;
 #pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
         private bool disposedValue;
 
         /// <summary>Gets the element in the collection at the current position of the enumerator.</summary>
         public virtual T Current => current;
-        object IEnumerator.Current => (object)current!;
+        object IEnumerator.Current => (object)current;
 
         /// <summary>Internal constructor.</summary>
         protected ArrayToIEnumerator() {
@@ -42,7 +42,7 @@ namespace Cobilas.Collections {
             if (!disposedValue) {
                 if (disposing) {
                     list = Array.Empty<T>();
-                    current = default!;
+                    current = default;
                     index = default;
                 }
                 disposedValue = true;

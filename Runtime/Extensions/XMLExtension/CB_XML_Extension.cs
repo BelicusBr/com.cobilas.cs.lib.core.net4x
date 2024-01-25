@@ -21,37 +21,37 @@ namespace System.Xml {
                     case XmlNodeType.ProcessingInstruction:
                         if (settings.Indent)
                             writer.WriteWhitespace(GetWhitespace(settings.IndentChars, layer));
-                        writer.WriteProcessingInstruction(item.Name, (string)(item as XMLIRWProcessingInstruction)!.Value);
+                        writer.WriteProcessingInstruction(item.Name, (string)(item as XMLIRWProcessingInstruction).Value);
                         if (settings.Indent)
                             writer.WriteWhitespace(settings.NewLineChars);
                         break;
                     case XmlNodeType.CDATA:
                             if (settings.Indent)
                                 writer.WriteWhitespace(GetWhitespace(settings.IndentChars, layer));
-                            writer.WriteCData((string)(item as XMLIRWCDATA)!.Value);
+                            writer.WriteCData((string)(item as XMLIRWCDATA).Value);
                             if (settings.Indent)
                                 writer.WriteWhitespace(settings.NewLineChars);
                         break;
                     case XmlNodeType.DocumentType:
                             if (settings.Indent)
                                 writer.WriteWhitespace(GetWhitespace(settings.IndentChars, layer));
-                            XMLIRWDocType docType = (item as XMLIRWDocType)!;
-                            writer.WriteDocType(docType!.Name, (string)docType.PudID, (string)docType.SysID, (string)docType.SubSet);
+                            XMLIRWDocType docType = item as XMLIRWDocType;
+                            writer.WriteDocType(docType.Name, (string)docType.PudID, (string)docType.SysID, (string)docType.SubSet);
                             if (settings.Indent)
                                 writer.WriteWhitespace(settings.NewLineChars);
                         break;
                     case XmlNodeType.Comment:
                             if (settings.Indent)
                                 writer.WriteWhitespace(GetWhitespace(settings.IndentChars, layer));
-                            writer.WriteComment((string)(item as XMLIRWComment)!.Value);
+                            writer.WriteComment((string)(item as XMLIRWComment).Value);
                             if (settings.Indent)
                                 writer.WriteWhitespace(settings.NewLineChars);
                         break;
                     case XmlNodeType.Element:
                         if (settings.Indent)
                             writer.WriteWhitespace(GetWhitespace(settings.IndentChars, layer));
-                        XMLIRWElement elem = (item as XMLIRWElement)!;
-                        writer.WriteStartElement(elem!.Name);
+                        XMLIRWElement elem = item as XMLIRWElement;
+                        writer.WriteStartElement(elem.Name);
                         foreach (XMLIRWAttribute attri in elem.Attributes)
                             writer.WriteAttributeString(attri.Name, (string)attri.Value);
 
@@ -82,8 +82,8 @@ namespace System.Xml {
         /// <summary>
         /// Reads an XML document and returns an <see cref="XMLIRWElement"/>.
         /// </summary>
-        public static XMLIRWElement? ReadXMLIRW(this XmlReader reader) {
-            XMLIRWElement element = new("Root");
+        public static XMLIRWElement ReadXMLIRW(this XmlReader reader) {
+            XMLIRWElement element = new XMLIRWElement("Root");
             ulong cdata = 0;
             XMLIRWElement[] attributes;
             while (reader.Read()) {
@@ -93,48 +93,48 @@ namespace System.Xml {
                         if(reader.AttributeCount != 0) {
                             for (int I = 0; I < reader.AttributeCount; I++) {
                                 reader.MoveToAttribute(I);
-                                attributes[I] = new XMLIRWElement(reader.Name, reader.Value, XmlNodeType.Attribute, default!);
+                                attributes[I] = new XMLIRWElement(reader.Name, reader.Value, XmlNodeType.Attribute, default);
                             }
                             reader.MoveToElement();
                         }
-                        element!.Add(new XMLIRWElement(reader.Name, XmlNodeType.ProcessingInstruction, attributes));
+                        element.Add(new XMLIRWElement(reader.Name, XmlNodeType.ProcessingInstruction, attributes));
                         break;
                     case XmlNodeType.XmlDeclaration:
                         attributes = new XMLIRWElement[reader.AttributeCount];
                         if(reader.AttributeCount != 0) {
                             for (int I = 0; I < reader.AttributeCount; I++) {
                                 reader.MoveToAttribute(I);
-                                attributes[I] = new XMLIRWElement(reader.Name, reader.Value, XmlNodeType.Attribute, default!);
+                                attributes[I] = new XMLIRWElement(reader.Name, reader.Value, XmlNodeType.Attribute, default);
                             }
                             reader.MoveToElement();
                         }
-                        element!.Add(new XMLIRWElement(reader.Name, XmlNodeType.XmlDeclaration, attributes));
+                        element.Add(new XMLIRWElement(reader.Name, XmlNodeType.XmlDeclaration, attributes));
                         break;
                     case XmlNodeType.CDATA:
-                        element!.Add(new XMLIRWElement($"CDATA:{cdata}", reader.Value, XmlNodeType.CDATA, default!));
+                        element.Add(new XMLIRWElement($"CDATA:{cdata}", reader.Value, XmlNodeType.CDATA, default));
                         ++cdata;
                         break;
                     case XmlNodeType.DocumentType:
-                        element!.Add(new XMLIRWElement(reader.Name, reader.Value, XmlNodeType.DocumentType, default!));
+                        element.Add(new XMLIRWElement(reader.Name, reader.Value, XmlNodeType.DocumentType, default));
                         break;
                     case XmlNodeType.Element:
                         attributes = new XMLIRWElement[reader.AttributeCount];
                         if(reader.AttributeCount != 0) {
                             for (int I = 0; I < reader.AttributeCount; I++) {
                                 reader.MoveToAttribute(I);
-                                attributes[I] = new XMLIRWElement(reader.Name, reader.Value, XmlNodeType.Attribute, default!);
+                                attributes[I] = new XMLIRWElement(reader.Name, reader.Value, XmlNodeType.Attribute, default);
                             }
                             reader.MoveToElement();
                         }
                         if (reader.IsEmptyElement)
-                            element!.Add(new XMLIRWElement(reader.Name, XmlNodeType.Element, attributes));
-                        else element!.Add(element = new XMLIRWElement(reader.Name, XmlNodeType.Element, attributes));
+                            element.Add(new XMLIRWElement(reader.Name, XmlNodeType.Element, attributes));
+                        else element.Add(element = new XMLIRWElement(reader.Name, XmlNodeType.Element, attributes));
                         break;
                     case XmlNodeType.Text:
-                        element!.Value = new XMLIRWValue(reader.Value);
+                        element.Value = new XMLIRWValue(reader.Value);
                         break;
                     case XmlNodeType.EndElement:
-                            element = (element.Parent as XMLIRWElement)!;
+                            element = element.Parent as XMLIRWElement;
                         break;
                 }
             }

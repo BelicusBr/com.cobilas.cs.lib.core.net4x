@@ -1,3 +1,9 @@
+# [25/01/2024]
+## [nuget#1.2.0-rc6]
+The NuGet package is using C# version 7.3
+## [npm#1.2.2]
+The NPM package is using version 7.3 of C# in addition to having fixed the problems inherent in the migration to Unity2019.
+
 # [18/01/2024]#1.2.0-rc5
 - ## Changed
 Package has regressed to `netstandard2.0`.

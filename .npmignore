@@ -1,7 +1,9 @@
 .libs/
 bin/
 obj/
-*.meta
 *.csproj
+*.csproj.meta
 *.sln
+*.sln.meta
 *.tgz
+*.tgz.meta

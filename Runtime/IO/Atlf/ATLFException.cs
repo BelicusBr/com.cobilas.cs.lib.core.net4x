@@ -15,20 +15,20 @@ namespace Cobilas.IO.Atlf {
 
         /// <summary>msg:The ATLFWriter object has already been closed.</summary>
         public static InvalidOperationException ATLFClosed()
-            => new("The ATLF object has already been closed.");
+            => new InvalidOperationException("The ATLF object has already been closed.");
 
         public static InvalidOperationException ATLFReaderAfterClosing()
-            => new("The read operation cannot be done after closing the ATLF object!");
+            => new InvalidOperationException("The read operation cannot be done after closing the ATLF object!");
 
         public static InvalidOperationException ATLFReaderTagAfterClosing()
-            => new("The tag reading operation cannot be done after closing the ATLF object!");
+            => new InvalidOperationException("The tag reading operation cannot be done after closing the ATLF object!");
 
         /// <summary>msg:It is not possible to release resources to the flow after closing the ATLF object.</summary>
         public static InvalidOperationException ATLFFlowAfterClosing()
-            => new("It is not possible to release resources to the flow after closing the ATLF object.");
+            => new InvalidOperationException("It is not possible to release resources to the flow after closing the ATLF object.");
 
         public static InvalidOperationException ATLFTagsAfterClosing()
-            => new("You cannot add new tags to the stream after closing the ATLF object.");
+            => new InvalidOperationException("You cannot add new tags to the stream after closing the ATLF object.");
     }
 
 #pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente

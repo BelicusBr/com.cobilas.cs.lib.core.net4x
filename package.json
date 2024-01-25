@@ -6,7 +6,7 @@
   "changelogUrl": "https://github.com/BelicusBr/com.cobilas.cs.lib.core.net4x/blob/main/CHANGELOG.md",
   "licensesUrl": "https://github.com/BelicusBr/com.cobilas.cs.lib.core.net4x/blob/main/LICENSE.md",
   "type": "library",
-  "unity": "2017.4",
+  "unity": "2017.1",
   "main": "index.js",
   "scripts": {
     "test": "echo test",

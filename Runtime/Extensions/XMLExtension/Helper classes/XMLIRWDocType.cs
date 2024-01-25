@@ -7,7 +7,7 @@ namespace System.Xml {
         private bool disposedValue;
 
         public override string Name { get; set; } = string.Empty;
-        public override XMLIRW Parent { get; set; } = default!;
+        public override XMLIRW Parent { get; set; } = default;
         public XMLIRWValue PudID { get; private set;}
         public XMLIRWValue SysID { get; private set;}
         public XMLIRWValue SubSet { get; private set;}
@@ -18,7 +18,7 @@ namespace System.Xml {
             this.SysID = sysid;
             this.SubSet = subset;
         }
-        public XMLIRWDocType(string name, XMLIRWValue pudid, XMLIRWValue sysid, XMLIRWValue subset) : this(default!, name, pudid, sysid, subset) {}
+        public XMLIRWDocType(string name, XMLIRWValue pudid, XMLIRWValue sysid, XMLIRWValue subset) : this(default, name, pudid, sysid, subset) {}
         public XMLIRWDocType(XMLIRWElement parent, string name, object pudid, object sysid, object subset) :
             this(parent, name, new XMLIRWValue(pudid), new XMLIRWValue(sysid), new XMLIRWValue(subset)) {}
         public XMLIRWDocType(string name, object pudid, object sysid, object subset) :
@@ -35,7 +35,7 @@ namespace System.Xml {
             if (!disposedValue) {
                 if (disposing) {
                     Name = string.Empty;
-                    Parent = default!;
+                    Parent = default;
                     Type = default;
                     PudID = default;
                     SysID = default;

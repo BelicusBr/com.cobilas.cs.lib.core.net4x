@@ -11,26 +11,26 @@ namespace Cobilas.Numeric {
         /// <inheritdoc/>
         public override void Initialization() {
             Calculations = new MathOperator[] {
-                new("~-", Negative, SignalOrientation.right),
-                new("++", S_Add, SignalOrientation.left, 2),
-                new("--", S_Subtraction, SignalOrientation.left, 2),
-                new("**", S_Multiplication, SignalOrientation.left, 1),
-                new("//", S_Division, SignalOrientation.left, 1),
-                new("%%", S_Module, SignalOrientation.left, 1),
-                new('+', Add, SignalOrientation.both, 2),
-                new('-', Subtraction, SignalOrientation.both, 2),
-                new('*', Multiplication, SignalOrientation.both, 1),
-                new('/', Division, SignalOrientation.both, 1),
-                new('%', Module, SignalOrientation.both, 1),
-                new(":pow:", Pow, SignalOrientation.both),
-                new(":sqr:", Sqrt, SignalOrientation.right),
-                new(":cos:", Cos, SignalOrientation.right),
-                new(":acos:", Acos, SignalOrientation.right),
-                new(":sin:", Sin, SignalOrientation.right),
-                new(":asin:", Asin, SignalOrientation.right),
-                new(":log:", Log, SignalOrientation.right),
-                new(":log-nb:", Log_nb, SignalOrientation.both),
-                new(":log10:", Log10, SignalOrientation.right)
+                new MathOperator("~-", Negative, SignalOrientation.right),
+                new MathOperator("++", S_Add, SignalOrientation.left, 2),
+                new MathOperator("--", S_Subtraction, SignalOrientation.left, 2),
+                new MathOperator("**", S_Multiplication, SignalOrientation.left, 1),
+                new MathOperator("//", S_Division, SignalOrientation.left, 1),
+                new MathOperator("%%", S_Module, SignalOrientation.left, 1),
+                new MathOperator('+', Add, SignalOrientation.both, 2),
+                new MathOperator('-', Subtraction, SignalOrientation.both, 2),
+                new MathOperator('*', Multiplication, SignalOrientation.both, 1),
+                new MathOperator('/', Division, SignalOrientation.both, 1),
+                new MathOperator('%', Module, SignalOrientation.both, 1),
+                new MathOperator(":pow:", Pow, SignalOrientation.both),
+                new MathOperator(":sqr:", Sqrt, SignalOrientation.right),
+                new MathOperator(":cos:", Cos, SignalOrientation.right),
+                new MathOperator(":acos:", Acos, SignalOrientation.right),
+                new MathOperator(":sin:", Sin, SignalOrientation.right),
+                new MathOperator(":asin:", Asin, SignalOrientation.right),
+                new MathOperator(":log:", Log, SignalOrientation.right),
+                new MathOperator(":log-nb:", Log_nb, SignalOrientation.both),
+                new MathOperator(":log10:", Log10, SignalOrientation.right)
             };
         }
 

@@ -13,7 +13,7 @@ namespace Cobilas {
         private bool[] _switches;
 
         /// <summary>Returns the current switch index.</summary>
-        public readonly int CurrentIndex {
+        public int CurrentIndex {
             get {
                 WasDiscarded();
                 return currentIndex;
@@ -21,7 +21,7 @@ namespace Cobilas {
         }
         ///<summary>Esta propriedade permite a troca de unico interruptor para mult interruptores e vise versa.</summary>
         public bool UseASwitch { 
-            readonly get {
+            get {
                 WasDiscarded();
                 return useASwitch;
             }
@@ -33,7 +33,7 @@ namespace Cobilas {
 
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
         public bool this[int Index] {
-            readonly get {
+            get {
                 WasDiscarded();
                 return _switches[Index];
             }
@@ -56,6 +56,7 @@ namespace Cobilas {
             _switches = new bool[Capacity];
             currentIndex = -1;
             useASwitch = UseASwitch;
+            disposable = false;
         }
 
         /// <summary>Only one switch specifying the index will be used, the others will remain at false value.</summary>
@@ -63,9 +64,9 @@ namespace Cobilas {
         public Interrupter(int Capacity) : this(Capacity, true) { }
 
         /// <summary>Returns a text representation of the object.</summary>
-        public override readonly string ToString() {
+        public override string ToString() {
             WasDiscarded();
-            StringBuilder builder = new();
+            StringBuilder builder = new StringBuilder();
             builder.AppendLine("Switches {");
             for (int I = 0; I < _switches.Length; I++)
                 builder.AppendLine($"\tswitch({I})[status:{_switches[I]}]");
@@ -82,7 +83,7 @@ namespace Cobilas {
             ArrayManipulation.ClearArraySafe(ref _switches);
         }
 
-        private readonly void WasDiscarded() {
+        private void WasDiscarded() {
             if (disposable) 
                 throw new ObjectDisposedException("The object has already been discarded.");
         }

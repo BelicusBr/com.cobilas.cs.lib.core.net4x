@@ -19,7 +19,7 @@ namespace Cobilas.Collections {
             if (itens is null) throw ArrayNullException;
             else if (itens.Length == 0)
                 return list;
-            list ??= Array.Empty<T>();
+            list = list is null ? Array.Empty<T>() : list;
 
             T[] newList = new T[list.Length + itens.Length];
             Array.Copy(list, 0, newList, 0, index);
@@ -299,37 +299,37 @@ namespace Cobilas.Collections {
         /// <summary>
         /// Searches for the specified object and returns the index of its first occurrence in a one-dimensional array or a range of elements in the array.
         /// </summary>
-        public static int IndexOf(object? item, Array array, int index, int length)
+        public static int IndexOf(object item, Array array, int index, int length)
             => Array.IndexOf(array, item, index, length);
 
         /// <summary>
         /// Searches for the specified object and returns the index of its first occurrence in a one-dimensional array or a range of elements in the array.
         /// </summary>
-        public static int IndexOf(object? item, Array array, int index)
+        public static int IndexOf(object item, Array array, int index)
             => Array.IndexOf(array, item, index);
 
         /// <summary>
         /// Searches for the specified object and returns the index of its first occurrence in a one-dimensional array or a range of elements in the array.
         /// </summary>
-        public static int IndexOf(object? item, Array array)
+        public static int IndexOf(object item, Array array)
             => Array.IndexOf(array, item);
 
         /// <summary>
         /// Returns the index of the last occurrence of a value in a one-dimensional Array or part of the Array.
         /// </summary>
-        public static int LastIndexOf(object? item, Array array, int index, int length)
+        public static int LastIndexOf(object item, Array array, int index, int length)
             => Array.LastIndexOf(array, item, index, length);
 
         /// <summary>
         /// Returns the index of the last occurrence of a value in a one-dimensional Array or part of the Array.
         /// </summary>
-        public static int LastIndexOf(object? item, Array array, int index)
+        public static int LastIndexOf(object item, Array array, int index)
             => Array.LastIndexOf(array, item, index);
 
         /// <summary>
         /// Returns the index of the last occurrence of a value in a one-dimensional Array or part of the Array.
         /// </summary>
-        public static int LastIndexOf(object? item, Array array)
+        public static int LastIndexOf(object item, Array array)
             => Array.LastIndexOf(array, item);
 
         /// <summary>
@@ -404,7 +404,7 @@ namespace Cobilas.Collections {
         /// Determines whether the specified array contains elements that match the conditions defined by the specified predicate.
         /// </summary>
         [Obsolete("Use bool:Exists<T>(T[], Predicate<T>)")]
-        public static bool Exists(object? item, Array array) {
+        public static bool Exists(object item, Array array) {
             for (int I = 0; I < ArrayLength(array); I++)
                 if (array.GetValue(I) == item)
                     return true;
@@ -497,18 +497,18 @@ namespace Cobilas.Collections {
         /// Determines whether the collection is read-only.
         /// </summary>
         public static bool IsReadOnlySafe(IList array)
-            => array is not null && array.IsReadOnly;
+            => !(array is null) && array.IsReadOnly;
 
         /// <summary>
         /// Determines whether the collection has a fixed size.
         /// </summary>
         public static bool IsFixedSizeSafe(IList array)
-            => array is not null && array.IsFixedSize;
+            => !(array is null) && array.IsFixedSize;
 
         /// <summary>
         /// Determines whether the collection is synchronized.
         /// </summary>
         public static bool IsSynchronizedSafe(ICollection collection)
-            => collection is not null && collection.IsSynchronized;
+            => !(collection is null) && collection.IsSynchronized;
     }
 }

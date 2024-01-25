@@ -9,21 +9,22 @@
         /// Method that interprets a char value.
         /// </summary>
         /// <returns>The method returns a value of type <see cref="EscapeSequence"/> representing the type of escape sequence.</returns>
-        public static EscapeSequence InterpretEscapeSequence(this char c)
-            => c switch {
-                '\'' => EscapeSequence.SingleQuote,
-                '\"' => EscapeSequence.DoubleQuote,
-                '\\' => EscapeSequence.BackSlash,
-                '\0' => EscapeSequence.Null,
-                '\a' => EscapeSequence.Alert,
-                '\b' => EscapeSequence.Backspace,
-                '\f' => EscapeSequence.FormFeed,
-                '\n' => EscapeSequence.NewLine,
-                '\r' => EscapeSequence.CarriageReturn,
-                '\t' => EscapeSequence.HorizontalTab,
-                '\v' => EscapeSequence.VerticalTab,
-                _ => EscapeSequence.None,
-            };
+        public static EscapeSequence InterpretEscapeSequence(this char c) {
+            switch (c) {
+                case '\'':return EscapeSequence.SingleQuote;
+                case '\"':return EscapeSequence.DoubleQuote;
+                case '\\':return EscapeSequence.BackSlash;
+                case '\0':return EscapeSequence.Null;
+                case '\a':return EscapeSequence.Alert;
+                case '\b':return EscapeSequence.Backspace;
+                case '\f':return EscapeSequence.FormFeed;
+                case '\n':return EscapeSequence.NewLine;
+                case '\r':return EscapeSequence.CarriageReturn;
+                case '\t':return EscapeSequence.HorizontalTab;
+                case '\v':return EscapeSequence.VerticalTab;
+                default: return EscapeSequence.None;
+            }  
+        }
 
         /// <summary>
         /// Method that interprets a char value.
@@ -31,20 +32,21 @@
         /// <returns>The method returns a value of type <see cref="EscapeSequence"/> representing the type of escape sequence.
         /// <para>The return is converted to a <see cref="string"/>.</para>
         /// </returns>
-        public static string EscapeSequenceToString(this char c)
-            => InterpretEscapeSequence(c) switch {
-                EscapeSequence.SingleQuote => @"\'",
-                EscapeSequence.DoubleQuote => "\\\"",
-                EscapeSequence.BackSlash => @"\\",
-                EscapeSequence.Null => @"\0",
-                EscapeSequence.Alert => @"\a",
-                EscapeSequence.Backspace => @"\b",
-                EscapeSequence.FormFeed => @"\f",
-                EscapeSequence.NewLine => @"\n",
-                EscapeSequence.CarriageReturn => @"\r",
-                EscapeSequence.HorizontalTab => @"\t",
-                EscapeSequence.VerticalTab => @"\v",
-                _ => c.ToString(),
-            };
+        public static string EscapeSequenceToString(this char c) {
+            switch (InterpretEscapeSequence(c)) {
+                case EscapeSequence.SingleQuote: return @"\'";
+                case EscapeSequence.DoubleQuote: return "\\\"";
+                case EscapeSequence.BackSlash: return @"\\";
+                case EscapeSequence.Null: return @"\0";
+                case EscapeSequence.Alert: return @"\a";
+                case EscapeSequence.Backspace: return @"\b";
+                case EscapeSequence.FormFeed: return @"\f";
+                case EscapeSequence.NewLine: return @"\n";
+                case EscapeSequence.CarriageReturn: return @"\r";
+                case EscapeSequence.HorizontalTab: return @"\t";
+                case EscapeSequence.VerticalTab: return @"\v";
+                default: return c.ToString();
+            }
+        }
     }
 }
