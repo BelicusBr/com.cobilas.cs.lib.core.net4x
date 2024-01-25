@@ -42,8 +42,8 @@ namespace System.Security.Cryptography {
         /// <returns>The computed hash code for string.</returns>
         public static HashString ComputeHashToString(this HashAlgorithm H, string FilePath) {
             byte[] bytes = ComputeHash(H, FilePath);
-            if (bytes is not null)
-                return new(bytes);
+            if (!(bytes is null))
+                return new HashString(bytes);
             return HashString.Empty;
         }
 
@@ -57,8 +57,8 @@ namespace System.Security.Cryptography {
         /// <returns>The computed hash code for string.</returns>
         public static HashString ComputeHashToString(this HashAlgorithm H, byte[] buffer) {
             buffer = H.ComputeHash(buffer);
-            if (buffer is not null) 
-                return new(buffer);
+            if (!(buffer is null)) 
+                return new HashString(buffer);
             return HashString.Empty;
         }
     
@@ -76,8 +76,8 @@ namespace System.Security.Cryptography {
         /// <returns>The computed hash code for string.</returns>
         public static HashString ComputeHashToString(this HashAlgorithm H, byte[] buffer, int offset, int count) {
             buffer = H.ComputeHash(buffer, offset, count);
-            if (buffer is not null)
-                return new(buffer);
+            if (!(buffer is null))
+                return new HashString(buffer);
             return HashString.Empty;
         }
     
@@ -90,8 +90,8 @@ namespace System.Security.Cryptography {
         /// <returns>The computed hash code for string.</returns>
         public static HashString ComputeHashToString(this HashAlgorithm H, Stream inputStream) {
             byte[] buffer = H.ComputeHash(inputStream);
-            if (buffer is not null) 
-                return new(buffer);
+            if (!(buffer is null)) 
+                return new HashString(buffer);
             return HashString.Empty;
         }
     }

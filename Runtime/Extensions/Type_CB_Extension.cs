@@ -18,9 +18,9 @@
         /// <typeparam name="T">The generic type used to obtain the target attribute.</typeparam>
         public static T GetAttribute<T>(this Type type, bool inherit) where T : Attribute {
             T[] types = GetAttributes<T>(type, inherit);
-            if (types[0] is not null)
+            if (!(types[0] is null))
                 return types[0];
-            return default!;
+            return default;
         }
 
         /// <summary>

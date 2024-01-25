@@ -7,7 +7,7 @@ namespace System.Xml {
         private bool disposedValue;
 
         public override string Name { get; set; } = string.Empty;
-        public override XMLIRW Parent { get; set; } = default!;
+        public override XMLIRW Parent { get; set; } = default;
         public XMLIRWValue Value { get; private set;}
         public override XmlNodeType Type { get; set; }
 
@@ -23,7 +23,7 @@ namespace System.Xml {
                 if (disposing) {
                     Value = XMLIRWValue.Empty;
                     Name = string.Empty;
-                    Parent = default!;
+                    Parent = default;
                     Type = XmlNodeType.None;
                 }
                 disposedValue = true;

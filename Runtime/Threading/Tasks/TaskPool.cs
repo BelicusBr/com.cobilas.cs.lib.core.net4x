@@ -6,7 +6,7 @@ namespace Cobilas.Threading.Tasks {
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
     public static class TaskPool {
 #pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
-        private readonly static List<Task> tasksList = new();
+        private readonly static List<Task> tasksList = new List<Task>();
 
         /// <summary>Returns the number of allocated tasks.</summary>
         public static int Count => tasksList.Count;

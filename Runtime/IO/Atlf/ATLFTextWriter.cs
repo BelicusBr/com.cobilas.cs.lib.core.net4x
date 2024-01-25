@@ -24,14 +24,14 @@ namespace Cobilas.IO.Atlf {
         /// <inheritdoc/>
         protected override bool CloseFlow { get; set; }
         /// <inheritdoc/>
-        protected override MarshalByRefObject RefObject { get; set; } = default!;
+        protected override MarshalByRefObject RefObject { get; set; } = default;
         /// <inheritdoc/>
         /// <value>Returns the number of nodes already written.</value>
         public override long NodeCount => ArrayManipulation.ArrayLongLength(Nodes);
         /// <inheritdoc/>
         protected override ATLFNode[] Nodes { get; set; } = Array.Empty<ATLFNode>();
         /// <inheritdoc/>
-        protected override TextWriter Stream { get => (TextWriter)RefObject!; set => RefObject = value; }
+        protected override TextWriter Stream { get => (TextWriter)RefObject; set => RefObject = value; }
 
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
         ~ATLFTextWriter()
@@ -109,7 +109,7 @@ namespace Cobilas.IO.Atlf {
         /// <summary>Performs automatic indentation.</summary>
         protected void WriteIndentation() {
             if (Indent) {
-                IndentChars ??= "\r\n";
+                IndentChars = string.IsNullOrEmpty(IndentChars) ? "\r\n" : IndentChars;
                 WriteWhitespace(IndentChars);
             }
         }

@@ -11,7 +11,7 @@ namespace System.Security.Cryptography {
         /// <summary>
         /// A read-only instance of type <see cref="HashString"/> whose value is all zero.
         /// </summary>
-        public readonly static HashString Empty = new(new byte[16]);
+        public readonly static HashString Empty = new HashString(new byte[16]);
 
         /// <summary>
         /// Initializes a <see cref="HashString"/> object using a list of bytes with a minimum length of 16.
@@ -30,7 +30,7 @@ namespace System.Security.Cryptography {
         /// </summary>
         /// <param name="obj">The <see cref="object"/> to compare with the current instance.</param>
         /// <returns>true if obj and this instance are the same type and represent the same value; otherwise, false.</returns>
-        public override readonly bool Equals(object obj)
+        public override bool Equals(object obj)
             => (obj is HashString hs && Equals(hs)) ||
             (obj is string stg && Equals(stg));
 
@@ -38,7 +38,7 @@ namespace System.Security.Cryptography {
         /// Returns the hash code for this instance.
         /// </summary>
         /// <returns>A 32-bit signed integer that is the hash code for this instance.</returns>
-        public override readonly int GetHashCode() {
+        public override int GetHashCode() {
             int res = 0;
             foreach (byte item in hash)
                 res ^= item;
@@ -50,7 +50,7 @@ namespace System.Security.Cryptography {
         /// </summary>
         /// <param name="other">An object to compare with this object.</param>
         /// <returns>true if the current object is equal to the other parameter; otherwise, false.</returns>
-        public readonly bool Equals(HashString other)
+        public bool Equals(HashString other)
             => ((Guid)this) == ((Guid)other);
 
         /// <summary>
@@ -60,8 +60,8 @@ namespace System.Security.Cryptography {
         /// <para>Use <see cref="Guid"/>.ToString() or convert a list of bytes to a <see cref="string"/> using a <see cref="StringBuilder"/> or similar.</para>
         /// </param>
         /// <returns>true if the current object is equal to the other parameter; otherwise, false.</returns>
-        public readonly bool Equals(string other) {
-            StringBuilder builder = new();
+        public bool Equals(string other) {
+            StringBuilder builder = new StringBuilder();
             foreach (byte item in hash)
                 builder.Append(item);
             return other == builder.ToString() || ToString() == other;
@@ -77,7 +77,7 @@ namespace System.Security.Cryptography {
         /// To convert the hexadecimal digits from a through f to uppercase, call the System.String.ToUpper
         /// method on the returned string.
         /// </returns>
-        public override readonly string ToString()
+        public override string ToString()
             => ((Guid)this).ToString();
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace System.Security.Cryptography {
         /// <returns>The value of this <see cref="System.Guid"/>, represented as a series of lowercase hexadecimal
         /// digits in the specified format.
         /// </returns>
-        public readonly string ToString(string format)
+        public string ToString(string format)
             => ((Guid)this).ToString(format);
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace System.Security.Cryptography {
         /// <returns>The value of this <see cref="System.Guid"/>, represented as a series of lowercase hexadecimal
         /// digits in the specified format.
         /// </returns>
-        public readonly string ToString(string format, IFormatProvider formatProvider)
+        public string ToString(string format, IFormatProvider formatProvider)
             => ((Guid)this).ToString(format, formatProvider);
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace System.Security.Cryptography {
         /// value Description A negative integer This instance is less than value. Zero This
         /// instance is equal to value. A positive integer This instance is greater than
         /// value.</returns>
-        public readonly int CompareTo(HashString other)
+        public int CompareTo(HashString other)
             => ((Guid)this).CompareTo((Guid)other);
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace System.Security.Cryptography {
                 h16[J++] ^= hash.hash[I];
                 J = J >= 16 ? 0 : J;
             }
-            return new(h16);
+            return new Guid(h16);
         }
     }
 }

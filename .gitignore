@@ -1,5 +1,4 @@
 .libs/
 bin/
 obj/
-*.meta
 *.sln

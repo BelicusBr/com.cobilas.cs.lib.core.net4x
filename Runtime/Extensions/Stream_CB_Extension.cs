@@ -128,7 +128,7 @@ namespace System.IO {
         /// <param name="F">Target stream.</param>
         /// <param name="encoding">The Encoding used to write to the current stream.</param>
         public static string GetString(this Stream F, Encoding encoding)
-            => new(GetChars(F, encoding));
+            => new string(GetChars(F, encoding));
 
         /// <summary>
         /// Gets a string from the current stream.
@@ -144,7 +144,7 @@ namespace System.IO {
         /// <param name="F">Target stream.</param>
         /// <returns>The method returns a Guid value by reading a copy of the current stream.</returns>
         public static Guid GenerateGuid(this Stream F) {
-            MemoryStream memory = new();
+            MemoryStream memory = new MemoryStream();
             F.CopyTo(memory);
             byte[] guid = new byte[16];
             byte[] content = Read(memory);

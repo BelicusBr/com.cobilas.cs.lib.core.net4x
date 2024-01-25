@@ -108,7 +108,7 @@ namespace Cobilas.IO.Atlf
         /// <summary>Performs automatic indentation.</summary>
         protected void WriteIndentation() {
             if (Indent) {
-                IndentChars ??= "\r\n";
+                IndentChars = string.IsNullOrEmpty(IndentChars) ? "\r\n" : IndentChars;
                 WriteWhitespace(IndentChars);
             }
         }

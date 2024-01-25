@@ -17,7 +17,7 @@ namespace Cobilas.IO.Atlf.Components {
         /// <summary>Returns the current reading cursor column.</summary>
         public long Column => column;
         /// <summary>Returns a current representation of the row, column, and index of the string being read.</summary>
-        public LineEndColumn Cursor => new(line, column, index);
+        public LineEndColumn Cursor => new LineEndColumn(line, column, index);
         /// <summary>Returns the length of the string.</summary>
         public long Count => ArrayManipulation.ArrayLongLength(characters);
         /// <summary>Returns the current character.</summary>
@@ -89,7 +89,7 @@ namespace Cobilas.IO.Atlf.Components {
         /// <param name="count">The number of characters that will be cut.</param>
         /// <returns>The method will return a string containing the string of characters that were cut.</returns>
         public string SliceText(long index, long count) {
-            StringBuilder builder = new();
+            StringBuilder builder = new StringBuilder();
             for (long I = index; I < count + index && I < Count; I++)
                 builder.Append(this[I]);
             return builder.ToString();
@@ -129,7 +129,7 @@ namespace Cobilas.IO.Atlf.Components {
 #pragma warning disable CS1591 
         public void Dispose() => ArrayManipulation.ClearArraySafe(ref characters);
 
-        public override string ToString() => new(this.characters);
+        public override string ToString() => new string(this.characters);
 #pragma warning restore
 
         /// <summary>Represents the current column, row and index of the reading cursor.</summary>
@@ -146,7 +146,7 @@ namespace Cobilas.IO.Atlf.Components {
             public long Column => column;
 
             /// <summary>Default value.(L:1, C:1, I:0)</summary>
-            public static LineEndColumn Default => new(1, 1, 0);
+            public static LineEndColumn Default => new LineEndColumn(1, 1, 0);
 
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
             public LineEndColumn(long line, long column, long index) {

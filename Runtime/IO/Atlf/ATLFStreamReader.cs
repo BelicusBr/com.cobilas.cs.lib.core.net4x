@@ -42,7 +42,7 @@ namespace Cobilas.IO.Atlf {
                 throw ATLFException.ATLFClosed();
             Closed = true;
             Nodes = Array.Empty<ATLFNode>();
-            Encoding = default!;
+            Encoding = default;
             if (CloseFlow) Stream.Close();
             else  Stream = Stream.Null;
         }

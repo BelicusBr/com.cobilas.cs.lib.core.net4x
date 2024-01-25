@@ -13,9 +13,9 @@ namespace Cobilas.IO.Serialization.Binary {
         /// <param name="scratch">Scratch object.</param>
         /// <param name="filePath">Path of the file where the object will be downloaded.</param>
         public static void UnloadScratchObject(ScratchObject scratch, string filePath) {
-            BinaryFormatter formatter = new();
-            using FileStream stream = File.Create(filePath);
-            formatter.Serialize(stream, scratch);
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (FileStream stream = File.Create(filePath))
+                formatter.Serialize(stream, scratch);
         }
 
         /// <summary>Downloads draft object to a file.</summary>
@@ -36,9 +36,9 @@ namespace Cobilas.IO.Serialization.Binary {
         /// <summary>Loads an object <see cref="ScratchObject"/> from a file.</summary>
         /// <param name="filePath">File path.</param>
         public static ScratchObject LoadScratchObject(string filePath) {
-            BinaryFormatter formatter = new();
-            using FileStream stream = File.OpenRead(filePath);
-            return (ScratchObject)formatter.Deserialize(stream);
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (FileStream stream = File.OpenRead(filePath))
+                return (ScratchObject)formatter.Deserialize(stream);
         }
     }
 }
