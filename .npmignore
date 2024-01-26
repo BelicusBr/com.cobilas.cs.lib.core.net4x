@@ -1,6 +1,7 @@
 .libs/
 bin/
 obj/
+Test/
 *.csproj
 *.csproj.meta
 *.sln
