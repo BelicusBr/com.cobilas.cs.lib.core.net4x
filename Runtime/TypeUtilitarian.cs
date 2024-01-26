@@ -25,6 +25,15 @@ namespace Cobilas {
             return false;
         }
 
+        /// <summary>Get a specific type.</summary>
+        /// <param name="fullName">The full name of the type. (example:<c>System.String</c>)</param>
+        public static Type GetType(string fullName) {
+            foreach (Type item in GetTypes())
+                if (item.FullName == fullName)
+                    return item;
+            return null;
+        }
+
         /// <summary>Get all assemblies for the current domain.</summary>
         public static Assembly[] GetAssemblies()
             => AppDomain.CurrentDomain.GetAssemblies();

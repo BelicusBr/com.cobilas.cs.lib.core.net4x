@@ -1,3 +1,6 @@
+# [26/01/2024] #1.3.0
+- ## Add
+The `TypeUtilitarian` class received a new function called `Type TypeUtilitarian.GetType(string fullName)`.
 # [25/01/2024]
 ## [nuget#1.2.0-rc6]
 The NuGet package is using C# version 7.3
