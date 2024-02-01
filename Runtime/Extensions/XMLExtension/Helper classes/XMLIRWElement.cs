@@ -96,7 +96,7 @@ namespace System.Xml {
             GC.SuppressFinalize(this);
         }
 
-        public bool Add(XMLIRWElement element) {
+        public bool Add(XMLIRW element) {
             if (element is null) return false;
             element.Parent = this;
             ArrayManipulation.Add(element, ref itens);

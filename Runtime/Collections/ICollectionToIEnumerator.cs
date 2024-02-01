@@ -7,8 +7,10 @@ namespace Cobilas.Collections {
         public override T Current => base.Current;
 
 #pragma warning disable CS1591
-        public ICollectionToIEnumerator(ICollection<T> collection) : base()
-            => collection.CopyTo(list, 0);
+        public ICollectionToIEnumerator(ICollection<T> collection) : base() {
+            if (collection is null || collection.Count == 0) return;
+            collection.CopyTo(list, 0);
+        }
 #pragma warning restore CS1591
 
         /// <summary>Advances the enumerator to the next element of the collection.</summary>

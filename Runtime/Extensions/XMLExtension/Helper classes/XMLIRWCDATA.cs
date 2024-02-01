@@ -11,9 +11,15 @@ namespace System.Xml {
         public XMLIRWValue Value { get; private set;}
         public override XmlNodeType Type { get; set; }
 
-        public XMLIRWCDATA(XMLIRW parent, XMLIRWValue value) : base(parent, "CData", XmlNodeType.CDATA) {
-            Value = value;
+        public XMLIRWCDATA(XMLIRW parent, string name, XMLIRWValue value) : base(parent, name) {
+            this.Value = value;
         }
+
+        public XMLIRWCDATA(string name, XMLIRWValue value) : this(default, name, value) {}
+
+        public XMLIRWCDATA(XMLIRW parent, XMLIRWValue value) : this(parent, "CData", value) {}
+
+        public XMLIRWCDATA(XMLIRWValue value) : this(default(XMLIRW), value) {}
 
         ~XMLIRWCDATA()
             => Dispose(disposing: false);
