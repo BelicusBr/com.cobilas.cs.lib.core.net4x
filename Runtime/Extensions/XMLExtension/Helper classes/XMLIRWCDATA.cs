@@ -2,24 +2,33 @@ namespace System.Xml {
     /// <summary>
     /// Represents an XML element of type CDATA.
     /// </summary>
-    public class XMLIRWCDATA : XMLIRW {
+    public class XMLIRWCDATA : XMLIRW, ITextValue {
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
         private bool disposedValue;
 
+        public XMLIRWText Text { get; set; }
         public override string Name { get; set; } = string.Empty;
         public override XMLIRW Parent { get; set; } = default;
+        [Obsolete("Use the Text property.")]
         public XMLIRWValue Value { get; private set;}
         public override XmlNodeType Type { get; set; }
 
-        public XMLIRWCDATA(XMLIRW parent, string name, XMLIRWValue value) : base(parent, name) {
-            this.Value = value;
-        }
+        [Obsolete("Use the XMLIRWCDATA(XMLIRW, object) constructor.")]
+        public XMLIRWCDATA(XMLIRW parent, string name, XMLIRWValue value) {}
+        [Obsolete("Use the XMLIRWCDATA(object) constructor.")]
+        public XMLIRWCDATA(string name, XMLIRWValue value) {}
+        [Obsolete("Use the XMLIRWCDATA(XMLIRW, object) constructor.")]
+        public XMLIRWCDATA(XMLIRW parent, XMLIRWValue value) {}
+        [Obsolete("Use the XMLIRWCDATA(object) constructor.")]
+        public XMLIRWCDATA(XMLIRWValue value) {}
+        [Obsolete("Use the XMLIRWCDATA(XMLIRW, object) constructor.")]
+        public XMLIRWCDATA(XMLIRW parent, string name, object value) {}
+        [Obsolete("Use the XMLIRWCDATA(object) constructor.")]
+        public XMLIRWCDATA(string name, object value) {}
 
-        public XMLIRWCDATA(string name, XMLIRWValue value) : this(default, name, value) {}
-
-        public XMLIRWCDATA(XMLIRW parent, XMLIRWValue value) : this(parent, "CData", value) {}
-
-        public XMLIRWCDATA(XMLIRWValue value) : this(default(XMLIRW), value) {}
+        public XMLIRWCDATA(XMLIRW parent, object value) : base(parent, "#cdata", XmlNodeType.CDATA)
+        { Text = new XMLIRWText(value); }
+        public XMLIRWCDATA(object value) : this((XMLIRW)null, value) {}
 
         ~XMLIRWCDATA()
             => Dispose(disposing: false);
@@ -27,10 +36,10 @@ namespace System.Xml {
         protected virtual void Dispose(bool disposing) {
             if (!disposedValue) {
                 if (disposing) {
-                    Value = XMLIRWValue.Empty;
                     Name = string.Empty;
                     Parent = default;
-                    Type = XmlNodeType.None;
+                    Type = default;
+                    Text = default;
                 }
                 disposedValue = true;
             }

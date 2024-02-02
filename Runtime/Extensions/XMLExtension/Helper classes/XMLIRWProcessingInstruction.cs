@@ -1,4 +1,3 @@
-using System.Text;
 using System.Collections;
 using Cobilas.Collections;
 using System.Collections.Generic;
@@ -7,27 +6,28 @@ namespace System.Xml {
     /// <summary>
     /// Represents an XML element of type ProcessingInstruction.
     /// </summary>
-    public class XMLIRWProcessingInstruction : XMLIRW, IEnumerable<XMLIRWAttribute>, IDisposable {
+    public class XMLIRWProcessingInstruction : XMLIRW, ITextValue, IEnumerable<XMLIRWAttribute>, IDisposable {
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
-        private object attriList;
         private bool disposedValue;
 
-        public override string Name { get; set; } = string.Empty;
-        public override XMLIRW Parent { get; set; } = default;
-        public bool IsAttributeList => attriList is XMLIRWAttribute[];
-        public XMLIRWValue Value { get => GetAttriList(); private set => attriList = value; }
+        public XMLIRWText Text { get; set; }
+        [Obsolete("Use the Text property.")]
+        public XMLIRWValue Value { get; set; }
         public override XmlNodeType Type { get; set; }
+        public override XMLIRW Parent { get; set; } = default;
+        public override string Name { get; set; } = string.Empty;
+        public bool IsAttributeList => Text.Value is XMLIRWAttribute[];
+        public int AttributeCount => ArrayManipulation.ArrayLength(IsAttributeList ? Text.Value as XMLIRWAttribute[] : new XMLIRWAttribute[0]);
 
-        public XMLIRWProcessingInstruction(XMLIRW parent, string name, XMLIRWValue value) : base(parent, name, XmlNodeType.ProcessingInstruction) {
-            this.Value = value;
-        }
+        [Obsolete("Use the XMLIRWProcessingInstruction(XMLIRW, string, object) constructor.")]
+        public XMLIRWProcessingInstruction(XMLIRW parent, string name, XMLIRWValue value) {}
+        [Obsolete("Use the XMLIRWProcessingInstruction(string, object) constructor.")]
+        public XMLIRWProcessingInstruction(string name, XMLIRWValue value) {}
 
-        public XMLIRWProcessingInstruction(XMLIRW parent, string name, XMLIRWAttribute[] attributes) : base(parent, name, XmlNodeType.ProcessingInstruction) {
-            this.attriList = attributes;
-        }
-
-        public XMLIRWProcessingInstruction(string name, XMLIRWValue value) : this(default, name, value) {}
-
+        public XMLIRWProcessingInstruction(XMLIRW parent, string name, object value) : base(parent, name, XmlNodeType.ProcessingInstruction)
+        { Text = new XMLIRWText(value); }
+        public XMLIRWProcessingInstruction(string name, object value) : this((XMLIRW)null, name, value) {}
+        public XMLIRWProcessingInstruction(XMLIRW parent, string name, XMLIRWAttribute[] attributes) : this(parent, name, (object)attributes) {}
         public XMLIRWProcessingInstruction(string name, XMLIRWAttribute[] attributes) : this(default, name, attributes) {}
 
         ~XMLIRWProcessingInstruction()
@@ -36,11 +36,10 @@ namespace System.Xml {
         protected virtual void Dispose(bool disposing) {
             if (!disposedValue) {
                 if (disposing) {
-                    Value = XMLIRWValue.Empty;
                     Name = string.Empty;
                     Parent = default;
-                    attriList = default;
-                    Type = XmlNodeType.None;
+                    Type = default;
+                    Text = default;
                 }
                 disposedValue = true;
             }
@@ -51,22 +50,11 @@ namespace System.Xml {
             GC.SuppressFinalize(this);
         }
 
-        private XMLIRWValue GetAttriList() {
-            if (attriList is XMLIRWValue) return (XMLIRWValue)attriList;
-            if (attriList != null) {
-                StringBuilder builder = new StringBuilder();
-                foreach (var item in (XMLIRWAttribute[])attriList)
-                    builder.AppendFormat("{0}=\"{1}\" ", item.Name, (string)item.Value);
-                return new XMLIRWValue(builder.ToString().TrimEnd());
-            }
-            return new XMLIRWValue(string.Empty);
-        }
-
         public IEnumerator<XMLIRWAttribute> GetEnumerator()
-            => new ArrayToIEnumerator<XMLIRWAttribute>(attriList is XMLIRWAttribute[] ? (XMLIRWAttribute[])attriList : new XMLIRWAttribute[0]);
+            => new ArrayToIEnumerator<XMLIRWAttribute>(IsAttributeList ? (XMLIRWAttribute[])Text.Value : new XMLIRWAttribute[0]);
 
         IEnumerator IEnumerable.GetEnumerator()
-            => new ArrayToIEnumerator<XMLIRWAttribute>(attriList is XMLIRWAttribute[] ? (XMLIRWAttribute[])attriList : new XMLIRWAttribute[0]);
+            => new ArrayToIEnumerator<XMLIRWAttribute>(IsAttributeList ? (XMLIRWAttribute[])Text.Value : new XMLIRWAttribute[0]);
 #pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
     }
 }

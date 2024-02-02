@@ -9,7 +9,7 @@ namespace Cobilas.Collections {
 #pragma warning disable CS1591
         public ICollectionToIEnumerator(ICollection<T> collection) : base() {
             if (collection is null || collection.Count == 0) return;
-            collection.CopyTo(list, 0);
+            collection.CopyTo(list = new T[collection.Count], 0);
         }
 #pragma warning restore CS1591
 

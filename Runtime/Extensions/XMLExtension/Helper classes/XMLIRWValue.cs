@@ -2,6 +2,7 @@ namespace System.Xml {
     /// <summary>
     /// Represents the value of a tag.
     /// </summary>
+    [Obsolete("Use the XMLIRWText class to define values.")]
     public struct XMLIRWValue : IDisposable, IEquatable<XMLIRWValue>, IConvertible {
         private object value;
 

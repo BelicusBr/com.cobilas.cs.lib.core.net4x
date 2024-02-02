@@ -2,20 +2,25 @@ namespace System.Xml {
     /// <summary>
     /// Represents an XML element of type Comment.
     /// </summary>
-    public class XMLIRWComment : XMLIRW, IDisposable {
+    public class XMLIRWComment : XMLIRW, ITextValue, IDisposable {
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
         private bool disposedValue;
 
-        public override string Name { get; set; } = string.Empty;
-        public override XMLIRW Parent { get; set; } = default;
+        public XMLIRWText Text { get; set; }
+        [Obsolete("Use the Text property.")]
         public XMLIRWValue Value { get; private set; }
         public override XmlNodeType Type { get; set; }
+        public override XMLIRW Parent { get; set; } = default;
+        public override string Name { get; set; } = string.Empty;
 
-        public XMLIRWComment(XMLIRW parent, XMLIRWValue value) : base(parent, "Comment", XmlNodeType.Comment) {
-            this.Value = value;
-        }
+        [Obsolete("Use the XMLIRWComment(XMLIRW, object) constructor.")]
+        public XMLIRWComment(XMLIRW parent, XMLIRWValue value) {}
+        [Obsolete("Use the XMLIRWComment(object) constructor.")]
+        public XMLIRWComment(XMLIRWValue value) {}
 
-        public XMLIRWComment(XMLIRWValue value) : this(default, value) {}
+        public XMLIRWComment(XMLIRW parent, object value) : base(parent, "#comment", XmlNodeType.Comment) 
+        { Text = new XMLIRWText(value); }
+        public XMLIRWComment(object value) : this((XMLIRW)null, value) {}
 
         ~XMLIRWComment()
             => Dispose(disposing: false);
@@ -23,10 +28,10 @@ namespace System.Xml {
         protected virtual void Dispose(bool disposing) {
             if (!disposedValue) {
                 if (disposing) {
-                    Value = XMLIRWValue.Empty;
                     Name = string.Empty;
                     Parent = default;
-                    Type = XmlNodeType.None;
+                    Type = default;
+                    Text = default;
                 }
                 disposedValue = true;
             }

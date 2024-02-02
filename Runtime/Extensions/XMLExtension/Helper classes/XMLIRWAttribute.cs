@@ -2,20 +2,24 @@ namespace System.Xml {
     /// <summary>
     /// Represents an XML element of type Attribute.
     /// </summary>
-    public class XMLIRWAttribute : XMLIRW {
+    public class XMLIRWAttribute : XMLIRW, ITextValue {
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
         private bool disposedValue;
 
+        [Obsolete("Use the Text property.")]
         public XMLIRWValue Value {get; set;}
-        public override string Name { get; set; } = string.Empty;
-        public override XMLIRW Parent { get; set; } = default;
+        public XMLIRWText Text { get; set; }
         public override XmlNodeType Type { get; set; }
+        public override XMLIRW Parent { get; set; } = default;
+        public override string Name { get; set; } = string.Empty;
 
-        public XMLIRWAttribute(XMLIRWElement parent, string name, XMLIRWValue value) : base(parent, name, XmlNodeType.Attribute) {
-            Value = value;
-        }
-        public XMLIRWAttribute(string name, XMLIRWValue value) : this(default, name, value) {}
-        public XMLIRWAttribute(XMLIRWElement parent, string name, object value) : this(parent, name, new XMLIRWValue(value)) {}
+        [Obsolete("Use the XMLIRWAttribute(XMLIRWElement, string, object) constructor.")]
+        public XMLIRWAttribute(XMLIRWElement parent, string name, XMLIRWValue value) {}
+        [Obsolete("Use the XMLIRWAttribute(string, object) constructor.")]
+        public XMLIRWAttribute(string name, XMLIRWValue value) {}
+
+        public XMLIRWAttribute(XMLIRWElement parent, string name, object value) : 
+            base(parent, name, XmlNodeType.Attribute) { Text = new XMLIRWText(value); }
         public XMLIRWAttribute(string name, object value) : this(default, name, value) {}
 
         ~XMLIRWAttribute() => Dispose(disposing: false);
@@ -26,7 +30,7 @@ namespace System.Xml {
                     Name = string.Empty;
                     Parent = default;
                     Type = default;
-                    Value = default;
+                    Text = default;
                 }
                 disposedValue = true;
             }

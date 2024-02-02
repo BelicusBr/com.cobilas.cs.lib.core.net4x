@@ -1,3 +1,14 @@
+# [01/02/2024] #1.3.1-rc2
+- ## Add
+The `XMLIRWDeclaration` class that represents an xml declaration has been added.<br>
+The `XMLIRWText` class that represents xml text has been added.<br>
+The `ITextValue` interface has been added.<br>
+- ## Obsolete
+The `XMLIRWValue` structure has been deprecated and replaced by the `XMLIRWText` class. In addition to the `XMLIRWValue` structure, functions, properties and constructors that use the `XMLIRWValue` structure have become obsolete.
+# [01/02/2024] #1.3.1-rc1
+- ## Fixed
+The XML extension has problems reading the xml file.<br>
+The constructor of the `ICollectionToIEnumerator` class had the `ArgumentException` problem due to the fact that the protected field `list` is not instantiated.
 # [26/01/2024] #1.3.0
 - ## Add
 The `TypeUtilitarian` class received a new function called `Type TypeUtilitarian.GetType(string fullName)`.

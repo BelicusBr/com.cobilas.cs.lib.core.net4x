@@ -5,11 +5,13 @@ using System.Collections.Generic;
 
 namespace System.Xml { 
     /// <summary>XML improved reader and writer element.</summary>
-    public class XMLIRWElement : XMLIRW, IXMLIRWCollection {
+    public class XMLIRWElement : XMLIRW, ITextValue, IXMLIRWCollection {
         private bool disposedValue;
         private XMLIRW[] itens;
 
+        public XMLIRWText Text { get; set; }
         /// <summary>Element name.</summary>
+        [Obsolete("Use the Text property.")]
         public XMLIRWValue Value { get; set; }
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
         public override string Name { get; set; } = string.Empty;
@@ -17,7 +19,7 @@ namespace System.Xml {
         public override XmlNodeType Type { get; set; }
 #pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
         /// <summary>Checks whether the element has a text value.</summary>
-        public bool ValueIsEmpty => Value == XMLIRWValue.Empty;
+        public bool ValueIsEmpty => Text is null || Text.IsNull;
         /// <summary>Checks whether the element has sub-elements or attributes.</summary>
         public bool IsEmpty => ArrayManipulation.EmpytArray(itens);
         /// <summary>Checks whether the element has attributes.</summary>
@@ -61,8 +63,9 @@ namespace System.Xml {
         }
 
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
-        public XMLIRWElement(XMLIRWElement parent, string name, XMLIRWValue value, XmlNodeType type, params XMLIRW[] itens)
-            : base(parent, name, type) {
+        [Obsolete("Use the XMLIRWElement(XMLIRW, string, object, params XMLIRW[]) constructor.")]
+        public XMLIRWElement(XMLIRW parent, string name, XMLIRWValue value, params XMLIRW[] itens)
+            : base(parent, name, XmlNodeType.Element) {
             Name = name;
             this.itens = itens;
             this.Value = value;
@@ -70,24 +73,29 @@ namespace System.Xml {
                 foreach (var item in itens)
                     item.Parent = this;
         }
-        public XMLIRWElement(XMLIRWElement parent, string name, object value, XmlNodeType type, params XMLIRW[] itens) : this(parent, name, new XMLIRWValue(value), type, itens) {}
-        public XMLIRWElement(XMLIRWElement parent, string name, XMLIRWValue value, params XMLIRW[] itens) : this(parent, name, value, XmlNodeType.None, itens) {}
-        public XMLIRWElement(XMLIRWElement parent, string name, object value, params XMLIRW[] itens) : this(parent, name, value, XmlNodeType.None, itens) {}
-        public XMLIRWElement(XMLIRWElement parent, string name, params XMLIRW[] itens) : this(parent, name, XMLIRWValue.Empty, itens) {}
-        public XMLIRWElement(XMLIRWElement parent, string name) : this(parent, name, Array.Empty<XMLIRW>()) {}
+        [Obsolete("Use the XMLIRWElement(XMLIRW, string, object) constructor.")]
+        public XMLIRWElement(XMLIRW parent, string name, XMLIRWValue value) : this(parent, name, value, null) {}
+        [Obsolete("Use the XMLIRWElement(string, object, params XMLIRW[]) constructor.")]
+        public XMLIRWElement(string name, XMLIRWValue value, params XMLIRW[] itens) : this(null, name, value, itens) {}
+        [Obsolete("Use the XMLIRWElement(string, object) constructor.")]
+        public XMLIRWElement(string name, XMLIRWValue value) : this(null, name, value, null) {}
 
-        public XMLIRWElement(XMLIRWElement parent, string name, XmlNodeType type, params XMLIRW[] itens) : this(parent, name, XMLIRWValue.Empty, type, itens) {}
-        public XMLIRWElement(XMLIRWElement parent, string name, XmlNodeType type) : this(parent, name, XMLIRWValue.Empty, type, Array.Empty<XMLIRW>()) {}
+        public XMLIRWElement(XMLIRW parent, string name, object value, params XMLIRW[] itens)
+            : base(parent, name, XmlNodeType.Element) {
+            Name = name;
+            this.itens = itens;
+            this.Text = new XMLIRWText(value);
+            if (!ArrayManipulation.EmpytArray(itens))
+                foreach (var item in itens)
+                    item.Parent = this;
+        }
+        public XMLIRWElement(XMLIRW parent, string name, object value) : this(parent, name, value, null) {}
+        public XMLIRWElement(XMLIRW parent, string name, params XMLIRW[] itens) : this(parent, name, null, itens) {}
 
-        public XMLIRWElement(string name, XmlNodeType type, params XMLIRW[] itens) : this(default, name, XMLIRWValue.Empty, type, itens) {}
-        public XMLIRWElement(string name, XmlNodeType type) : this(name, XMLIRWValue.Empty, type, Array.Empty<XMLIRW>()) {}
-
-        public XMLIRWElement(string name, XMLIRWValue value, XmlNodeType type, params XMLIRW[] itens) : this(default, name, value, type, itens) {}
-        public XMLIRWElement(string name, object value, XmlNodeType type, params XMLIRW[] itens) : this(name, new XMLIRWValue(value), type, itens) {}
-        public XMLIRWElement(string name, XMLIRWValue value, params XMLIRW[] itens) : this(name, value, XmlNodeType.None, itens) {}
-        public XMLIRWElement(string name, object value, params XMLIRW[] itens) : this(name, value, XmlNodeType.None, itens) {}
-        public XMLIRWElement(string name, params XMLIRW[] itens) : this(name, XMLIRWValue.Empty, itens) {}
-        public XMLIRWElement(string name) : this(name, Array.Empty<XMLIRW>()) {}
+        public XMLIRWElement(string name, object value, params XMLIRW[] itens) : this(null, name, value, itens) {}
+        public XMLIRWElement(string name, object value) : this(null, name, value, null) {}
+        public XMLIRWElement(string name, params XMLIRW[] itens) : this(null, name, null, itens) {}
+        public XMLIRWElement(string name) : this(null, name, null) {}
 
         ~XMLIRWElement() => Dispose(disposing: false);
 
@@ -119,7 +127,6 @@ namespace System.Xml {
                     Name = string.Empty;
                     Parent = default;
                     Type = default;
-                    Value = default;
                     ArrayManipulation.ClearArraySafe(ref itens);
                 }
                 disposedValue = true;
@@ -133,30 +140,34 @@ namespace System.Xml {
         private static string ToString(XMLIRW element, ulong tab) {
             StringBuilder builder = new StringBuilder();
 
-            builder.Append("//").Append(GetTab("=", tab)).AppendLine($"===[{element.Name}]=>");
-
             if (element is XMLIRWElement ele) {
-                builder.Append(GetTab(" ", tab)).AppendLine(ele.Value.ToString());
+                builder.Append(GetTab(" ", tab))
+                    .Append('>').AppendFormat("[{0}]", element.Name);
+                if (!ele.ValueIsEmpty) {
+                    builder.AppendLine(" {").AppendLine((string)ele.Text).Append(GetTab(" ", tab))
+                        .AppendLine("}");
+                } else builder.AppendLine(" {}");
                 foreach (var item in ele)
-                    ToString(item, tab + 1);
-            } else if (element is XMLIRWAttribute atri)
-                builder.Append("//").Append(GetTab("=", tab)).AppendLine($"===[attr][{atri.Name}]>\"{atri.Value}\"");
-            else if (element is XMLIRWComment com) 
-                builder.Append("//").Append(GetTab("=", tab)).AppendLine($"===[{com.Name}]>\"{com.Value}\"");
-            else if (element is XMLIRWCDATA cdata) 
-                builder.Append("//").Append(GetTab("=", tab)).AppendLine($"===[{cdata.Name}]>\"{cdata.Value}\"");
-            else if (element is XMLIRWDocType docType) {
-                builder.Append("//").Append(GetTab("=", tab)).AppendLine($"===[{docType.Name}]>");
-
-                builder.Append(GetTab(" ", tab + 2)).AppendLine($"[{docType.Name}][PudID]:{{{docType.PudID}}}");
-                builder.Append(GetTab(" ", tab + 2)).AppendLine($"[{docType.Name}][SysID]:{{{docType.SysID}}}");
-                builder.Append(GetTab(" ", tab + 2)).AppendLine($"[{docType.Name}][SubSet]:{{{docType.SubSet}}}");
-            
-                builder.Append("//").Append(GetTab("=", tab)).AppendLine($"===[{docType.Name}]<>");
+                    builder.Append(ToString(item, tab + 1));
+            } else if (element is XMLIRWComment cm) {
+                builder.Append(GetTab(" ", tab))
+                    .Append('>').AppendFormat("[{0}]", element.Name);
+                string txt = (string)cm.Text;
+                if (string.IsNullOrEmpty(txt)) builder.AppendLine(" {}");
+                else {
+                    builder.AppendLine(" {").AppendLine((string)cm.Text).Append(GetTab(" ", tab))
+                        .AppendLine("}");
+                }
+            } else if (element is XMLIRWCDATA cd) {
+                builder.Append(GetTab(" ", tab))
+                    .Append('>').AppendFormat("[{0}]", element.Name);
+                string txt = (string)cd.Text;
+                if (string.IsNullOrEmpty(txt)) builder.AppendLine(" {}");
+                else {
+                    builder.AppendLine(" {").AppendLine((string)cd.Text).Append(GetTab(" ", tab))
+                        .AppendLine("}");
+                }
             }
-
-            builder.Append("//").Append(GetTab("=", tab)).AppendLine($"===[{element.Name}]<>");
-
             return builder.ToString();
         }
 
