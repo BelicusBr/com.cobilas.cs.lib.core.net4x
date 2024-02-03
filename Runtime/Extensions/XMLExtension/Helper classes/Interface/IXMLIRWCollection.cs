@@ -18,8 +18,8 @@ namespace System.Xml {
         /// <summary>Gets the attributes on the element.</summary>
         IEnumerable<XMLIRW> Attributes {get;}
 
-#pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
-        bool Add(XMLIRWElement element);
-#pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
+        /// <summary>Adds a new XMLIRW element.</summary>
+        /// <returns>Returns <c>true</c> when the element is added XMLIRW.</returns>
+        bool Add(XMLIRW element);
     }
 }

@@ -1,80 +1,92 @@
+using System.Linq;
 using System.Text;
+using Cobilas.Collections;
 
 namespace System.Xml {
-#pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
+    /// <summary>
+    /// Extension that adds reading and writing functions for XML.
+    /// </summary>
     public static class CB_XML_Extension {
-#pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
         #region WriterXML
         /// <summary>
         /// Uses an <see cref="XMLIRWElement"/> to write to the xml document.
         /// </summary>
-        public static void WriterXMLIRW(this XmlWriter writer, XMLIRWElement element)
-            => xmlwriter(element, writer, 0UL);
+        public static void WriterXMLIRW(this XmlWriter writer, XMLIRWElement element) {
+            writer.WriteStartDocument();
+            if (writer.Settings.Indent)
+                writer.WriteWhitespace(writer.Settings.NewLineChars);
+            Xmlwriter(element, writer);
+            writer.WriteEndDocument();
+        }
     
-        private static void xmlwriter(XMLIRWElement element, XmlWriter writer, ulong layer) {
-            XmlWriterSettings settings = writer.Settings;
+        private static void Xmlwriter(XMLIRWElement element, XmlWriter writer, ulong level = 0UL) {
             if (element.IsEmpty) return;
-            foreach (var item in element) {
+            foreach (XMLIRW item in element) {
                 if (item is null)
                     throw new ArgumentNullException($"The element inside \"{element.Name}\" is null!");
-                switch (item.Type) {
-                    case XmlNodeType.ProcessingInstruction:
-                        if (settings.Indent)
-                            writer.WriteWhitespace(GetWhitespace(settings.IndentChars, layer));
-                        writer.WriteProcessingInstruction(item.Name, (string)(item as XMLIRWProcessingInstruction).Value);
-                        if (settings.Indent)
-                            writer.WriteWhitespace(settings.NewLineChars);
-                        break;
-                    case XmlNodeType.CDATA:
-                            if (settings.Indent)
-                                writer.WriteWhitespace(GetWhitespace(settings.IndentChars, layer));
-                            writer.WriteCData((string)(item as XMLIRWCDATA).Value);
-                            if (settings.Indent)
-                                writer.WriteWhitespace(settings.NewLineChars);
-                        break;
-                    case XmlNodeType.DocumentType:
-                            if (settings.Indent)
-                                writer.WriteWhitespace(GetWhitespace(settings.IndentChars, layer));
-                            XMLIRWDocType docType = item as XMLIRWDocType;
-                            writer.WriteDocType(docType.Name, (string)docType.PudID, (string)docType.SysID, (string)docType.SubSet);
-                            if (settings.Indent)
-                                writer.WriteWhitespace(settings.NewLineChars);
-                        break;
-                    case XmlNodeType.Comment:
-                            if (settings.Indent)
-                                writer.WriteWhitespace(GetWhitespace(settings.IndentChars, layer));
-                            writer.WriteComment((string)(item as XMLIRWComment).Value);
-                            if (settings.Indent)
-                                writer.WriteWhitespace(settings.NewLineChars);
-                        break;
-                    case XmlNodeType.Element:
-                        if (settings.Indent)
-                            writer.WriteWhitespace(GetWhitespace(settings.IndentChars, layer));
-                        XMLIRWElement elem = item as XMLIRWElement;
-                        writer.WriteStartElement(elem.Name);
-                        foreach (XMLIRWAttribute attri in elem.Attributes)
-                            writer.WriteAttributeString(attri.Name, (string)attri.Value);
-
-                        if (!elem.ValueIsEmpty) {
-                            writer.WriteString((string)elem.Value);
-                            if (settings.Indent)
-                                writer.WriteWhitespace(settings.NewLineChars);
-                        }
-                        xmlwriter(elem, writer, layer + 1);
-                        if (settings.Indent && !elem.NoElements)
-                            writer.WriteWhitespace(GetWhitespace(settings.IndentChars, layer));
-                        writer.WriteEndElement();
-                        if (settings.Indent)
-                            writer.WriteWhitespace(settings.NewLineChars);
-                        break;
+                if (item is XMLIRWProcessingInstruction pi) {
+                    if (writer.Settings.Indent)
+                        writer.WriteWhitespace(IndentLevel(level, writer.Settings.IndentChars));
+                    if (pi.IsAttributeList) {
+                        StringBuilder builder = new StringBuilder();
+                        foreach (XMLIRWAttribute attri in pi)
+                            builder.AppendFormat("{0}=\"{1}\" ", attri.Name, (string)attri.Text);
+                        writer.WriteProcessingInstruction(pi.Name, builder.ToString().TrimEnd());
+                    } else {
+                        writer.WriteProcessingInstruction(pi.Name, (string)pi.Text);
+                    }
+                    if (writer.Settings.Indent)
+                        writer.WriteWhitespace(writer.Settings.NewLineChars);
+                } else if (item is XMLIRWComment cm) {
+                    if (writer.Settings.Indent)
+                        writer.WriteWhitespace(IndentLevel(level, writer.Settings.IndentChars));
+                    writer.WriteComment((string)cm.Text);
+                    if (writer.Settings.Indent)
+                        writer.WriteWhitespace(writer.Settings.NewLineChars);
+                } else if (item is XMLIRWCDATA cd) {
+                    if (writer.Settings.Indent)
+                        writer.WriteWhitespace(IndentLevel(level, writer.Settings.IndentChars));
+                    writer.WriteCData((string)cd.Text);
+                    if (writer.Settings.Indent)
+                        writer.WriteWhitespace(writer.Settings.NewLineChars);
+                } else if (item is XMLIRWDocType doc) {
+                    if (writer.Settings.Indent)
+                        writer.WriteWhitespace(IndentLevel(level, writer.Settings.IndentChars));
+                    writer.WriteDocType(doc.Name, (string)doc.PudID, (string)doc.SysID, (string)doc.SubSet);
+                    if (writer.Settings.Indent)
+                        writer.WriteWhitespace(writer.Settings.NewLineChars);
+                }  else if (item is XMLIRWElement ele) {
+                    if (writer.Settings.Indent)
+                        writer.WriteWhitespace(IndentLevel(level, writer.Settings.IndentChars));
+                    writer.WriteStartElement(ele.Name);
+                    if (!ele.NoAttributes)
+                        foreach (XMLIRWAttribute attris in ele.Attributes.Cast<XMLIRWAttribute>()) 
+                            writer.WriteAttributeString(attris.Name, (string)attris.Text);
+                    bool noText = false;
+                    if (!ele.ValueIsEmpty) {
+                        noText = true;
+                        writer.WriteString((string)ele.Text);
+                        if (writer.Settings.Indent && !ele.NoElements)
+                            writer.WriteWhitespace(writer.Settings.NewLineChars);
+                    }
+                    if (!ele.NoElements) {
+                        if (writer.Settings.Indent && !noText)
+                            writer.WriteWhitespace(writer.Settings.NewLineChars);
+                        Xmlwriter(ele, writer, level + 1);
+                    }
+                    if (writer.Settings.Indent && !ele.NoElements)
+                        writer.WriteWhitespace(IndentLevel(level, writer.Settings.IndentChars));
+                    writer.WriteEndElement();
+                    if (writer.Settings.Indent)
+                        writer.WriteWhitespace(writer.Settings.NewLineChars);
                 }
             }
         }
 
-        private static string GetWhitespace(string IndentChars, ulong layer) {
+        private static string IndentLevel(ulong level, string text) {
             StringBuilder builder = new StringBuilder();
-            for (ulong I = 0; I < layer; I++)
-                builder.Append(IndentChars);
+            for (ulong I = 0; I < level; I++)
+                builder.Append(text);
             return builder.ToString();
         }
     #endregion
@@ -84,61 +96,46 @@ namespace System.Xml {
         /// </summary>
         public static XMLIRWElement ReadXMLIRW(this XmlReader reader) {
             XMLIRWElement element = new XMLIRWElement("Root");
-            ulong cdata = 0;
-            XMLIRWElement[] attributes;
-            while (reader.Read()) {
-                switch (reader.NodeType) {
-                    case XmlNodeType.ProcessingInstruction:
-                        attributes = new XMLIRWElement[reader.AttributeCount];
-                        if(reader.AttributeCount != 0) {
-                            for (int I = 0; I < reader.AttributeCount; I++) {
-                                reader.MoveToAttribute(I);
-                                attributes[I] = new XMLIRWElement(reader.Name, reader.Value, XmlNodeType.Attribute, default);
-                            }
-                            reader.MoveToElement();
+            XmlDocument document = new XmlDocument();
+            document.Load(reader);
+            SetXMLIRWElement(document, element);
+            return element;
+        }
+
+        private static void SetXMLIRWElement(XmlNode document, XMLIRWElement root) {
+            foreach (XmlNode node in document) {
+                if (node is XmlDeclaration dec)
+                    root.Add(new XMLIRWDeclaration(dec.Version, dec.Encoding, dec.Standalone));
+                else if (node is XmlDocumentType doc)
+                    root.Add(new XMLIRWDocType(node.LocalName, doc.PublicId, doc.SystemId, doc.InternalSubset));
+                else if (node is XmlCDataSection cd)
+                    root.Add(new XMLIRWCDATA(cd.Value));
+                else if (node is XmlProcessingInstruction pi) {
+                    if (!ArrayManipulation.EmpytArray(pi.Attributes)) {
+                        XMLIRWAttribute[] attributes = new XMLIRWAttribute[pi.Attributes.Count];
+                        for (int I = 0; I < pi.Attributes.Count; I++) {
+                            XmlAttribute attribute = pi.Attributes[I];
+                            attributes[I] = new XMLIRWAttribute(attribute.LocalName, attribute.InnerText);
                         }
-                        element.Add(new XMLIRWElement(reader.Name, XmlNodeType.ProcessingInstruction, attributes));
-                        break;
-                    case XmlNodeType.XmlDeclaration:
-                        attributes = new XMLIRWElement[reader.AttributeCount];
-                        if(reader.AttributeCount != 0) {
-                            for (int I = 0; I < reader.AttributeCount; I++) {
-                                reader.MoveToAttribute(I);
-                                attributes[I] = new XMLIRWElement(reader.Name, reader.Value, XmlNodeType.Attribute, default);
-                            }
-                            reader.MoveToElement();
+                        root.Add(new XMLIRWProcessingInstruction(pi.Target, attributes));
+                    } else root.Add(new XMLIRWProcessingInstruction(pi.Target, pi.Data));
+                } else if (node is XmlComment cm) 
+                    root.Add(new XMLIRWComment(cm.InnerText));
+                else if (node is XmlText text) {
+                    root.Add(new XMLIRWText(text.Data));
+                } else if (node is XmlElement ele) {
+                    XMLIRWElement element = new XMLIRWElement(ele.LocalName);
+                    if (ele.Attributes.Count != 0)
+                        for (int I = 0; I < ele.Attributes.Count; I++) {
+                            XmlAttribute attribute = ele.Attributes[I];
+                            element.Add(new XMLIRWAttribute(attribute.LocalName, attribute.InnerText));
                         }
-                        element.Add(new XMLIRWElement(reader.Name, XmlNodeType.XmlDeclaration, attributes));
-                        break;
-                    case XmlNodeType.CDATA:
-                        element.Add(new XMLIRWElement($"CDATA:{cdata}", reader.Value, XmlNodeType.CDATA, default));
-                        ++cdata;
-                        break;
-                    case XmlNodeType.DocumentType:
-                        element.Add(new XMLIRWElement(reader.Name, reader.Value, XmlNodeType.DocumentType, default));
-                        break;
-                    case XmlNodeType.Element:
-                        attributes = new XMLIRWElement[reader.AttributeCount];
-                        if(reader.AttributeCount != 0) {
-                            for (int I = 0; I < reader.AttributeCount; I++) {
-                                reader.MoveToAttribute(I);
-                                attributes[I] = new XMLIRWElement(reader.Name, reader.Value, XmlNodeType.Attribute, default);
-                            }
-                            reader.MoveToElement();
-                        }
-                        if (reader.IsEmptyElement)
-                            element.Add(new XMLIRWElement(reader.Name, XmlNodeType.Element, attributes));
-                        else element.Add(element = new XMLIRWElement(reader.Name, XmlNodeType.Element, attributes));
-                        break;
-                    case XmlNodeType.Text:
-                        element.Value = new XMLIRWValue(reader.Value);
-                        break;
-                    case XmlNodeType.EndElement:
-                            element = element.Parent as XMLIRWElement;
-                        break;
+                    if (ele.ChildNodes.Count != 0) {
+                        SetXMLIRWElement(ele, element);
+                    }
+                    root.Add(element);
                 }
             }
-            return element;
         }
     #endregion
     }

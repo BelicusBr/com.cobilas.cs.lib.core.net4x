@@ -21,7 +21,7 @@ namespace Cobilas.IO.Serialization.Json {
         /// <param name="value">The object to serialize.</param>
         /// <param name="Indented">This parameter allows you to format the json file.</param>
         public static string Serialize(object value, bool Indented) {
-            JsonSerializerSettings resolver = new() {
+            JsonSerializerSettings resolver = new JsonSerializerSettings() {
                 ContractResolver = new JsonContractResolver(),
                 Formatting = Indented ? Formatting.Indented : Formatting.None
             };
@@ -42,14 +42,14 @@ namespace Cobilas.IO.Serialization.Json {
         /// <param name="settings">The Newtonsoft.Json.JsonSerializerSettings used to deserialize the object. If
         /// this is null, default serialization settings will be used.</param>
         public static object Deserialize(string value, JsonSerializerSettings settings)
-            => JsonConvert.DeserializeObject(value, settings)!;
+            => JsonConvert.DeserializeObject(value, settings);
 
         /// <summary>
         /// Deserializes the JSON to a .NET object using <see cref="JsonSerializerSettings"/>.
         /// </summary>
         /// <param name="value">The JSON to deserialize.</param>
         public static object Deserialize(string value) {
-            JsonSerializerSettings resolver = new() {
+            JsonSerializerSettings resolver = new JsonSerializerSettings() {
                 ContractResolver = new JsonContractResolver()
             };
             return Deserialize(value, resolver);
@@ -62,14 +62,14 @@ namespace Cobilas.IO.Serialization.Json {
         /// <param name="settings">The Newtonsoft.Json.JsonSerializerSettings used to deserialize the object. If
         /// this is null, default serialization settings will be used.</param>
         public static T Deserialize<T>(string value, JsonSerializerSettings settings)
-            => JsonConvert.DeserializeObject<T>(value, settings)!;
+            => JsonConvert.DeserializeObject<T>(value, settings);
 
         /// <summary>
         /// Deserializes the JSON to a .NET object using <see cref="JsonSerializerSettings"/>.
         /// </summary>
         /// <param name="value">The JSON to deserialize.</param>
         public static T Deserialize<T>(string value) {
-            JsonSerializerSettings resolver = new() {
+            JsonSerializerSettings resolver = new JsonSerializerSettings() {
                 ContractResolver = new JsonContractResolver()
             };
             return Deserialize<T>(value, resolver);
