@@ -8,3 +8,4 @@ Test/
 *.sln.meta
 *.tgz
 *.tgz.meta
+*.ps1

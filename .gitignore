@@ -1,4 +1,9 @@
 .libs/
 bin/
 obj/
+Test/
 *.sln
+*.sln.meta
+*.tgz
+*.tgz.meta
+*.ps1
