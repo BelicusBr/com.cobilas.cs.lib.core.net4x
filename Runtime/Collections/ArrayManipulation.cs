@@ -15,7 +15,7 @@ namespace Cobilas.Collections {
         /// <param name="index">The index of the list where the items will be inserted.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static T[] Insert<T>(T[] itens, int index, T[] list) {
+        public static T[] Insert<T>(T[] itens, long index, T[] list) {
             if (itens is null) throw ArrayNullException;
             else if (itens.Length == 0)
                 return list;
@@ -33,7 +33,7 @@ namespace Cobilas.Collections {
         /// <param name="index">The index of the list where the items will be inserted.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static T[] Insert<T>(T item, int index, T[] list)
+        public static T[] Insert<T>(T item, long index, T[] list)
             => Insert<T>(new T[] { item }, index, list);
 
         /// <summary>Insert a list of items at a given index into a target array.</summary>
@@ -41,7 +41,7 @@ namespace Cobilas.Collections {
         /// <param name="index">The index of the list where the items will be inserted.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static T[] Insert<T>(IEnumerator<T> itens, int index, T[] list) {
+        public static T[] Insert<T>(IEnumerator<T> itens, long index, T[] list) {
             while (itens.MoveNext())
                 list = Insert<T>(itens.Current, index, list);
             return list;
@@ -52,7 +52,7 @@ namespace Cobilas.Collections {
         /// <param name="index">The index of the list where the items will be inserted.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void Insert<T>(T[] itens, int index, ref T[] list)
+        public static void Insert<T>(T[] itens, long index, ref T[] list)
             => list = Insert<T>(itens, index, list);
 
         /// <summary>Insert a list of items at a given index into a target array.</summary>
@@ -60,7 +60,7 @@ namespace Cobilas.Collections {
         /// <param name="index">The index of the list where the items will be inserted.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void Insert<T>(T item, int index, ref T[] list)
+        public static void Insert<T>(T item, long index, ref T[] list)
             => list = Insert<T>(item, index, list);
 
         /// <summary>Adds a list of items to the target list.
@@ -132,13 +132,13 @@ namespace Cobilas.Collections {
         /// <param name="list">The list from which items will be removed.</param>
         /// <exception cref="ArgumentNullException"/>
         /// <exception cref="IndexOutOfRangeException"/>
-        public static T[] Remove<T>(int index, int length, T[] list) {
+        public static T[] Remove<T>(long index, long length, T[] list) {
             if (list is null) throw ArrayNullException;
-            else if (list.Length == 0) return list;
+            else if (list.LongLength == 0) return list;
 
-            T[] newList = new T[list.Length - length];
+            T[] newList = new T[list.LongLength - length];
             Array.Copy(list, 0, newList, 0, index);
-            Array.Copy(list, index + length, newList, index, list.Length - (index + length));
+            Array.Copy(list, index + length, newList, index, list.LongLength - (index + length));
             return newList;
         }
 
@@ -148,7 +148,7 @@ namespace Cobilas.Collections {
         /// <param name="list">The list from which items will be removed.</param>
         /// <exception cref="ArgumentNullException"/>
         /// <exception cref="IndexOutOfRangeException"/>
-        public static void Remove<T>(int index, int length, ref T[] list)
+        public static void Remove<T>(long index, long length, ref T[] list)
             => list = Remove<T>(index, length, list);
 
         /// <summary>Remove items from the target list.</summary>
@@ -156,15 +156,15 @@ namespace Cobilas.Collections {
         /// <param name="list">The list from which items will be removed.</param>
         /// <exception cref="ArgumentNullException"/>
         /// <exception cref="IndexOutOfRangeException"/>
-        public static T[] Remove<T>(int index, T[] list)
-            => Remove<T>(index, 1, list);
+        public static T[] Remove<T>(long index, T[] list)
+            => Remove<T>(index, 1L, list);
 
         /// <summary>Remove items from the target list.</summary>
         /// <param name="index">The target index to remove from the target list.</param>
         /// <param name="list">The list from which items will be removed.</param>
         /// <exception cref="ArgumentNullException"/>
         /// <exception cref="IndexOutOfRangeException"/>
-        public static void Remove<T>(int index, ref T[] list)
+        public static void Remove<T>(long index, ref T[] list)
             => list = Remove<T>(index, list);
 
         /// <summary>Remove items from the target list.</summary>
@@ -254,7 +254,7 @@ namespace Cobilas.Collections {
         /// <param name="part2"></param>
         /// <exception cref="ArgumentNullException"/>
         /// <exception cref="IndexOutOfRangeException"/>
-        public static void SeparateList<T>(T[] list, int separationIndex, out T[] part1, out T[] part2) {
+        public static void SeparateList<T>(T[] list, long separationIndex, out T[] part1, out T[] part2) {
             if (list is null) throw ArrayNullException;
             else if (list.Length < 2) {
                 part1 = list;
@@ -274,7 +274,7 @@ namespace Cobilas.Collections {
         /// <exception cref="ArgumentNullException"/>
         /// <exception cref="ArgumentException"/>
         /// <exception cref="IndexOutOfRangeException"/>
-        public static T[] TakeStretch<T>(int index, int length, T[] list) {
+        public static T[] TakeStretch<T>(long index, long length, T[] list) {
             if (list is null) throw ArrayNullException;
             else if (list.Length == 0) throw new ArgumentException("The array cannot be empty.");
 
