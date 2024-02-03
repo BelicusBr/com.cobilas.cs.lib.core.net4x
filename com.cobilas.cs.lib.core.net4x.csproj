@@ -7,7 +7,7 @@
 		<OutputPath>.libs/bin</OutputPath>
 		<BaseIntermediateOutputPath>.libs/obj</BaseIntermediateOutputPath>
   	  	<LangVersion>7.3</LangVersion>
-  	  	<Nullable>enable</Nullable>
+  	  	<!-- <Nullable>disable</Nullable> -->
 		<NoWarn>IDE0290;IDE0028;IDE0300</NoWarn>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
@@ -15,7 +15,7 @@
 		<Authors>BélicusBr</Authors>
 		<PackageId>Cobilas.Core.Net4x</PackageId>
 		<PackageDescription>NuGet C# package for general use in apps and games.</PackageDescription>
-		<PackageVersion>1.3.0</PackageVersion>
+		<PackageVersion>1.3.1</PackageVersion>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/BelicusBr/com.cobilas.cs.lib.core.net4x</RepositoryUrl>

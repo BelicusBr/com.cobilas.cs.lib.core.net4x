@@ -11,11 +11,11 @@ namespace Cobilas.IO.Serialization.Json {
     
         /// <inheritdoc/>
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization) {
-            List<JsonProperty> props = new();
+            List<JsonProperty> props = new List<JsonProperty>();
             if (type.GetCustomAttribute<SerializableAttribute>() is null)
                 return props;
 
-            List<FieldInfo> fields = new();
+            List<FieldInfo> fields = new List<FieldInfo>();
             Type temp = type;
             while (temp != null) {
 
