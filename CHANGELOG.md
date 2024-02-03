@@ -1,3 +1,6 @@
+# [03/02/2024] #1.4.0-rc1
+- ## Removed
+The `IReadOnlyArray` and `IReadOnlyArray<T>` interfaces have been removed using the `IReadOnlyLongList` or `IReadOnlyList` interface.
 # [01/02/2024] #1.3.1-rc2
 - ## Add
 The `XMLIRWDeclaration` class that represents an xml declaration has been added.<br>
