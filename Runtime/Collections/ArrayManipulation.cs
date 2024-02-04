@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 namespace Cobilas.Collections { 
     /// <summary>Array manipulation class.</summary>
@@ -17,14 +18,14 @@ namespace Cobilas.Collections {
         /// <exception cref="ArgumentNullException"></exception>
         public static T[] Insert<T>(T[] itens, long index, T[] list) {
             if (itens is null) throw ArrayNullException;
-            else if (itens.Length == 0)
+            else if (itens.LongLength == 0)
                 return list;
             list = list is null ? Array.Empty<T>() : list;
 
-            T[] newList = new T[list.Length + itens.Length];
+            T[] newList = new T[list.LongLength + itens.LongLength];
             Array.Copy(list, 0, newList, 0, index);
-            Array.Copy(itens, 0, newList, index, itens.Length);
-            Array.Copy(list, index, newList, itens.Length + index, list.Length - index);
+            Array.Copy(itens, 0, newList, index, itens.LongLength);
+            Array.Copy(list, index, newList, itens.LongLength + index, list.LongLength - index);
             return newList;
         }
 
@@ -89,14 +90,14 @@ namespace Cobilas.Collections {
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public static T[] Add<T>(T[] itens, T[] list)
-            => Insert<T>(itens, ArrayLength(list), list);
+            => Insert<T>(itens, ArrayLongLength(list), list);
 
         /// <summary>Adds a list of items to the target list.</summary>
         /// <param name="itens">The items that will be inserted into the list.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public static T[] Add<T>(IEnumerator<T> itens, T[] list)
-            => Insert<T>(itens, ArrayLength(list), list);
+            => Insert<T>(itens, ArrayLongLength(list), list);
 
         /// <summary>Adds a list of items to the target list.</summary>
         /// <param name="itens">The items that will be inserted into the list.</param>
@@ -110,21 +111,21 @@ namespace Cobilas.Collections {
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public static T[] Add<T>(T item, T[] list)
-            => Insert<T>(item, ArrayLength(list), list);
+            => Insert<T>(item, ArrayLongLength(list), list);
 
         /// <summary>Adds a list of items to the target list.</summary>
         /// <param name="itens">The items that will be inserted into the list.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public static void Add<T>(T[] itens, ref T[] list)
-            => Insert<T>(itens, ArrayLength(list), ref list);
+            => Insert<T>(itens, ArrayLongLength(list), ref list);
 
         /// <summary>Adds a list of items to the target list.</summary>
         /// <param name="item">The item that will be inserted into the list.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public static void Add<T>(T item, ref T[] list)
-            => Insert<T>(item, ArrayLength(list), ref list);
+            => Insert<T>(item, ArrayLongLength(list), ref list);
 
         /// <summary>Remove items from the target list.</summary>
         /// <param name="index">The target index to remove from the target list.</param>
@@ -173,7 +174,7 @@ namespace Cobilas.Collections {
         /// <exception cref="ArgumentNullException"/>
         /// <exception cref="IndexOutOfRangeException"/>
         public static T[] Remove<T>(T item, T[] list)
-            => Remove<T>(IndexOf(item, list), list);
+            => Remove<T>(LongIndexOf(item, list), list);
 
         /// <summary>Remove items from the target list.</summary>
         /// <param name="item">The target item to remove from the target list.</param>
@@ -182,6 +183,31 @@ namespace Cobilas.Collections {
         /// <exception cref="IndexOutOfRangeException"/>
         public static void Remove<T>(T item, ref T[] list)
             => list = Remove<T>(item, list);
+
+        /// <summary>Array cleaning.</summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void ClearArray(Array array, long index, long length) {
+            if (array == null)
+                throw new ArgumentNullException("array", new ArgumentNullException());
+            else if (array.Rank != 1)
+                throw new RankException("The array cannot be multi-dimensional.");
+            else if (index < 0 || index >= array.LongLength)
+                throw new ArgumentOutOfRangeException("index", new ArgumentOutOfRangeException());
+            else if (length < 0 || length > array.LongLength || index + length > array.LongLength)
+                throw new ArgumentOutOfRangeException("length", new ArgumentOutOfRangeException());
+            
+            for (long I = index; I < length; I++)
+                array.SetValue(default, I);
+        }
+
+        /// <summary>Array cleaning.</summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void LongClearArray(Array array)
+            => ClearArray(array, 0L, ArrayLongLength(array));
 
         /// <summary>Array cleaning.</summary>
         /// <exception cref="ArgumentNullException"/>
@@ -193,6 +219,22 @@ namespace Cobilas.Collections {
         /// <exception cref="ArgumentNullException"/>
         public static void ClearArray(Array array)
             => ClearArray(array, 0, array.Length);
+
+        /// <summary>Array cleaning.</summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void ClearArray<T>(long index, long length, ref T[] array) {
+            ClearArray(array, index, length);
+            array = Array.Empty<T>();
+        }
+
+        /// <summary>Array cleaning.</summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void LongClearArray<T>(ref T[] array)
+            => ClearArray(0, ArrayLongLength(array), ref array);
 
         /// <summary>Array cleaning.
         /// <para>In addition to clearing the array, it returns an empty array.</para>
@@ -214,6 +256,28 @@ namespace Cobilas.Collections {
         /// <summary>Array cleaning.
         /// <para>It will only perform cleaning if the array is not null.</para>
         /// </summary>
+        /// <exception cref="ArgumentNullException"/>
+        /// <exception cref="RankException"/>
+        /// <exception cref="IndexOutOfRangeException"/>
+        public static void ClearArraySafe(Array array, long index, long length) {
+            if (!EmpytArray(array))
+                ClearArray(array, index, length);
+        }
+        
+        /// <summary>Array cleaning.
+        /// <para>It will only perform cleaning if the array is not null.</para>
+        /// </summary>
+        /// <exception cref="ArgumentNullException"/>
+        /// <exception cref="RankException"/>
+        /// <exception cref="IndexOutOfRangeException"/>
+        public static void LongClearArraySafe(Array array) {
+            if (!EmpytArray(array))
+                LongClearArray(array);
+        }
+
+        /// <summary>Array cleaning.
+        /// <para>It will only perform cleaning if the array is not null.</para>
+        /// </summary>
         /// <exception cref="IndexOutOfRangeException"/>
         public static void ClearArraySafe(Array array, int index, int length) {
             if (!EmpytArray(array))
@@ -226,6 +290,30 @@ namespace Cobilas.Collections {
         public static void ClearArraySafe(Array array) {
             if (!EmpytArray(array))
                 ClearArray(array);
+        }
+
+        /// <summary>Array cleaning.
+        /// <para>In addition to clearing the array, it returns an empty array.</para>
+        /// <para>It will only perform cleaning if the array is not null.</para>
+        /// </summary>
+        /// <exception cref="ArgumentNullException"/>
+        /// <exception cref="RankException"/>
+        /// <exception cref="IndexOutOfRangeException"/>
+        public static void ClearArraySafe<T>(long index, long length, ref T[] array) {
+            if (!EmpytArray(array))
+                ClearArray(index, length, ref array);
+        }
+        
+        /// <summary>Array cleaning.
+        /// <para>In addition to clearing the array, it returns an empty array.</para>
+        /// <para>It will only perform cleaning if the array is not null.</para>
+        /// </summary>
+        /// <exception cref="ArgumentNullException"/>
+        /// <exception cref="RankException"/>
+        /// <exception cref="IndexOutOfRangeException"/>
+        public static void LongClearArraySafe<T>(ref T[] array) {
+            if (!EmpytArray(array))
+                LongClearArray(ref array);
         }
 
         /// <summary>Array cleaning.
@@ -256,14 +344,14 @@ namespace Cobilas.Collections {
         /// <exception cref="IndexOutOfRangeException"/>
         public static void SeparateList<T>(T[] list, long separationIndex, out T[] part1, out T[] part2) {
             if (list is null) throw ArrayNullException;
-            else if (list.Length < 2) {
+            else if (list.LongLength < 2) {
                 part1 = list;
                 part2 = Array.Empty<T>();
                 return;
             }
 
             Array.Copy(list, 0, part1 = new T[separationIndex + 1], 0, separationIndex + 1);
-            Array.Copy(list, separationIndex + 1, part2 = new T[list.Length - (separationIndex + 1)], 0, list.Length - (separationIndex + 1));
+            Array.Copy(list, separationIndex + 1, part2 = new T[list.LongLength - (separationIndex + 1)], 0, list.LongLength - (separationIndex + 1));
         }
 
         /// <summary>This function performs a cut in a list.</summary>
@@ -276,7 +364,7 @@ namespace Cobilas.Collections {
         /// <exception cref="IndexOutOfRangeException"/>
         public static T[] TakeStretch<T>(long index, long length, T[] list) {
             if (list is null) throw ArrayNullException;
-            else if (list.Length == 0) throw new ArgumentException("The array cannot be empty.");
+            else if (list.LongLength == 0) throw new ArgumentException("The array cannot be empty.");
 
             T[] Res = new T[length];
             CopyTo(list, index, Res, 0, length);
@@ -299,6 +387,60 @@ namespace Cobilas.Collections {
         /// <summary>
         /// Searches for the specified object and returns the index of its first occurrence in a one-dimensional array or a range of elements in the array.
         /// </summary>
+        public static long IndexOf(object item, Array array, long index, long length) {
+            if (array == null)
+                throw new ArgumentNullException("array", new ArgumentNullException());
+            else if (array.Rank != 1)
+                throw new RankException("The array cannot be multi-dimensional.");
+            else if (index < 0 || index >= array.LongLength)
+                throw new ArgumentOutOfRangeException("index", new ArgumentOutOfRangeException());
+            else if (length < 0 || length > array.LongLength || index + length > array.LongLength)
+                throw new ArgumentOutOfRangeException("length", new ArgumentOutOfRangeException());
+            else if (array.LongLength == 0) return -1;
+
+            object[] obj_array = array as object[];
+            long endIndex = index + length;
+            if (obj_array != null) {
+                for (long I = index; I < endIndex; I++)
+                    if (item is null) {
+                        if (obj_array[I] is null) return I;
+                    } else {
+                        object temp = obj_array[I];
+                        if (temp != null && temp.Equals(item)) return I;
+                    }
+            } else {
+                for (long I = index; I < endIndex; I++) {
+                    object temp = array.GetValue(I);
+                    if (item is null) {
+                        if (temp is null) return I;
+                    } else {
+                        if (temp != null && temp.Equals(item)) return I;
+                    }
+                }
+            }
+            return -1L;
+        }
+
+        /// <summary>
+        /// Searches for the specified object and returns the index of its first occurrence in a one-dimensional array or a range of elements in the array.
+        /// </summary>
+        public static long IndexOf(object item, Array array, long index) {
+            if (array == null)
+                throw new ArgumentNullException("array", new ArgumentNullException());
+            else if (array.Rank != 1)
+                throw new RankException("The array cannot be multi-dimensional.");
+            return IndexOf(item, array, index, array.LongLength - index);
+        }
+
+        /// <summary>
+        /// Searches for the specified object and returns the index of its first occurrence in a one-dimensional array or a range of elements in the array.
+        /// </summary>
+        public static long LongIndexOf(object item, Array array)
+            => IndexOf(item, array, 0L);
+
+        /// <summary>
+        /// Searches for the specified object and returns the index of its first occurrence in a one-dimensional array or a range of elements in the array.
+        /// </summary>
         public static int IndexOf(object item, Array array, int index, int length)
             => Array.IndexOf(array, item, index, length);
 
@@ -317,6 +459,60 @@ namespace Cobilas.Collections {
         /// <summary>
         /// Returns the index of the last occurrence of a value in a one-dimensional Array or part of the Array.
         /// </summary>
+        public static long LastIndexOf(object item, Array array, long index, long length) {
+            if (array == null)
+                throw new ArgumentNullException("array", new ArgumentNullException());
+            else if (array.Rank != 1)
+                throw new RankException("The array cannot be multi-dimensional.");
+            else if (index < 0 || index >= array.LongLength)
+                throw new ArgumentOutOfRangeException("index", new ArgumentOutOfRangeException());
+            else if (length < 0 || length > array.LongLength || index + length > array.LongLength)
+                throw new ArgumentOutOfRangeException("length", new ArgumentOutOfRangeException());
+            else if (array.LongLength == 0) return -1;
+
+            object[] obj_array = array as object[];
+            long endIndex = length;
+            if (obj_array != null) {
+                for (long I = index; I >= endIndex ; I--)
+                    if (item is null) {
+                        if (obj_array[I] is null) return I;
+                    } else {
+                        object temp = obj_array[I];
+                        if (temp != null && temp.Equals(item)) return I;
+                    }
+            } else {
+                for (long I = index; I >= endIndex ; I--) {
+                    object temp = array.GetValue(I);
+                    if (item is null) {
+                        if (temp is null) return I;
+                    } else {
+                        if (temp != null && temp.Equals(item)) return I;
+                    }
+                }
+            }
+            return -1L;
+        }
+
+        /// <summary>
+        /// Returns the index of the last occurrence of a value in a one-dimensional Array or part of the Array.
+        /// </summary>
+        public static long LastIndexOf(object item, Array array, long index) {
+            if (array == null)
+                throw new ArgumentNullException("array", new ArgumentNullException());
+            else if (array.Rank != 1)
+                throw new RankException("The array cannot be multi-dimensional.");
+            return LastIndexOf(item, array, array.LongLength - index, index);
+        }
+
+        /// <summary>
+        /// Returns the index of the last occurrence of a value in a one-dimensional Array or part of the Array.
+        /// </summary>
+        public static long LongLastIndexOf(object item, Array array)
+            => LastIndexOf(item, array, 0L);
+
+        /// <summary>
+        /// Returns the index of the last occurrence of a value in a one-dimensional Array or part of the Array.
+        /// </summary>
         public static int LastIndexOf(object item, Array array, int index, int length)
             => Array.LastIndexOf(array, item, index, length);
 
@@ -331,6 +527,61 @@ namespace Cobilas.Collections {
         /// </summary>
         public static int LastIndexOf(object item, Array array)
             => Array.LastIndexOf(array, item);
+
+        /// <summary>
+        /// Searches for an element that matches the conditions defined by the specified predicate and returns
+        /// the zero-based index of the first occurrence within the range of elements in the Array that starts
+        /// at the specified index and contains the specified number of elements.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static long FindIndex<T>(T[] array, long index, long length, Predicate<T> match) {
+            if (array == null)
+                throw new ArgumentNullException("array", new ArgumentNullException());
+            else if (match == null)
+                throw new ArgumentNullException("match", new ArgumentNullException());
+            else if (array.Rank != 1)
+                throw new RankException("The array cannot be multi-dimensional.");
+            else if (index < 0 || index >= array.LongLength)
+                throw new ArgumentOutOfRangeException("index", new ArgumentOutOfRangeException());
+            else if (length < 0 || length > array.LongLength || index + length > array.LongLength)
+                throw new ArgumentOutOfRangeException("length", new ArgumentOutOfRangeException());
+            else if (array.LongLength == 0) return -1;
+
+            long endIndex = index + length;
+            for (long I = index; I < endIndex; I++)
+                if (match(array[I])) return I;
+
+            return -1;
+        }
+
+        /// <summary>
+        /// Searches for an element that matches the conditions defined by the specified predicate and returns
+        /// the zero-based index of the first occurrence within the range of elements in the Array that starts
+        /// at the specified index and contains the specified number of elements.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static long FindIndex<T>(T[] array, long index, Predicate<T> match) {
+            if (array == null)
+                throw new ArgumentNullException("array", new ArgumentNullException());
+            else if (array.Rank != 1)
+                throw new RankException("The array cannot be multi-dimensional.");
+            return FindIndex<T>(array, index, array.LongLength - index, match);
+        }
+
+        /// <summary>
+        /// Searches for an element that matches the conditions defined by the specified predicate and returns
+        /// the zero-based index of the first occurrence within the range of elements in the Array that starts
+        /// at the specified index and contains the specified number of elements.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static long LongFindIndex<T>(T[] array, Predicate<T> match)
+            => FindIndex<T>(array, 0L, match);
 
         /// <summary>
         /// Searches for an element that matches the conditions defined by the specified predicate and returns
@@ -356,11 +607,69 @@ namespace Cobilas.Collections {
         public static int FindIndex<T>(T[] array, Predicate<T> match)
             => Array.FindIndex<T>(array, match);
 
+
         /// <summary>
         /// Searches for an element that matches the conditions defined by a
         /// specified predicate and returns the zero-based index of the last
         /// occurrence in an Array or part of it.
         /// </summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static long FindLastIndex<T>(T[] array, long index, long length, Predicate<T> match) {
+            if (array == null)
+                throw new ArgumentNullException("array", new ArgumentNullException());
+            else if (match == null)
+                throw new ArgumentNullException("match", new ArgumentNullException());
+            else if (array.Rank != 1)
+                throw new RankException("The array cannot be multi-dimensional.");
+            else if (index < 0 || index >= array.LongLength)
+                throw new ArgumentOutOfRangeException("index", new ArgumentOutOfRangeException());
+            else if (length < 0 || length > array.LongLength || index + length > array.LongLength)
+                throw new ArgumentOutOfRangeException("length", new ArgumentOutOfRangeException());
+            else if (array.LongLength == 0) return -1;
+
+            for (long I = index; I >= length ; I--)
+                if (match(array[I])) return I;
+
+            return -1;
+        }
+
+        /// <summary>
+        /// Searches for an element that matches the conditions defined by a
+        /// specified predicate and returns the zero-based index of the last
+        /// occurrence in an Array or part of it.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static long FindLastIndex<T>(T[] array, long index, Predicate<T> match) {
+            if (array == null)
+                throw new ArgumentNullException("array", new ArgumentNullException());
+            else if (array.Rank != 1)
+                throw new RankException("The array cannot be multi-dimensional.");
+            return FindLastIndex<T>(array, array.LongLength - index, index, match);
+        }
+
+        /// <summary>
+        /// Searches for an element that matches the conditions defined by a
+        /// specified predicate and returns the zero-based index of the last
+        /// occurrence in an Array or part of it.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static long LongFindLastIndex<T>(T[] array, Predicate<T> match)
+            => FindLastIndex<T>(array, 0L, match);
+
+        /// <summary>
+        /// Searches for an element that matches the conditions defined by a
+        /// specified predicate and returns the zero-based index of the last
+        /// occurrence in an Array or part of it.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static int FindLastIndex<T>(T[] array, int index, int length, Predicate<T> match)
             => Array.FindLastIndex<T>(array, index, length, match);
     
@@ -369,6 +678,9 @@ namespace Cobilas.Collections {
         /// specified predicate and returns the zero-based index of the last
         /// occurrence in an Array or part of it.
         /// </summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static int FindLastIndex<T>(T[] array, int index, Predicate<T> match)
             => Array.FindLastIndex<T>(array, index, match);
 
@@ -377,6 +689,9 @@ namespace Cobilas.Collections {
         /// specified predicate and returns the zero-based index of the last
         /// occurrence in an Array or part of it.
         /// </summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static int FindLastIndex<T>(T[] array, Predicate<T> match)
             => Array.FindLastIndex<T>(array, match);
 
@@ -384,28 +699,67 @@ namespace Cobilas.Collections {
         /// Searches for an element that matches the conditions defined by the 
         /// specified predicate and returns the first occurrence in the entire Array.
         /// </summary>
-        public static T FindLast<T>(T[] array, Predicate<T> match)
-            => Array.FindLast<T>(array, match);
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        public static T FindLast<T>(T[] array, Predicate<T> match) {
+            if (array == null)
+                throw new ArgumentNullException("array", new ArgumentNullException());
+            else if (match == null)
+                throw new ArgumentNullException("match", new ArgumentNullException());
+            else if (array.Rank != 1)
+                throw new RankException("The array cannot be multi-dimensional.");
+            for (long I = array.LongLength - 1; I >= 0 ; I--)
+                if (match(array[I]))
+                    return array[I];
+            return default;
+        }
 
         /// <summary>
         /// Retrieves all elements that match the conditions defined by the specified predicate.
         /// </summary>
-        public static T[] FindAll<T>(T[] array, Predicate<T> match)
-            => Array.FindAll<T>(array, match);
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        public static T[] FindAll<T>(T[] array, Predicate<T> match) {
+            if (array == null)
+                throw new ArgumentNullException("array", new ArgumentNullException());
+            else if (match == null)
+                throw new ArgumentNullException("match", new ArgumentNullException());
+            else if (array.Rank != 1)
+                throw new RankException("The array cannot be multi-dimensional.");
+            
+            T[] outArray = new T[0];
+            for (long I = 0; I < array.LongLength; I++)
+                if (match(array[I]))
+                    outArray = Add(array[I], outArray);
+            return outArray;
+        }
 
         /// <summary>
         /// Searches for an element that matches the conditions defined by the 
         /// specified predicate, and returns the first occurrence within the entire Array.
         /// </summary>
-        public static T Find<T>(T[] array, Predicate<T> match)
-            => Array.Find<T>(array, match);
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        public static T Find<T>(T[] array, Predicate<T> match) {
+            if (array == null)
+                throw new ArgumentNullException("array", new ArgumentNullException());
+            else if (match == null)
+                throw new ArgumentNullException("match", new ArgumentNullException());
+            else if (array.Rank != 1)
+                throw new RankException("The array cannot be multi-dimensional.");
+
+            for (long I = 0; I < array.LongLength; I++)
+                if (match(array[I]))
+                    return array[I];
+            return default;
+        }
 
         /// <summary>
         /// Determines whether the specified array contains elements that match the conditions defined by the specified predicate.
         /// </summary>
         [Obsolete("Use bool:Exists<T>(T[], Predicate<T>)")]
         public static bool Exists(object item, Array array) {
-            for (int I = 0; I < ArrayLength(array); I++)
+            for (long I = 0; I < ArrayLongLength(array); I++)
                 if (array.GetValue(I) == item)
                     return true;
             return false;
@@ -415,7 +769,7 @@ namespace Cobilas.Collections {
         /// Determines whether the specified array contains elements that match the conditions defined by the specified predicate.
         /// </summary>
         public static bool Exists<T>(T[] array, Predicate<T> match)
-            => Array.Exists<T>(array, match);
+            => LongFindIndex<T>(array, match) != -1;
 
         /// <summary>
         /// Determines whether the specified array contains elements that match the conditions defined by the specified predicate.
@@ -453,6 +807,38 @@ namespace Cobilas.Collections {
         public static void CopyTo(Array sourceArray, Array destinationArray)
             => CopyTo(sourceArray, 0, destinationArray, 0, sourceArray.Length);
 
+        /// <summary>Converts an array of one type to an array of another type.</summary>
+        /// <typeparam name="TInput">The type of the elements of the source array.</typeparam>
+        /// <typeparam name="TOutput">The type of the elements of the target array.</typeparam>
+        /// <param name="array">The one-dimensional, zero-based <see cref="Array"/> to convert to a target type.</param>
+        /// <param name="converter">A <see cref="Converter{TInput, TOutput}"/> that converts each element from one type to another type.</param>
+        /// <returns>An array of the target type containing the converted elements from the source array.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TOutput[] ConvertAll<TInput, TOutput>(TInput[] array, Converter<TInput, TOutput> converter)
+            => Array.ConvertAll<TInput, TOutput>(array, converter);
+
+        /// <summary>Converts an array of one type to an array of another type.</summary>
+        /// <typeparam name="TInput">The type of the elements of the source array.</typeparam>
+        /// <typeparam name="TOutput">The type of the elements of the target array.</typeparam>
+        /// <param name="array">The one-dimensional, zero-based <see cref="Array"/> to convert to a target type.</param>
+        /// <param name="converter">A <see cref="Converter{TInput, TOutput}"/> that converts each element from one type to another type.</param>
+        /// <returns>An array of the target type containing the converted elements from the source array.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        public static TOutput[] LongConvertAll<TInput, TOutput>(TInput[] array, Converter<TInput, TOutput> converter) {
+            if (array == null)
+                throw new ArgumentNullException("array", new ArgumentNullException());
+            else if (converter == null)
+                throw new ArgumentNullException("converter", new ArgumentNullException());
+            else if (array.Rank != 1)
+                throw new RankException("The array cannot be multi-dimensional.");
+            
+            TOutput[] output = new TOutput[array.LongLength];
+            for (long I = 0; I < array.LongLength; I++)
+                output[I] = converter(array[I]);
+            return output;
+        }
+
         /// <summary>
         /// Reverses the order of the elements in a one-dimensional Array or in a portion of the Array.
         /// </summary>
@@ -466,8 +852,50 @@ namespace Cobilas.Collections {
         /// Reverses the order of the elements in a one-dimensional Array or in a portion of the Array.
         /// </summary>
         /// <param name="array">The one-dimensional Array to reverse.</param>
+        /// <param name="index">The starting index of the section to reverse.</param>
+        /// <param name="length">The number of elements in the section to reverse.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="RankException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void Reverse(Array array, long index, long length) {
+            if (array == null)
+                throw new ArgumentNullException("array", new ArgumentNullException());
+            else if (array.Rank != 1)
+                throw new RankException("The array cannot be multi-dimensional.");
+            else if (index < 0 || index >= array.LongLength)
+                throw new ArgumentOutOfRangeException("index", new ArgumentOutOfRangeException());
+            else if (length < 0 || length > array.LongLength || index + length - 1 > array.LongLength)
+                throw new ArgumentOutOfRangeException("length", new ArgumentOutOfRangeException());
+        
+            object[] obj_array = array as object[];
+            if (obj_array != null) {
+                for (long I = index, J = index + length - 1; I < J; I++, J--) {
+                    object temp = obj_array[I];
+                    obj_array[I] = obj_array[J];
+                    obj_array[J] = temp;
+                }
+            } else {
+                for (long I = index, J = index + length - 1; I < J; I++, J--) {
+                    object temp = array.GetValue(I);
+                    array.SetValue(array.GetValue(J), I);
+                    array.SetValue(temp, J);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reverses the order of the elements in a one-dimensional Array or in a portion of the Array.
+        /// </summary>
+        /// <param name="array">The one-dimensional Array to reverse.</param>
         public static void Reverse(Array array)
             => Array.Reverse(array, 0, array.Length);
+
+        /// <summary>
+        /// Reverses the order of the elements in a one-dimensional Array or in a portion of the Array.
+        /// </summary>
+        /// <param name="array">The one-dimensional Array to reverse.</param>
+        public static void LongReverse(Array array)
+            => Reverse(array, 0L, array.LongLength);
 
         /// <summary>
         /// Changes the number of elements of a one-dimensional array to the specified new size.
@@ -476,9 +904,33 @@ namespace Cobilas.Collections {
             => Array.Resize<T>(ref array, newSize);
 
         /// <summary>
+        /// Changes the number of elements of a one-dimensional array to the specified new size.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void Resize<T>(ref T[] array, long newSize) {
+            if (newSize < 0)
+                throw new ArgumentOutOfRangeException("The \"newSize\" parameter cannot be less than zero.");
+
+            T[] l_array = array;
+            if (l_array == null) {
+                array = new T[newSize];
+            } else {
+                T[] newArray = new T[newSize];
+                CopyTo(l_array, 0L, newArray, 0L, l_array.LongLength > newSize ? newSize : l_array.LongLength);
+                array = newArray;
+            }
+        }
+
+        /// <summary>
         /// Determines whether the collection is empty or null.
         /// </summary>
         public static bool EmpytArray(ICollection array)
+            => array is null || array.Count == 0;
+
+        /// <summary>
+        /// Determines whether the collection is empty or null.
+        /// </summary>
+        public static bool EmpytArray(ILongCollection array)
             => array is null || array.Count == 0;
 
         /// <summary>
@@ -494,9 +946,21 @@ namespace Cobilas.Collections {
             => array is null ? 0L : array.LongLength;
 
         /// <summary>
+        /// Determines the length of an Array.
+        /// </summary>
+        public static long ArrayLongLength(ILongCollection array)
+            => array is null ? 0L : array.Count;
+
+        /// <summary>
         /// Determines whether the collection is read-only.
         /// </summary>
         public static bool IsReadOnlySafe(IList array)
+            => !(array is null) && array.IsReadOnly;
+
+        /// <summary>
+        /// Determines whether the collection is read-only.
+        /// </summary>
+        public static bool IsReadOnlySafe(ILongList array)
             => !(array is null) && array.IsReadOnly;
 
         /// <summary>
@@ -506,9 +970,21 @@ namespace Cobilas.Collections {
             => !(array is null) && array.IsFixedSize;
 
         /// <summary>
+        /// Determines whether the collection has a fixed size.
+        /// </summary>
+        public static bool IsFixedSizeSafe(ILongList array)
+            => !(array is null) && array.IsFixedSize;
+
+        /// <summary>
         /// Determines whether the collection is synchronized.
         /// </summary>
         public static bool IsSynchronizedSafe(ICollection collection)
+            => !(collection is null) && collection.IsSynchronized;
+
+        /// <summary>
+        /// Determines whether the collection is synchronized.
+        /// </summary>
+        public static bool IsSynchronizedSafe(ILongCollection collection)
             => !(collection is null) && collection.IsSynchronized;
     }
 }

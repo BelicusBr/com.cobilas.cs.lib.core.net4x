@@ -3,41 +3,55 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace Cobilas.Collections.Generic {
-    public class LongList<T> : ILongList<T>, IReadOnlyLongList<T>, ILongList {
+    [Serializable]
+    public class LongList<T> : ILongList<T>, IReadOnlyLongList<T>, ILongList, ICloneable {
+        private long _size;
         private T[] longArray;
         
-        public long Count => throw new NotImplementedException();
-        public long Capacity { get; set; }
+        public long Count => _size;
+        public long Capacity { 
+            get => ArrayManipulation.ArrayLongLength(longArray);
+            set {
+                if (value < _size)
+                    throw new ArgumentOutOfRangeException("The capacity cannot be smaller than the list size.");
+                if (value != ArrayManipulation.ArrayLongLength(longArray)) {
+                    if (value > 0) {
+                        T[] newArray = new T[value];
+                        if (_size > 0)
+                            ArrayManipulation.CopyTo(longArray, 0L, newArray, 0L, _size);
+                        longArray = newArray;
+                    } else longArray = Array.Empty<T>();
+                }
+            }
+        }
         public bool IsReadOnly => throw new NotImplementedException();
         bool ILongList.IsFixedSize => throw new NotImplementedException();
         bool ILongCollection.IsSynchronized => throw new NotImplementedException();
         object ILongCollection.SyncRoot => throw new NotImplementedException();
 
-        public T this[long index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        object ILongList.this[long index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public T this[long index] { get => longArray[index]; set => longArray[index] = value; }
+        object ILongList.this[long index] { get => longArray[index]; set => longArray[index] = (T)value; }
 
-        public LongList() {}
-        public LongList(long capacity) {}
-        public LongList(IEnumerable<T> collection) {}
+        public LongList() => longArray = Array.Empty<T>();
+        public LongList(long capacity) => longArray = new T[capacity];
+        public LongList(IEnumerable<T> collection) {
 
-        public ReadOnlyLongCollection<T> AsReadOnly() {
-            return null;
         }
 
-        public void Add(T item)
-        {
-            throw new NotImplementedException();
+        public ReadOnlyLongCollection<T> AsReadOnly() => new ReadOnlyLongCollection<T>(longArray);
+
+        public void Add(T item) {
+            if (_size == Capacity) Capacity = _size + 1;
+            longArray[_size++] = item;
         }
 
-        public void Clear()
-        {
-            throw new NotImplementedException();
+        public void Clear() {
+            ArrayManipulation.LongClearArraySafe(longArray);
+            _size = 0;
         }
 
         public bool Contains(T item)
-        {
-            throw new NotImplementedException();
-        }
+            => ArrayManipulation.Exists(item, longArray);
 
         public void CopyTo(T[] array, long arrayIndex)
         {
@@ -65,6 +79,10 @@ namespace Cobilas.Collections.Generic {
         }
 
         public void RemoveAt(long index)
+        {
+            throw new NotImplementedException();
+        }
+        public object Clone()
         {
             throw new NotImplementedException();
         }
