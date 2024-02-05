@@ -19,7 +19,7 @@ namespace Cobilas {
                 return currentIndex;
             }
         }
-        ///<summary>Esta propriedade permite a troca de unico interruptor para mult interruptores e vise versa.</summary>
+        ///<summary>This property allows the exchange of a single switch for multiple switches and vice versa.</summary>
         public bool UseASwitch { 
             get {
                 WasDiscarded();
