@@ -1,3 +1,17 @@
+# [04/02/2024] #1.4.0-rc3
+## ArrayManipulation
+- ### Changed
+- - The functions `Remove<T>`, `Insert<T>`, `SeparateList<T>` and `TakeStretch<T>` had their parameters
+of type `int` changed to type `long`.
+- ### Add
+- - Added `long` type versions to methods that were `int` type versions.
+- ### Obsolete
+- - The functions `T[] Insert<T>(IEnumerator<T>, long, T[])`, `T[] Add<T>(IEnumerator<T>, T[])` and `Add<T>( IEnumerator<T>, ref T[])` have been deprecated.
+- ## Add
+- - The generic collection classes `LongList<T>`, ReadOnlyLongCollection<T> and generic and non-generic interfaces such as `ILongList`, `ILongList<T>`, `ILongCollection`, `ILongCollection<T>`, `IReadOnlyLongCollection<T> ` and `IReadOnlyLongList<T>` have been added.
+# [03/02/2024] #1.4.0-rc1
+- ## Removed
+The `IReadOnlyArray` and `IReadOnlyArray<T>` interfaces have been removed using the `IReadOnlyLongList` or `IReadOnlyList` interface.
 # [01/02/2024] #1.3.1-rc2
 - ## Add
 The `XMLIRWDeclaration` class that represents an xml declaration has been added.<br>
