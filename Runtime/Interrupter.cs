@@ -3,10 +3,9 @@ using System.Text;
 using Cobilas.Collections;
 
 namespace Cobilas { 
+    /// <summary>Represents a list of switches.</summary>
     [Serializable]
-#pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
     public struct Interrupter : IDisposable {
-#pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
         private int currentIndex;
         private bool useASwitch;
         private bool disposable;
@@ -31,7 +30,7 @@ namespace Cobilas {
             }
         }
 
-#pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
+        /// <summary>Gets or sets a switch when specifying an index.</summary>
         public bool this[int Index] {
             get {
                 WasDiscarded();
@@ -47,7 +46,6 @@ namespace Cobilas {
                 _switches[Index] = value;
             }
         }
-#pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
 
         /// <summary>Only one switch specifying the index will be used, the others will remain at false value.</summary>
         /// <param name="Capacity">How many switches.</param>
