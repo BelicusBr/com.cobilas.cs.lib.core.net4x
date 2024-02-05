@@ -1,6 +1,6 @@
 {
   "name": "com.cobilas.unity.core.net4x",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "description": "C# NPM package for general use in apps and games.",
   "displayName": "Cobilas Core Net4x",
   "changelogUrl": "https://github.com/BelicusBr/com.cobilas.cs.lib.core.net4x/blob/main/CHANGELOG.md",
@@ -9,8 +9,10 @@
   "unity": "2017.1",
   "main": "index.js",
   "scripts": {
-    "test": "echo test",
-    "init_pack": "npm pack --pack-destination C:/local.npm"
+    "nuget_pack": "dotnet pack",
+    "npm_pack": "npm pack --pack-destination C:/local.npm",
+    "packaging": "npm run npm_pack && npm run nuget_pack",
+    "Package_Push": "@powershell -Command .//Package_Push.ps1 -package_name %npm_package_name% -package_version %npm_package_version%"
   },
   "repository": {
     "type": "git",
