@@ -42,11 +42,33 @@ namespace Cobilas.Collections {
         /// <param name="index">The index of the list where the items will be inserted.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
+        [Obsolete("Use the T[] Insert<T>(IEnumerable<T>, long, T[]) method")]
         public static T[] Insert<T>(IEnumerator<T> itens, long index, T[] list) {
+            if (itens is null) throw ArrayNullException;
             while (itens.MoveNext())
                 list = Insert<T>(itens.Current, index, list);
             return list;
         }
+
+        /// <summary>Insert a list of items at a given index into a target array.</summary>
+        /// <param name="collection">The items that will be inserted into the list.</param>
+        /// <param name="index">The index of the list where the items will be inserted.</param>
+        /// <param name="list">The list that will receive the items.</param>
+        /// <exception cref="ArgumentNullException"/>
+        public static T[] Insert<T>(IEnumerable<T> collection, long index, T[] list) {
+            if (collection is null) throw ArrayNullException;
+            foreach (T item in collection)
+                list = Insert<T>(item, index, list);
+            return list;
+        }
+
+        /// <summary>Insert a list of items at a given index into a target array.</summary>
+        /// <param name="collection">The items that will be inserted into the list.</param>
+        /// <param name="index">The index of the list where the items will be inserted.</param>
+        /// <param name="list">The list that will receive the items.</param>
+        /// <exception cref="ArgumentNullException"/>
+        public static void Insert<T>(IEnumerable<T> collection, long index, ref T[] list)
+            => list = Insert<T>(collection, index, list);
 
         /// <summary>Insert a list of items at a given index into a target array.</summary>
         /// <param name="itens">The items that will be inserted into the list.</param>
@@ -95,7 +117,8 @@ namespace Cobilas.Collections {
         /// <summary>Adds a list of items to the target list.</summary>
         /// <param name="itens">The items that will be inserted into the list.</param>
         /// <param name="list">The list that will receive the items.</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException"/>
+        [Obsolete("Use the T[] Add<T>(IEnumerable<T>, T[]) method.")]
         public static T[] Add<T>(IEnumerator<T> itens, T[] list)
             => Insert<T>(itens, ArrayLongLength(list), list);
 
@@ -103,8 +126,23 @@ namespace Cobilas.Collections {
         /// <param name="itens">The items that will be inserted into the list.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
+        [Obsolete("Use the T[] Add<T>(IEnumerable<T>, ref T[]) method.")]
         public static void Add<T>(IEnumerator<T> itens, ref T[] list)
             => list = Add<T>(itens, list);
+
+        /// <summary>Adds a list of items to the target list.</summary>
+        /// <param name="collection">The items that will be inserted into the list.</param>
+        /// <param name="list">The list that will receive the items.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static T[] Add<T>(IEnumerable<T> collection, T[] list)
+            => Insert<T>(collection, ArrayLongLength(list), list);
+
+        /// <summary>Adds a list of items to the target list.</summary>
+        /// <param name="collection">The items that will be inserted into the list.</param>
+        /// <param name="list">The list that will receive the items.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static void Add<T>(IEnumerable<T> collection, ref T[] list)
+            => list = Insert<T>(collection, ArrayLongLength(list), list);
 
         /// <summary>Adds a list of items to the target list.</summary>
         /// <param name="item">The item that will be inserted into the list.</param>

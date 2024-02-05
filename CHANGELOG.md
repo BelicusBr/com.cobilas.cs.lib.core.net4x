@@ -1,3 +1,4 @@
+# [04/02/2024] #1.4.0-rc3
 # [03/02/2024] #1.4.0-rc1
 - ## Removed
 The `IReadOnlyArray` and `IReadOnlyArray<T>` interfaces have been removed using the `IReadOnlyLongList` or `IReadOnlyList` interface.

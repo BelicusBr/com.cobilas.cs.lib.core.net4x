@@ -1,15 +1,18 @@
 using System;
+using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace Cobilas.Collections.Generic {
+    /// <summary>Provides the base class for a read-only generic Long collection.</summary>
+    /// <typeparam name="T">The type of elements in the collection.</typeparam>
     [Serializable]
     public class ReadOnlyLongCollection<T> : ILongList, ILongList<T>, IReadOnlyLongList<T>, ICloneable {
         private T[] readOnlyList;
         [NonSerialized]
         private object _syncRoot;
-
+        
+        /// <inheritdoc/>
         public long Count => ArrayManipulation.ArrayLongLength(readOnlyList);
         bool ILongList.IsReadOnly => true;
         bool ILongList.IsFixedSize => true;
@@ -26,19 +29,23 @@ namespace Cobilas.Collections.Generic {
             }
         }
 
+        /// <inheritdoc/>
         public T this[long index] => readOnlyList[index];
 
         object ILongList.this[long index] { get => readOnlyList[index]; set => throw new NotImplementedException(); }
         T ILongList<T>.this[long index] { get => readOnlyList[index]; set => throw new NotImplementedException(); }
 
+        /// <summary>Creates a new instance of the object.</summary>
         public ReadOnlyLongCollection(IEnumerable<T> enumerable) {
             foreach (T item in enumerable)
                 ArrayManipulation.Add<T>(item, ref readOnlyList);
         }
 
+        /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator()
             => new ArrayToIEnumerator<T>(readOnlyList);
 
+        /// <inheritdoc/>
         public object Clone() => new ReadOnlyLongCollection<T>(readOnlyList);
 
         IEnumerator IEnumerable.GetEnumerator()
