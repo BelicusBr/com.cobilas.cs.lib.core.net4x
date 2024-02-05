@@ -12,9 +12,11 @@
     "nuget_pack": "dotnet pack",
     "npm_pack": "npm pack --pack-destination C:/local.npm",
     "packaging": "npm run npm_pack && npm run nuget_pack",
-    "npm_push": "@powershell -Command .//Package_Push.ps1 -type \"npm\" -package_name %npm_package_name% -package_version %npm_package_version%",
-    "nuget_push": "@powershell -Command .//Package_Push.ps1 -type \"nuget\" -package_name \"Cobilas.Core.Net4x\" -package_version %npm_package_version%",
+	
+    "npm_push": "@powershell -Command . cobilas.package.funcs.ps1 ; npm_push -package_name %npm_package_name% -package_version %npm_package_version%",
+    "nuget_push": "@powershell -Command . cobilas.package.funcs.ps1 ; nuget_push -package_name \"Cobilas.Core.Net4x\" -package_version %npm_package_version%",
     "Package_Push": "npm run npm_push && npm run nuget_push",
+	
     "NPM_Pack_Push": "npm run packaging && npm run Package_Push"
   },
   "repository": {
