@@ -9,7 +9,9 @@
   "unity": "2017.1",
   "main": "index.js",
   "scripts": {
-    "init_pack": "npm pack --pack-destination C:/local.npm",
+    "nuget_pack": "dotnet pack",
+    "npm_pack": "npm pack --pack-destination C:/local.npm",
+    "packaging": "npm run npm_pack && npm run nuget_pack",
     "Package_Push": "@powershell -Command .//Package_Push.ps1 -package_name %npm_package_name% -package_version %npm_package_version%"
   },
   "repository": {

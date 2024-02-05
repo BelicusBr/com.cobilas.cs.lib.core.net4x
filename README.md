@@ -4,6 +4,7 @@ Cobilas Core Net4x is a utility library for CSharp.
 
 ## Json
 (namespace:Cobilas.IO.Serialization.Json)<br>
+Only present in the NuGet version.<br>
 The static class `Json` grants static read and write functions.
 
 ### JsonContractResolver
