@@ -1,3 +1,6 @@
+# [04/02/2024] #1.4.1
+- ## Fixed
+- - The metadata files required to work in Unity3D have been added to the package.
 # [04/02/2024] #1.4.0-rc3
 ## ArrayManipulation
 - ### Changed

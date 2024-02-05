@@ -3,9 +3,8 @@ using System.Reflection;
 using Cobilas.Collections;
 
 namespace Cobilas {
-#pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
+    /// <summary>Utility static class to obtain type or assembly.</summary>
     public static class TypeUtilitarian {
-#pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
 
         /// <summary>Get all types of assembly.</summary>
         public static Type[] GetTypes() {

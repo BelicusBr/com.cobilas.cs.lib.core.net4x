@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 
 namespace Cobilas.Collections { 
     /// <summary>Array manipulation class.</summary>
@@ -91,6 +90,8 @@ namespace Cobilas.Collections {
         /// </summary>
         /// <param name="item">The item that will be inserted into the list.</param>
         /// <param name="list">The list that will receive the items.</param>
+        /// <returns>This way, when adding the same object, the operation will not be performed 
+        /// and the list will be returned without being modified.</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static T[] AddNon_Existing<T>(T item, T[] list) {
             if (!Exists<T>(item, list))
@@ -103,6 +104,8 @@ namespace Cobilas.Collections {
         /// </summary>
         /// <param name="item">The item that will be inserted into the list.</param>
         /// <param name="list">The list that will receive the items.</param>
+        /// <returns>This way, when adding the same object, the operation will not be performed 
+        /// and the list will be returned without being modified.</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static void AddNon_Existing<T>(T item, ref T[] list)
             => list = AddNon_Existing<T>(item, list);
