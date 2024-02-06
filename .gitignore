@@ -2,8 +2,11 @@
 bin/
 obj/
 Test/
+obj.meta
+Test.meta
 *.sln
 *.sln.meta
 *.tgz
 *.tgz.meta
 *.ps1
+*.ps1.meta
