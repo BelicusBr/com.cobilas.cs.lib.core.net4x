@@ -1,4 +1,12 @@
 # [1.4.2] (14/02/2024)
+## Fixed
+Problem checking the `index` parameter in the `ArrayManipulation.FindIndex<T>(T[], long, long, Predicate<T>)` and `ArrayManipulation.FindLastIndex<T>(T[], long, long, Predicate methods <T>)`.
+### Details
+The problem was checking the `index` parameter, which was done to check whether it was greater than or equal to zero. \
+If the array had size zero, the check returned a false positive, generating an `ArgumentOutOfRangeException`. \
+The fix involved checking if the array is zero size before checking the `index` parameter.
+### Affected versions
+This problem was present since version `1.4.0`.
 ## Changed
 Improvements to the `ArrayManipulation.SeparateList<T>(T[], long, out T[], out T[])` method.
 ### Details

@@ -15,7 +15,7 @@
 		<Authors>BélicusBr</Authors>
 		<PackageId>Cobilas.Core.Net4x</PackageId>
 		<PackageDescription>NuGet C# package for general use in apps and games.</PackageDescription>
-		<PackageVersion>1.4.1</PackageVersion>
+		<PackageVersion>1.4.2</PackageVersion>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/BelicusBr/com.cobilas.cs.lib.core.net4x</RepositoryUrl>
@@ -31,6 +31,7 @@
 		<None Include="CHANGELOG.md" Pack="true" PackagePath="\" />
 		<None Include="package.json" Pack="false" PackagePath="\"/>
 		<None Include=".npmignore" Pack="false" PackagePath="\"/>
+		<None Include=".metafreeze" Pack="false" PackagePath="\"/>
 	  	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 </Project>
