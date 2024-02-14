@@ -1,3 +1,11 @@
+# [1.4.2] (14/02/2024)
+## Changed
+Improvements to the `ArrayManipulation.SeparateList<T>(T[], long, out T[], out T[])` method.
+### Details
+The `ArrayManipulation.SeparateList<T>(T[], long, out T[], out T[])` method has received the following improvements:
+- Checks to raise exceptions like `ArgumentNullException`, `RankException` and `ArgumentOutOfRangeException` if they occur.
+- Returns an empty list in the `out` parameters if the input list is zero.
+
 # [04/02/2024] #1.4.1
 - ## Fixed
 - - The metadata files required to work in Unity3D have been added to the package.

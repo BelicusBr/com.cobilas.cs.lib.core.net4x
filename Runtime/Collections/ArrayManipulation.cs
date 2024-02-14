@@ -377,22 +377,26 @@ namespace Cobilas.Collections {
         }
 
         /// <summary>Separate a list into two using an index.</summary>
-        /// <param name="list">The list that will be separated.</param>
+        /// <param name="array">The list that will be separated.</param>
         /// <param name="separationIndex">The index where the list will be separated.</param>
         /// <param name="part1"></param>
         /// <param name="part2"></param>
         /// <exception cref="ArgumentNullException"/>
-        /// <exception cref="IndexOutOfRangeException"/>
-        public static void SeparateList<T>(T[] list, long separationIndex, out T[] part1, out T[] part2) {
-            if (list is null) throw ArrayNullException;
-            else if (list.LongLength < 2) {
-                part1 = list;
-                part2 = Array.Empty<T>();
-                return;
-            }
+        /// <exception cref="RankException"/>
+        /// <exception cref="ArgumentOutOfRangeException"/>
+        public static void SeparateList<T>(T[] array, long separationIndex, out T[] part1, out T[] part2) {
+            long arrayLength = ArrayManipulation.ArrayLongLength(array);
+            if (array == null)
+                throw new ArgumentNullException("array", new ArgumentNullException());
+            else if (array.Rank != 1)
+                throw new RankException("The array cannot be multi-dimensional.");
+            else if (arrayLength == 0) {
+                part1 = part2 = Array.Empty<T>();
+            } else if (separationIndex < 0 || !(separationIndex < arrayLength))
+                throw new ArgumentOutOfRangeException("separationIndex", new ArgumentOutOfRangeException());
 
-            Array.Copy(list, 0, part1 = new T[separationIndex + 1], 0, separationIndex + 1);
-            Array.Copy(list, separationIndex + 1, part2 = new T[list.LongLength - (separationIndex + 1)], 0, list.LongLength - (separationIndex + 1));
+            Array.Copy(array, 0, part1 = new T[separationIndex + 1], 0, separationIndex + 1);
+            Array.Copy(array, separationIndex + 1, part2 = new T[array.LongLength - (separationIndex + 1)], 0, array.LongLength - (separationIndex + 1));
         }
 
         /// <summary>This function performs a cut in a list.</summary>
@@ -578,7 +582,7 @@ namespace Cobilas.Collections {
         /// <exception cref="RankException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static long FindIndex<T>(T[] array, long index, long length, Predicate<T> match) {
-            if (array == null)
+                        if (array == null)
                 throw new ArgumentNullException("array", new ArgumentNullException());
             else if (match == null)
                 throw new ArgumentNullException("match", new ArgumentNullException());
@@ -658,7 +662,7 @@ namespace Cobilas.Collections {
         /// <exception cref="RankException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static long FindLastIndex<T>(T[] array, long index, long length, Predicate<T> match) {
-            if (array == null)
+                        if (array == null)
                 throw new ArgumentNullException("array", new ArgumentNullException());
             else if (match == null)
                 throw new ArgumentNullException("match", new ArgumentNullException());
