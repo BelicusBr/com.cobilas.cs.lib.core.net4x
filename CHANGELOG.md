@@ -7,6 +7,12 @@ If the array had size zero, the check returned a false positive, generating an `
 The fix involved checking if the array is zero size before checking the `index` parameter.
 ### Affected versions
 This problem was present since version `1.4.0`.
+## Changed
+Improvements to the `ArrayManipulation.SeparateList<T>(T[], long, out T[], out T[])` method.
+### Details
+The `ArrayManipulation.SeparateList<T>(T[], long, out T[], out T[])` method has received the following improvements:
+- Checks to raise exceptions like `ArgumentNullException`, `RankException` and `ArgumentOutOfRangeException` if they occur.
+- Returns an empty list in the `out` parameters if the input list is zero.
 
 # [04/02/2024] #1.4.1
 - ## Fixed
