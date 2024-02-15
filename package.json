@@ -17,7 +17,7 @@
     "nuget_push": "@powershell -Command . cobilas.package.funcs.ps1 ; nuget_push -package_name \"Cobilas.Core.Net4x\" -package_version %npm_package_version%",
     "Package_Push": "npm run npm_push && npm run nuget_push",
 
-    "NPM_Pack_Push": "npm run packaging && npm run Package_Push"
+    "npm_Pack_Push": "npm run packaging && npm run Package_Push"
   },
   "repository": {
     "type": "git",
