@@ -1,3 +1,7 @@
+# [1.6.0] (09/05/2024)
+## Add
+New methods like `ArrayManipulation.ForSector<T>(Array, in Action<T, long>, in long)`, `ArrayManipulation.ForSector<T>(Array, in Action<T, long>)`, `ArrayManipulation.ForSector <T>(T[], in Action<T, long>, in long)`, `ArrayManipulation.ForSector<T>(T[], in Action<T, long>)`, `ArrayManipulation.ForSector<T> (IList, in Action<T, int>, in int)`, `ArrayManipulation.ForSector<T>(IList, in Action<T, int>)`, `ArrayManipulation.ForSector(IList, in Action<object, int> , in int)`, `ArrayManipulation.ForSector(IList, in Action<object, int>)`, `ArrayManipulation.ForSector<T>(IList<T>, in Action<T, int>, in int)` and ` ArrayManipulation.ForSector<T>(IList<T>, in Action<T, int>)` have been added.
+
 # [1.5.0] (09/05/2024)
 ## Add
 The methods `ArrayManipulation.ForSector(Array, in Action<object, long>, in long)` and `ArrayManipulation.ForSector(Array, in Action<object, long>)` have been added.
