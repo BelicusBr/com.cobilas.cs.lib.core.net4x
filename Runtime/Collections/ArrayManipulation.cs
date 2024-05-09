@@ -1034,13 +1034,13 @@ namespace Cobilas.Collections {
         public static bool IsSynchronizedSafe(ILongCollection collection)
             => !(collection is null) && collection.IsSynchronized;
 
-        /// <summary>The method traverses the items in a list simultaneously.</summary>
+        /// <summary>The method traverses several parts of a list simultaneously.</summary>
         /// <param name="array">The array that will be read.</param>
         /// <param name="action">Action that receives the object and the index of the list.</param>
         /// <param name="sectorCount">The number of sectors to read.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static void ForSector(Array array, in Action<object, long> action, in long sectorCount) {
+        public static void ForSector<T>(Array array, in Action<T, long> action, in long sectorCount) {
             if (array == null)
                 throw new ArgumentNullException("array", new ArgumentNullException());
             else if (sectorCount < 1)
@@ -1067,7 +1067,7 @@ namespace Cobilas.Collections {
                 }
                 if (!sectors[index].BrokenCount) {
                     preConfirmations = true;
-                    action(array.GetValue(sectors[index].CurrentIndex), sectors[index].CurrentIndex);
+                    action((T)array.GetValue(sectors[index].CurrentIndex), sectors[index].CurrentIndex);
                     sectors[index].Next();
                 }
                 index++;
@@ -1079,16 +1079,133 @@ namespace Cobilas.Collections {
             }
         }
 
-        /// <summary>The method traverses the items in a list simultaneously.</summary>
+        /// <summary>The method traverses several parts of a list simultaneously.</summary>
         /// <param name="array">The array that will be read.</param>
         /// <param name="action">Action that receives the object and the index of the list.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static void ForSector(Array array, in Action<object, long> action) {
+        public static void ForSector<T>(Array array, in Action<T, long> action) {
             if (array == null)
                 throw new ArgumentNullException("array", new ArgumentNullException());
             ForSector(array, in action, (long)Math.Sqrt(array.LongLength));
         }
+
+        /// <summary>The method traverses several parts of a list simultaneously.</summary>
+        /// <param name="array">The array that will be read.</param>
+        /// <param name="action">Action that receives the object and the index of the list.</param>
+        /// <param name="sectorCount">The number of sectors to read.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void ForSector<T>(T[] array, in Action<T, long> action, in long sectorCount)
+            => ForSector<T>((Array)array, action, sectorCount);
+
+        /// <summary>The method traverses several parts of a list simultaneously.</summary>
+        /// <param name="array">The array that will be read.</param>
+        /// <param name="action">Action that receives the object and the index of the list.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void ForSector<T>(T[] array, in Action<T, long> action)
+            => ForSector<T>((Array)array, action);
+
+        /// <summary>The method traverses several parts of a list simultaneously.</summary>
+        /// <param name="array">The array that will be read.</param>
+        /// <param name="action">Action that receives the object and the index of the list.</param>
+        /// <param name="sectorCount">The number of sectors to read.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void ForSector(Array array, in Action<object, long> action, in long sectorCount)
+            => ForSector<object>(array, action, sectorCount);
+
+        /// <summary>The method traverses several parts of a list simultaneously.</summary>
+        /// <param name="array">The array that will be read.</param>
+        /// <param name="action">Action that receives the object and the index of the list.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void ForSector(Array array, in Action<object, long> action)
+            => ForSector<object>(array, action);
+
+        /// <summary>The method traverses several parts of a list simultaneously.</summary>
+        /// <param name="list">The array that will be read.</param>
+        /// <param name="action">Action that receives the object and the index of the list.</param>
+        /// <param name="sectorCount">The number of sectors to read.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void ForSector<T>(IList list, in Action<T, int> action, in int sectorCount) {
+            if (list == null)
+                throw new ArgumentNullException("list", new ArgumentNullException());
+            else if (sectorCount < 1)
+                throw new ArgumentOutOfRangeException("The \"sectorCount\" parameter cannot be less than one.");
+
+            SectorStatus[] sectors = new SectorStatus[sectorCount];
+
+            long index = 0L;
+            bool confirmations = true;
+            bool preConfirmations = false;
+            while(confirmations) {
+                if (!sectors[index].Init) {
+                    if (index == sectorCount - 1)
+                        sectors[sectorCount - 1] = new SectorStatus((sectorCount - 1) * sectorCount, list.Count - 1);
+                    else sectors[index] = new SectorStatus(index * sectorCount, (index + 1) * sectorCount);
+                    sectors[index].Init = true;
+                }
+                if (!sectors[index].BrokenCount) {
+                    preConfirmations = true;
+                    action((T)list[(int)sectors[index].CurrentIndex], (int)sectors[index].CurrentIndex);
+                    sectors[index].Next();
+                }
+                index++;
+                if (index >= sectorCount) {
+                    index = 0L;
+                    confirmations = preConfirmations;
+                    preConfirmations = false;
+                }
+            }
+        }
+
+        /// <summary>The method traverses several parts of a list simultaneously.</summary>
+        /// <param name="list">The array that will be read.</param>
+        /// <param name="action">Action that receives the object and the index of the list.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void ForSector<T>(IList list, in Action<T, int> action) {
+            if (list == null)
+                throw new ArgumentNullException("list", new ArgumentNullException());
+            ForSector(list, in action, (int)Math.Sqrt(list.Count));
+        }
+
+        /// <summary>The method traverses several parts of a list simultaneously.</summary>
+        /// <param name="list">The array that will be read.</param>
+        /// <param name="action">Action that receives the object and the index of the list.</param>
+        /// <param name="sectorCount">The number of sectors to read.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void ForSector<T>(IList<T> list, in Action<T, int> action, in int sectorCount)
+            => ForSector<T>((IList)list, action, sectorCount);
+
+        /// <summary>The method traverses several parts of a list simultaneously.</summary>
+        /// <param name="list">The array that will be read.</param>
+        /// <param name="action">Action that receives the object and the index of the list.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void ForSector<T>(IList<T> list, in Action<T, int> action)
+            => ForSector<T>((IList)list, action);
+
+        /// <summary>The method traverses several parts of a list simultaneously.</summary>
+        /// <param name="list">The array that will be read.</param>
+        /// <param name="action">Action that receives the object and the index of the list.</param>
+        /// <param name="sectorCount">The number of sectors to read.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void ForSector(IList list, in Action<object, int> action, in int sectorCount)
+            => ForSector<object>(list, action, sectorCount);
+
+        /// <summary>The method traverses several parts of a list simultaneously.</summary>
+        /// <param name="list">The array that will be read.</param>
+        /// <param name="action">Action that receives the object and the index of the list.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void ForSector(IList list, in Action<object, int> action)
+            => ForSector<object>(list, action);
 
         private struct SectorStatus {
             private bool init;

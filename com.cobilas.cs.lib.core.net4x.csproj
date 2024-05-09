@@ -15,7 +15,7 @@
 		<Authors>BélicusBr</Authors>
 		<PackageId>Cobilas.Core.Net4x</PackageId>
 		<PackageDescription>NuGet C# package for general use in apps and games.</PackageDescription>
-		<PackageVersion>1.5.0</PackageVersion>
+		<PackageVersion>1.6.0</PackageVersion>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/BelicusBr/com.cobilas.cs.lib.core.net4x</RepositoryUrl>
