@@ -1,6 +1,6 @@
 {
   "name": "com.cobilas.unity.core.net4x",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "C# NPM package for general use in apps and games.",
   "displayName": "Cobilas Core Net4x",
   "changelogUrl": "https://github.com/BelicusBr/com.cobilas.cs.lib.core.net4x/blob/main/CHANGELOG.md",
@@ -17,7 +17,7 @@
     "nuget_push": "@powershell -Command . cobilas.package.funcs.ps1 ; nuget_push -package_name \"Cobilas.Core.Net4x\" -package_version %npm_package_version%",
     "Package_Push": "npm run npm_push && npm run nuget_push",
 
-    "npm_Pack_Push": "npm run packaging && npm run Package_Push"
+    "npm_pack_push": "npm run packaging && npm run Package_Push"
   },
   "repository": {
     "type": "git",

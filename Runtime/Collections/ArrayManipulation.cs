@@ -1033,5 +1033,84 @@ namespace Cobilas.Collections {
         /// </summary>
         public static bool IsSynchronizedSafe(ILongCollection collection)
             => !(collection is null) && collection.IsSynchronized;
+
+        /// <summary>The method traverses the items in a list simultaneously.</summary>
+        /// <param name="array">The array that will be read.</param>
+        /// <param name="action">Action that receives the object and the index of the list.</param>
+        /// <param name="sectorCount">The number of sectors to read.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void ForSector(Array array, in Action<object, long> action, in long sectorCount) {
+            if (array == null)
+                throw new ArgumentNullException("array", new ArgumentNullException());
+            else if (sectorCount < 1)
+                throw new ArgumentOutOfRangeException("The \"sectorCount\" parameter cannot be less than one.");
+            else if (array.Rank != 1)
+                throw new RankException("The array cannot be multi-dimensional.");
+
+            SectorStatus[] sectors = new SectorStatus[sectorCount];
+
+            // if (sectorCount != 1)
+            //     for(long I = 0; I < sectorCount; I++)
+            //         sectors[I] = new SectorStatus(I * sectorCount, (I + 1) * sectorCount);
+            // sectors[sectorCount - 1] = new SectorStatus((sectorCount - 1) * sectorCount, array.LongLength - 1);
+
+            long index = 0L;
+            bool confirmations = true;
+            bool preConfirmations = false;
+            while(confirmations) {
+                if (!sectors[index].Init) {
+                    if (index == sectorCount - 1)
+                        sectors[sectorCount - 1] = new SectorStatus((sectorCount - 1) * sectorCount, array.LongLength - 1);
+                    else sectors[index] = new SectorStatus(index * sectorCount, (index + 1) * sectorCount);
+                    sectors[index].Init = true;
+                }
+                if (!sectors[index].BrokenCount) {
+                    preConfirmations = true;
+                    action(array.GetValue(sectors[index].CurrentIndex), sectors[index].CurrentIndex);
+                    sectors[index].Next();
+                }
+                index++;
+                if (index >= sectorCount) {
+                    index = 0L;
+                    confirmations = preConfirmations;
+                    preConfirmations = false;
+                }
+            }
+        }
+
+        /// <summary>The method traverses the items in a list simultaneously.</summary>
+        /// <param name="array">The array that will be read.</param>
+        /// <param name="action">Action that receives the object and the index of the list.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void ForSector(Array array, in Action<object, long> action) {
+            if (array == null)
+                throw new ArgumentNullException("array", new ArgumentNullException());
+            ForSector(array, in action, (long)Math.Sqrt(array.LongLength));
+        }
+
+        private struct SectorStatus {
+            private bool init;
+            private long index;
+            private readonly long count;
+
+            public long CurrentIndex => index;
+            public bool BrokenCount => index >= count;
+            public bool Init { get => init; set => init = value; }
+
+            public SectorStatus(long index, long count) {
+                this.init = false;
+                this.index = index;
+                this.count = count;
+            }
+
+            public SectorStatus(long count) : this(0L, count) {}
+
+            public void Next() {
+                if (BrokenCount) return;
+                index++;
+            }
+        }
     }
 }

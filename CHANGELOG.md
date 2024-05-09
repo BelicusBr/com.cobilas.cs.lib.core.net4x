@@ -1,3 +1,7 @@
+# [1.5.0] (09/05/2024)
+## Add
+The methods `ArrayManipulation.ForSector(Array, in Action<object, long>, in long)` and `ArrayManipulation.ForSector(Array, in Action<object, long>)` have been added.
+
 # [1.4.2] (14/02/2024)
 ## Fixed
 Problem checking the `index` parameter in the `ArrayManipulation.FindIndex<T>(T[], long, long, Predicate<T>)` and `ArrayManipulation.FindLastIndex<T>(T[], long, long, Predicate methods <T>)`.
