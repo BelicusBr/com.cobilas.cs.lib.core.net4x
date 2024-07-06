@@ -18,7 +18,7 @@
         /// <typeparam name="T">The generic type used to obtain the target attribute.</typeparam>
         public static T GetAttribute<T>(this Type type, bool inherit) where T : Attribute {
             T[] types = GetAttributes<T>(type, inherit);
-            if (!(types[0] is null))
+            if (!(types is null) && types.LongLength != 0 && !(types[0] is null))
                 return types[0];
             return default;
         }
