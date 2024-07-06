@@ -1,3 +1,10 @@
+# [1.6.1] (06/07/2024)
+## Fixed
+`IndexOutOfRangeException` issue in `Type_CB_Extension.GetAttribute<T>(this Type, bool)` method.
+
+### Details
+The `IndexOutOfRangeException` error consisted of the fact that the method did not correctly check the internal variable which is an array, when this array was empty it caused the `IndexOutOfRangeException`. \
+The method that checks whether the first index of the array was null did not take into account whether the array was null and whether it was empty.
 # [1.6.0] (09/05/2024)
 ## Add
 New methods like `ArrayManipulation.ForSector<T>(Array, in Action<T, long>, in long)`, `ArrayManipulation.ForSector<T>(Array, in Action<T, long>)`, `ArrayManipulation.ForSector <T>(T[], in Action<T, long>, in long)`, `ArrayManipulation.ForSector<T>(T[], in Action<T, long>)`, `ArrayManipulation.ForSector<T> (IList, in Action<T, int>, in int)`, `ArrayManipulation.ForSector<T>(IList, in Action<T, int>)`, `ArrayManipulation.ForSector(IList, in Action<object, int> , in int)`, `ArrayManipulation.ForSector(IList, in Action<object, int>)`, `ArrayManipulation.ForSector<T>(IList<T>, in Action<T, int>, in int)` and ` ArrayManipulation.ForSector<T>(IList<T>, in Action<T, int>)` have been added.
