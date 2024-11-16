@@ -42,7 +42,7 @@ public static class Type_CB_Extension {
     /// Creates an instance of an object from a type.
     /// </summary>
     public static object Activator(this Type type)
-        => System.Activator.CreateInstance(type);
+        => System.Activator.CreateInstance(type) ?? Cobilas.NullObject.Null;
 
     /// <summary>
     /// Creates an instance of an object from a type.

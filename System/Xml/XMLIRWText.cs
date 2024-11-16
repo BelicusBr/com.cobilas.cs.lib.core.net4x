@@ -33,61 +33,61 @@ public class XMLIRWText : XMLIRW, IConvertible {
     public override string ToString()
         => ToString(CultureInfo.InvariantCulture);
     /// <inheritdoc cref="ToString()"/>
-    public string ToString(IFormatProvider provider)
-        => Convert.ToString(textValue, provider);
+    public string ToString(IFormatProvider? provider)
+        => Convert.ToString(textValue, provider) ?? string.Empty;
 
     TypeCode IConvertible.GetTypeCode()
         => Convert.GetTypeCode(textValue);
 
-    bool IConvertible.ToBoolean(IFormatProvider provider)
+    bool IConvertible.ToBoolean(IFormatProvider? provider)
         => Convert.ToBoolean(textValue, provider);
 
-    byte IConvertible.ToByte(IFormatProvider provider)
+    byte IConvertible.ToByte(IFormatProvider? provider)
         => Convert.ToByte(textValue, provider);
 
-    char IConvertible.ToChar(IFormatProvider provider)
+    char IConvertible.ToChar(IFormatProvider? provider)
         => Convert.ToChar(textValue, provider);
 
-    DateTime IConvertible.ToDateTime(IFormatProvider provider)
+    DateTime IConvertible.ToDateTime(IFormatProvider? provider)
         => Convert.ToDateTime(textValue, provider);
 
-    decimal IConvertible.ToDecimal(IFormatProvider provider)
+    decimal IConvertible.ToDecimal(IFormatProvider? provider)
         => Convert.ToDecimal(textValue, provider);
 
-    double IConvertible.ToDouble(IFormatProvider provider)
+    double IConvertible.ToDouble(IFormatProvider? provider)
         => Convert.ToDouble(textValue, provider);
 
-    short IConvertible.ToInt16(IFormatProvider provider)
+    short IConvertible.ToInt16(IFormatProvider? provider)
         => Convert.ToInt16(textValue, provider);
 
-    int IConvertible.ToInt32(IFormatProvider provider)
+    int IConvertible.ToInt32(IFormatProvider? provider)
         => Convert.ToInt32(textValue, provider);
 
-    long IConvertible.ToInt64(IFormatProvider provider)
+    long IConvertible.ToInt64(IFormatProvider? provider)
         => Convert.ToInt64(textValue, provider);
 
-    sbyte IConvertible.ToSByte(IFormatProvider provider)
+    sbyte IConvertible.ToSByte(IFormatProvider? provider)
         => Convert.ToSByte(textValue, provider);
 
-    float IConvertible.ToSingle(IFormatProvider provider)
+    float IConvertible.ToSingle(IFormatProvider? provider)
         => Convert.ToSingle(textValue, provider);
 
-    object IConvertible.ToType(Type conversionType, IFormatProvider provider)
+    object IConvertible.ToType(Type conversionType, IFormatProvider? provider)
         => Convert.ChangeType(textValue, conversionType, provider);
 
-    ushort IConvertible.ToUInt16(IFormatProvider provider)
+    ushort IConvertible.ToUInt16(IFormatProvider? provider)
         => Convert.ToUInt16(textValue, provider);
 
-    uint IConvertible.ToUInt32(IFormatProvider provider)
+    uint IConvertible.ToUInt32(IFormatProvider? provider)
         => Convert.ToUInt32(textValue, provider);
 
-    ulong IConvertible.ToUInt64(IFormatProvider provider)
+    ulong IConvertible.ToUInt64(IFormatProvider? provider)
         => Convert.ToUInt64(textValue, provider);
 
     /// <summary>Provide a conversion from type <see cref="XMLIRWText"/> to <see cref="string"/>.</summary>
-    public static explicit operator string(XMLIRWText text) => Convert.ToString(text);
+    public static explicit operator string(XMLIRWText text) => Convert.ToString(text) ?? string.Empty;
     /// <summary>Provide a conversion from type <see cref="XMLIRWText"/> to <see cref="char"/>[].</summary>
-    public static explicit operator char[](XMLIRWText text) => Convert.ToString(text).ToCharArray();
+    public static explicit operator char[](XMLIRWText text) => (Convert.ToString(text) ?? string.Empty).ToCharArray();
 
     /// <summary>Provide a conversion from type <see cref="XMLIRWText"/> to <see cref="float"/>.</summary>
     public static explicit operator float(XMLIRWText text) => Convert.ToSingle(text);

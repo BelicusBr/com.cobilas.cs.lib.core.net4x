@@ -17,13 +17,13 @@ namespace System.Xml {
         public override string Name { get; set; } = string.Empty;
         
         /// <inheritdoc cref="XMLIRW()"/>
-        public XMLIRWDocType(XMLIRW parent, string name, object pudid, object sysid, object subset) : base(parent, name, XmlNodeType.DocumentType) {
-            PudID = new XMLIRWText(pudid);
-            SysID = new XMLIRWText(sysid);
-            SubSet = new XMLIRWText(subset);
+        public XMLIRWDocType(XMLIRW parent, string name, object? pudid, object? sysid, object? subset) : base(parent, name, XmlNodeType.DocumentType) {
+            PudID = pudid is null ? XMLIRWTextNull.Null : new XMLIRWText(pudid);
+            SysID = sysid is null ? XMLIRWTextNull.Null : new XMLIRWText(sysid);
+            SubSet = subset is null ? XMLIRWTextNull.Null : new XMLIRWText(subset);
         }
         /// <inheritdoc cref="XMLIRW()"/>
-        public XMLIRWDocType(string name, object pudid, object sysid, object subset) :
+        public XMLIRWDocType(string name, object? pudid, object? sysid, object? subset) :
             this(XMLIRWNull.Null, name, pudid, sysid, subset) {}
 
         /// <summary>Called when the object is finished.</summary>

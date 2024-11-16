@@ -2,13 +2,12 @@
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<TargetFrameworks>net8.0;net6.0;netstandard2.0;netstandard2.1;net472</TargetFrameworks>
+		<!-- <TargetFramework>net6.0</TargetFramework> -->
 		<RootNamespace></RootNamespace>
 		<AssemblyName>Cobilas.Core</AssemblyName>
 		<OutputPath>.libs/bin</OutputPath>
-		<!-- <BaseIntermediateOutputPath>.libs/obj</BaseIntermediateOutputPath> -->
 		<LangVersion>default</LangVersion>
 		<Nullable>enable</Nullable>
-		<!-- <NoWarn>IDE0290;IDE0300;IDE0301;IDE0130;IDE1006</NoWarn> -->
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<PropertyGroup>
@@ -29,10 +28,6 @@
 		<None Include="README.md" Pack="true" PackagePath="\" />
 		<None Include="LICENSE.md" Pack="true" PackagePath="\" />
 		<None Include="CHANGELOG.md" Pack="true" PackagePath="\" />
-		<!-- <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		  <PrivateAssets>all</PrivateAssets>
-		</PackageReference> -->
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 </Project>

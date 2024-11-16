@@ -24,7 +24,7 @@ public abstract class XMLIRW : IDisposable {
     /// <summary>Discard the resources of the XMLIRW element.</summary>
     public abstract void Dispose();
     /// <summary>Creates a <see cref="string"/> representation of the <see cref="object"/>.</summary>
-    public override string ToString() {
+    public override string? ToString() {
         return base.ToString();
     }
 }

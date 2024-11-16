@@ -11,10 +11,10 @@ namespace System.Xml {
         /// <inheritdoc/>
         public override string Name { get; set; } = string.Empty;
         /// <inheritdoc cref="XMLIRW()"/>
-        public XMLIRWCDATA(XMLIRW parent, object value) : base(parent, "#cdata", XmlNodeType.CDATA)
-        { Text = new XMLIRWText(value); }
+        public XMLIRWCDATA(XMLIRW parent, object? value) : base(parent, "#cdata", XmlNodeType.CDATA)
+        { Text = value is null ? XMLIRWTextNull.Null : new XMLIRWText(value); }
         /// <inheritdoc cref="XMLIRW()"/>
-        public XMLIRWCDATA(object value) : this(XMLIRWNull.Null, value) {}
+        public XMLIRWCDATA(object? value) : this(XMLIRWNull.Null, value) {}
         /// <summary>Called when the object is finished.</summary>
         ~XMLIRWCDATA()
             => Dispose(disposing: false);

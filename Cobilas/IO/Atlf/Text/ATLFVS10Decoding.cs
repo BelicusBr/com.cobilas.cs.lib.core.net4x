@@ -26,7 +26,8 @@ public class ATLFVS10Decoding : ATLFDecoding {
     /// </param>
     public override ATLFNode[] Reader4Byte(params object[] args) {
         if (args[1] is Encoding edg && edg is not null)
-            return Reader(new CharacterCursor(edg.GetString(args[0] as byte[])));
+            if (args[0] is byte[] list && list is not null)
+                return Reader(new CharacterCursor(edg.GetString(list)));
         return [];
     }
 

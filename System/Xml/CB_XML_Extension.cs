@@ -7,11 +7,15 @@ namespace System.Xml;
 /// Extension that adds reading and writing functions for XML.
 /// </summary>
 public static class CB_XML_Extension {
+
+    private static readonly InvalidOperationException xmlSettingsNull = new(
+        "The Settings property of the xml is null.",
+         new NullReferenceException());
     #region WriterXML
-    /// <summary>
-    /// Uses an <see cref="XMLIRWElement"/> to write to the xml document.
-    /// </summary>
+    /// <summary>Uses an <see cref="XMLIRWElement"/> to write to the xml document.</summary>
+    /// <exception cref="InvalidOperationException">The Settings property of the xml is null.</exception>
     public static void WriterXMLIRW(this XmlWriter writer, XMLIRWElement element) {
+        if (writer.Settings is null) throw xmlSettingsNull;
         writer.WriteStartDocument();
         if (writer.Settings.Indent)
             writer.WriteWhitespace(writer.Settings.NewLineChars);
@@ -21,6 +25,7 @@ public static class CB_XML_Extension {
 
     private static void Xmlwriter(XMLIRWElement element, XmlWriter writer, ulong level = 0UL) {
         if (element.IsEmpty) return;
+        if (writer.Settings is null) throw xmlSettingsNull;
         foreach (XMLIRW item in element) {
             if (item is null)
                 throw new ArgumentNullException($"The element inside \"{element.Name}\" is null!");
@@ -112,13 +117,13 @@ public static class CB_XML_Extension {
                 root.Add(new XMLIRWCDATA(cd.Value));
             else if (node is XmlProcessingInstruction pi) {
                 if (!ArrayManipulation.EmpytArray(pi.Attributes)) {
-                    XMLIRWAttribute[] attributes = new XMLIRWAttribute[pi.Attributes.Count];
-                    for (int I = 0; I < pi.Attributes.Count; I++) {
+                    XMLIRWAttribute[] attributes = new XMLIRWAttribute[pi.Attributes is null ? 0 : pi.Attributes.Count];
+                    for (int I = 0; I < attributes.Length && pi.Attributes is not null; I++) {
                         XmlAttribute attribute = pi.Attributes[I];
                         attributes[I] = new XMLIRWAttribute(attribute.LocalName, attribute.InnerText);
                     }
-                    root.Add(new XMLIRWProcessingInstruction(pi.Target, attributes));
-                } else root.Add(new XMLIRWProcessingInstruction(pi.Target, pi.Data));
+                    root.Add(new XMLIRWProcessingInstruction(pi.Target ?? string.Empty, attributes));
+                } else root.Add(new XMLIRWProcessingInstruction(pi.Target ?? string.Empty, pi.Data));
             } else if (node is XmlComment cm) 
                 root.Add(new XMLIRWComment(cm.InnerText));
             else if (node is XmlText text) {

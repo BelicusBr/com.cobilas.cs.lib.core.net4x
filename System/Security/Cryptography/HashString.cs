@@ -30,7 +30,7 @@ public readonly struct HashString : IEquatable<HashString>, IComparable<HashStri
     /// </summary>
     /// <param name="obj">The <see cref="object"/> to compare with the current instance.</param>
     /// <returns>true if obj and this instance are the same type and represent the same value; otherwise, false.</returns>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
         => (obj is HashString hs && Equals(hs)) ||
         (obj is string stg && Equals(stg));
 
@@ -60,7 +60,7 @@ public readonly struct HashString : IEquatable<HashString>, IComparable<HashStri
     /// <para>Use <see cref="Guid"/>.ToString() or convert a list of bytes to a <see cref="string"/> using a <see cref="StringBuilder"/> or similar.</para>
     /// </param>
     /// <returns>true if the current object is equal to the other parameter; otherwise, false.</returns>
-    public bool Equals(string other) {
+    public bool Equals(string? other) {
         StringBuilder builder = new();
         foreach (byte item in hash)
             builder.Append(item);
@@ -107,7 +107,7 @@ public readonly struct HashString : IEquatable<HashString>, IComparable<HashStri
     /// <returns>The value of this <see cref="System.Guid"/>, represented as a series of lowercase hexadecimal
     /// digits in the specified format.
     /// </returns>
-    public string ToString(string format, IFormatProvider formatProvider)
+    public string ToString(string? format, IFormatProvider? formatProvider)
         => ((Guid)this).ToString(format, formatProvider);
 
     /// <summary>

@@ -48,11 +48,11 @@ public static class Enum_CB_Extension {
     public static KeyValuePair<string, int>[] GetEnumPairs(this Enum E) {
         Array array = Enum.GetValues(E.GetType());
         KeyValuePair<string, int>[] Res = [];
-        for (int I = 0; I < ArrayManipulation.ArrayLength(array); I++)
-            ArrayManipulation.Add(new KeyValuePair<string, int>(
-                array.GetValue(I).ToString(),
-                (int)array.GetValue(I)
-                ), ref Res);
+        for (int I = 0; I < ArrayManipulation.ArrayLength(array); I++) {
+            string key = Convert.ToString(array.GetValue(I))!;
+            object value = array.GetValue(I)!;
+            ArrayManipulation.Add(new KeyValuePair<string, int>(key, (int)value), ref Res);
+        }
         return Res;
     }
 
@@ -67,7 +67,7 @@ public static class Enum_CB_Extension {
     /// </exception>
     /// <returns>A <see cref="string"/> containing the name of the enumerated constant in enumType whose value is value; or null if no such constant is found.</returns>
     public static string GetName(this Enum E, object value)
-        => Enum.GetName(E.GetType(), value);
+        => Enum.GetName(E.GetType(), value) ?? string.Empty;
 
     /// <summary>
     /// Retrieves the name of the constant in the specified enumeration that has the specified value.

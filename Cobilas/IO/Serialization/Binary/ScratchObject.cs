@@ -1,11 +1,16 @@
-﻿#if !NET8_0_OR_GREATER
-using System;
+﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Cobilas.IO.Serialization.Binary; 
 /// <summary>Base sketch object.</summary>
+#if NET8_0_OR_GREATER
+[Serializable, Obsolete("BinaryFormatter serialization is obsolete and should not be used. See https://aka.ms/binaryformatter for more information. Use Json class", error:true, DiagnosticId = "SYSLIB0011")]
+#elif NET5_0_OR_GREATER
+[Serializable, Obsolete("BinaryFormatter serialization is obsolete and should not be used. See https://aka.ms/binaryformatter for more information. Use Json class", DiagnosticId = "SYSLIB0011")]
+#else
 [Serializable]
+#endif
 public abstract class ScratchObject {
     /// <summary>Draft name.</summary>
     public abstract string Name { get; }
@@ -42,4 +47,3 @@ public abstract class ScratchObject {
         return (ScratchObject)formatter.Deserialize(stream);
     }
 }
-#endif
