@@ -13,7 +13,5 @@ node_modules.meta
 *.code-workspace
 *.sln
 *.sln.meta
-*.csproj
-*.csproj.meta
 *.ps1
 *.ps1.meta
