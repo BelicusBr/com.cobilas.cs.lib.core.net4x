@@ -1,3 +1,25 @@
+# [2.0.1] (16/11/2024)
+## Changed
+### Discontinued support
+The npm version of the package is no longer supported and is also no longer supported as a Unity3D package.
+### New Target Frameworks
+The NuGet version of the package now supports `.NET 6.0`, `.NET 8.0`, and `.NET Standard 2.1`.
+### Nullable Types
+The package has been updated to more robustly handle (nullable types).
+
+## Fixed
+### Object_CB_Extension.CompareTypeAndSubType Method
+- **Problem**: When the IncludeInterface parameter was <kbd>true</kbd> and the method compared an interface and an object that inherited that interface, the result was always <kbd>false</kbd>.
+- **Cause**: The issue was due to incorrect usage of the `Type.IsAssignableFrom(Type)` method, which was called from the object type instead of the interface type.
+- **Fix**: Now `Type.IsAssignableFrom(Type)` method is called correctly from interface type.
+
+## Deprecated
+### ScratchObject class
+The abstract class `ScratchObject` is marked as deprecated starting in `.NET 5` and will throw an error starting in `.NET 8`. \
+For more information, visit https://aka.ms/binaryformatter. \
+**Alternative**: Use the Json class as an alternative to `ScratchObject`.
+
+
 # [1.6.1] (06/07/2024)
 ## Fixed
 `IndexOutOfRangeException` issue in `Type_CB_Extension.GetAttribute<T>(this Type, bool)` method.
