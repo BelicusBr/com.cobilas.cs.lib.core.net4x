@@ -1,26 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
-		<TargetFrameworks>net472;netstandard2.0</TargetFrameworks>
-		<RootNamespace>Cobilas</RootNamespace>
+		<TargetFrameworks>net8.0;net6.0;netstandard2.0;netstandard2.1;net472</TargetFrameworks>
+		<!-- <TargetFramework>net6.0</TargetFramework> -->
+		<RootNamespace></RootNamespace>
 		<AssemblyName>Cobilas.Core</AssemblyName>
 		<OutputPath>.libs/bin</OutputPath>
-		<BaseIntermediateOutputPath>.libs/obj</BaseIntermediateOutputPath>
-  	  	<LangVersion>7.3</LangVersion>
-  	  	<!-- <Nullable>disable</Nullable> -->
-		<NoWarn>IDE0290;IDE0028;IDE0300</NoWarn>
+		<LangVersion>default</LangVersion>
+		<Nullable>enable</Nullable>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<PropertyGroup>
 		<Authors>BélicusBr</Authors>
 		<PackageId>Cobilas.Core.Net4x</PackageId>
 		<PackageDescription>NuGet C# package for general use in apps and games.</PackageDescription>
-		<PackageVersion>1.6.1</PackageVersion>
+		<PackageVersion>2.0.1</PackageVersion>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/BelicusBr/com.cobilas.cs.lib.core.net4x</RepositoryUrl>
 		<NeutralLanguage>en</NeutralLanguage>
-		<PackageTags>CSharp;C#;net472;netstandard2.0;Godot3</PackageTags>
+		<PackageTags>CSharp;C#;net472;netstandard2.0;netstandard2.1;Godot3</PackageTags>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageOutputPath>C:\local.nuget</PackageOutputPath>
@@ -29,9 +28,6 @@
 		<None Include="README.md" Pack="true" PackagePath="\" />
 		<None Include="LICENSE.md" Pack="true" PackagePath="\" />
 		<None Include="CHANGELOG.md" Pack="true" PackagePath="\" />
-		<None Include="package.json" Pack="false" PackagePath="\"/>
-		<None Include=".npmignore" Pack="false" PackagePath="\"/>
-		<None Include=".metafreeze" Pack="false" PackagePath="\"/>
-	  	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 </Project>
