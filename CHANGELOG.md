@@ -1,3 +1,12 @@
+# [2.1.0] (18/11/2024)
+## Added
+### New Deserialization Methods
+- Added `Json.Deserialize(string, Type?, JsonSerializerSettings?)` and `Json.Deserialize(string, Type?)` to provide more deserialization options regarding return type.
+- **Note**: This also fixes the return type deficiency in non-generic deserialization methods.
+## Changed
+### Json Class Documentation
+- Changes to the `Json` class documentation to describe in more detail what each method does.
+
 # [2.0.1] (16/11/2024)
 ## Changed
 ### Discontinued support
