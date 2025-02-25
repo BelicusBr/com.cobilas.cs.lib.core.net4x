@@ -40,7 +40,7 @@ public static class HashAlgorithm_CB_Extension {
     /// <returns>The computed hash code for string.</returns>
     public static HashString ComputeHashToString(this HashAlgorithm H, string FilePath) {
         byte[] bytes = ComputeHash(H, FilePath);
-        if (!(bytes is null))
+        if (bytes is not null)
             return new HashString(bytes);
         return HashString.Empty;
     }
@@ -55,7 +55,7 @@ public static class HashAlgorithm_CB_Extension {
     /// <returns>The computed hash code for string.</returns>
     public static HashString ComputeHashToString(this HashAlgorithm H, byte[] buffer) {
         buffer = H.ComputeHash(buffer);
-        if (!(buffer is null)) 
+        if (buffer is not null) 
             return new HashString(buffer);
         return HashString.Empty;
     }
@@ -74,7 +74,7 @@ public static class HashAlgorithm_CB_Extension {
     /// <returns>The computed hash code for string.</returns>
     public static HashString ComputeHashToString(this HashAlgorithm H, byte[] buffer, int offset, int count) {
         buffer = H.ComputeHash(buffer, offset, count);
-        if (!(buffer is null))
+        if (buffer is not null)
             return new HashString(buffer);
         return HashString.Empty;
     }
@@ -88,7 +88,7 @@ public static class HashAlgorithm_CB_Extension {
     /// <returns>The computed hash code for string.</returns>
     public static HashString ComputeHashToString(this HashAlgorithm H, Stream inputStream) {
         byte[] buffer = H.ComputeHash(inputStream);
-        if (!(buffer is null)) 
+        if (buffer is not null) 
             return new HashString(buffer);
         return HashString.Empty;
     }

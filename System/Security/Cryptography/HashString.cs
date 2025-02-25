@@ -17,10 +17,10 @@ public readonly struct HashString : IEquatable<HashString>, IComparable<HashStri
     /// Initializes a <see cref="HashString"/> object using a list of bytes with a minimum length of 16.
     /// </summary>
     /// <param name="hash"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentNullException">The hash parameter cannot be null.</exception>
+    /// <exception cref="ArgumentException">The hash parameter cannot have a length shorter than 16.</exception>
     public HashString(byte[] hash) {
-        if (hash is null) throw new ArgumentNullException("The hash parameter cannot be null.");
+        if (hash is null) throw new ArgumentNullException(nameof(hash), "The hash parameter cannot be null.");
         else if (hash.Length < 16) throw new ArgumentException("The hash parameter cannot have a length shorter than 16.");
         this.hash = hash;
     }
