@@ -4,16 +4,29 @@ using System.Globalization;
 namespace System;
 /// <summary>Grants more methods to <seealso cref="string"/> class.</summary>
 public static class String_CB_Extension {
-    /// <summary>
-    /// Returns a value indicating whether a specified substring occurs within this string.
-    /// </summary>
+    /// <summary>Returns a value indicating whether a specified substring occurs within this string.</summary>
     public static bool Contains(this string S, params char[] value) {
         for (int I = 0; I < ArrayManipulation.ArrayLength(value); I++)
             if (S.Contains(value[I].ToString()))
                 return true;
         return false;
     }
-
+    /// <inheritdoc cref="Contains(string, char[])"/>
+    public static bool Contains(this string S, params string[] values) {
+        for (int I = 0; I < ArrayManipulation.ArrayLength(values); I++)
+            if (S.Contains(values[I]))
+                return true;
+        return false;
+    }
+    /// <summary>Converts a <seealso cref="string"/> to a <seealso cref="Guid"/>.</summary>
+    /// <param name="S">Receives a string that will be converted to a GUID.</param>
+    /// <returns>Returns a string already converted to GUID.</returns>
+    public static Guid ToGuid(this string S) {
+        byte[] bytes = new byte[16];
+        for (int I = 0; I < S.Length; I++)
+            bytes[I % 16] ^= (byte)S[I];
+        return new(bytes);
+    }
 #pragma warning disable CS1591
     public static sbyte ToSByte(this string S, NumberStyles style, IFormatProvider formatProvider)
         => sbyte.Parse(S, style, formatProvider);

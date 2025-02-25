@@ -147,8 +147,10 @@ public static class Stream_CB_Extension {
         F.CopyTo(memory);
         byte[] guid = new byte[16];
         byte[] content = Read(memory);
-        for (int I = 0, g = 0; I < content.Length; I++, g++)
-            guid[(g >= 16 ? g = 0 : g)] ^= content[I];
+        // for (int I = 0, g = 0; I < content.Length; I++, g++)
+        //     guid[(g >= 16 ? g = 0 : g)] ^= content[I];
+        for (int I = 0; I < content.Length; I++)
+            guid[I % 16] ^= content[I];
         return new Guid(guid);
     }
 }

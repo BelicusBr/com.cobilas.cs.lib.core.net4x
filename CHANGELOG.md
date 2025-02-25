@@ -1,3 +1,7 @@
+# [2.2.0] (25/02/2025)
+## Added
+The `Contains(this string, params string[])` and `ToGuid(this string)` extension methods have been added for the `string` class.
+
 # [2.1.0] (18/11/2024)
 ## Added
 ### New Deserialization Methods
