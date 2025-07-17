@@ -23,7 +23,7 @@ public static class ParseCalculation {
                 !item.CompareType<CalculationsCollection>()) {
                 CalculationsCollection calc = item.Activator<CalculationsCollection>();
                 calc.Initialization();
-                Collections = ArrayManipulation.Add(calc, Collections);
+                Collections = ArrayManipulation.Add(calc, Collections)!;
             }
         }
     }
@@ -53,7 +53,7 @@ public static class ParseCalculation {
     private static MathOperator[] GetSignals() {
         MathOperator[] s = [];
         foreach (var item in Collections)
-            ArrayManipulation.Add(item.Calculations, ref s);
+            ArrayManipulation.Add(item.Calculations, ref s!);
         return s;
     }
 
@@ -80,14 +80,14 @@ public static class ParseCalculation {
             if (IsSignal(txt, signals, out string sg)) {
                 txt.MoveToCharacter(sg.Length - 1);
                 if (builder.Length != 0) {
-                    ArrayManipulation.Add(builder.ToString(), ref calc);
+                    ArrayManipulation.Add(builder.ToString(), ref calc!);
                     builder.Clear();
                 }
-                ArrayManipulation.Add(sg, ref calc);
+                ArrayManipulation.Add(sg, ref calc!);
             } else builder.Append(txt.CurrentCharacter);
         }
         if (builder.Length != 0) {
-            ArrayManipulation.Add(builder.ToString(), ref calc);
+            ArrayManipulation.Add(builder.ToString(), ref calc!);
             builder.Clear();
         }
         byte executionLevel = 0;
@@ -96,7 +96,7 @@ public static class ParseCalculation {
                 executionLevel = item.ExecutionLevel;
         for (int I = 0; I <= executionLevel && ArrayManipulation.ArrayLength(calc) > 1; I++) {
             for (int J = 0; J < ArrayManipulation.ArrayLength(calc); J++) {
-                if (IsSignal(calc[J], signals, out MathOperator math))
+                if (IsSignal(calc![J], signals, out MathOperator math))
                     if (math.ExecutionLevel == I)
                         switch (math.Orientation) {
                             case SignalOrientation.both:
@@ -111,7 +111,7 @@ public static class ParseCalculation {
                                     throw new FormatException($"The value({calc[J]}{calc[J + 1]}) on the right is not a digit.");
 
                                 calc[J - 1] = (string)GetMathFuncResult(math, double.Parse(calc[J - 1]), double.Parse(calc[J + 1]));
-                                ArrayManipulation.Remove(J, 2, ref calc);
+                                ArrayManipulation.Remove(J, 2, ref calc!);
                                 J = -1;
                                 break;
                             case SignalOrientation.left:
@@ -126,7 +126,7 @@ public static class ParseCalculation {
                                 }
 
                                 calc[J - 1] = (string)GetMathFuncResult(math, double.Parse(calc[J - 1]), 0);
-                                ArrayManipulation.Remove(J, 1, ref calc);
+                                ArrayManipulation.Remove(J, 1, ref calc!);
                                 J = -1;
                                 break;
                             case SignalOrientation.right:
@@ -138,7 +138,7 @@ public static class ParseCalculation {
                                 } else if (!IsDigit(calc[J + 1]))
                                     throw new FormatException($"The value({calc[J]}{calc[J + 1]}) on the right is not a digit.");
                                 calc[J] = (string)GetMathFuncResult(math, 0, double.Parse(calc[J + 1]));
-                                ArrayManipulation.Remove(J + 1, 1, ref calc);
+                                ArrayManipulation.Remove(J + 1, 1, ref calc!);
                                 J = -1;
                                 break;
                         }

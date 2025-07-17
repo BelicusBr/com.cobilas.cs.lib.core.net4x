@@ -28,7 +28,7 @@ namespace Cobilas.Collections.Generic {
         public ReadOnlyLongCollection(IEnumerable<T> enumerable) {
             readOnlyList = [];
             foreach (T item in enumerable)
-                ArrayManipulation.Add<T>(item, ref readOnlyList);
+                ArrayManipulation.Add<T>(item, ref readOnlyList!);
         }
 
         /// <inheritdoc/>
@@ -55,8 +55,8 @@ namespace Cobilas.Collections.Generic {
         void ILongCollection.CopyTo(Array array, long index)
             => ArrayManipulation.CopyTo(readOnlyList, index, array, index, Count);
 
-        void ILongCollection<T>.Clear() => ArrayManipulation.ClearArraySafe(ref readOnlyList);
-        void ILongList.Clear() => ArrayManipulation.ClearArraySafe(ref readOnlyList);
+        void ILongCollection<T>.Clear() => ArrayManipulation.ClearArraySafe(ref readOnlyList!);
+        void ILongList.Clear() => ArrayManipulation.ClearArraySafe(ref readOnlyList!);
 
         bool ILongCollection<T>.Contains(T item)
             => ArrayManipulation.Exists(readOnlyList, (E) => EqualityComparer<T>.Default.Equals(E, item));

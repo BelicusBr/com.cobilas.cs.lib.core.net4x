@@ -11,9 +11,9 @@ public static class EncodingsCollection {
         foreach(Type item in TypeUtilitarian.GetTypes()) {
             if (item == typeof(NullATLFDecoding) || item == typeof(NullATLFEncoding)) continue;
             if (item.IsSubclassOf(typeof(ATLFEncoding)) && item != typeof(ATLFEncoding))
-                ArrayManipulation.Add((ATLFEncoding)item.Activator(), ref encodings);
+                ArrayManipulation.Add((ATLFEncoding)item.Activator(), ref encodings!);
             else if (item.IsSubclassOf(typeof(ATLFDecoding)) && item != typeof(ATLFDecoding))
-                ArrayManipulation.Add((ATLFDecoding)item.Activator(), ref decodings);
+                ArrayManipulation.Add((ATLFDecoding)item.Activator(), ref decodings!);
         }
     }
 

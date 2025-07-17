@@ -12,7 +12,7 @@ public static class TypeUtilitarian {
         Type[] types = [];
         Assembly[] assemblies = GetAssemblies();
         foreach (var item in assemblies)
-            ArrayManipulation.Add(item.GetTypes(), ref types);
+            ArrayManipulation.Add(item.GetTypes(), ref types!);
         return types;
     }
 

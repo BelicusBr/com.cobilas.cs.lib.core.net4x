@@ -89,7 +89,7 @@ public class ATLFTextReader : ATLFTBReader {
         ATLFNode[] res = [];
         foreach (var item in Nodes)
             if (item.NodeType == ATLFNodeType.Comment)
-                ArrayManipulation.Add(item, ref res);
+                ArrayManipulation.Add(item, ref res!);
         return res;
     }
 
@@ -100,7 +100,7 @@ public class ATLFTextReader : ATLFTBReader {
         ATLFNode[] res = [];
         foreach (var item in Nodes)
             if (item.Name.Contains(path) && item.NodeType == ATLFNodeType.Tag)
-                ArrayManipulation.Add(item, ref res);
+                ArrayManipulation.Add(item, ref res!);
         return res;
     }
 

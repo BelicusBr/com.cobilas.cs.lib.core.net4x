@@ -1,3 +1,7 @@
+# (2.3.0} (17/07/2025)
+## Changed
+The methods `Insert`, `Add`, `AddNon_Existing`, `Remove`, `ClearArray`, `LongClearArray`, `ClearArraySafe`, `LongClearArraySafe`, `FindAll` have parameters or returns with possibly null reference flag.
+
 # [2.2.0] (25/02/2025)
 ## Added
 The `Contains(this string, params string[])` and `ToGuid(this string)` extension methods have been added for the `string` class.

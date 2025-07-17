@@ -51,7 +51,7 @@ public static class Enum_CB_Extension {
         for (int I = 0; I < ArrayManipulation.ArrayLength(array); I++) {
             string key = Convert.ToString(array.GetValue(I))!;
             object value = array.GetValue(I)!;
-            ArrayManipulation.Add(new KeyValuePair<string, int>(key, (int)value), ref Res);
+            ArrayManipulation.Add(new KeyValuePair<string, int>(key, (int)value), ref Res!);
         }
         return Res;
     }

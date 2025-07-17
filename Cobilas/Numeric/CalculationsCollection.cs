@@ -22,7 +22,7 @@ public abstract class CalculationsCollection {
     internal static void OverrideFunction(CalculationsCollection[] collections) {
         MathOperator[] overwriteCalculations = [];
         foreach (var item in collections)
-            ArrayManipulation.Add(item.OverwriteCalculations, ref overwriteCalculations);
+            ArrayManipulation.Add(item.OverwriteCalculations, ref overwriteCalculations!);
 
         bool _break = false;
         foreach (var item1 in overwriteCalculations)
@@ -40,7 +40,7 @@ public abstract class CalculationsCollection {
 
     /// <summary>Merge two collections of calculations.</summary>
     public static CalculationsCollection Merge(CalculationsCollection A, CalculationsCollection B) {
-        A.Calculations = ArrayManipulation.Add(B.Calculations, A.Calculations);
+        A.Calculations = ArrayManipulation.Add(B.Calculations, A.Calculations)!;
         return A;
     }
 }

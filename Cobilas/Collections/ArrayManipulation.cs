@@ -15,7 +15,7 @@ namespace Cobilas.Collections {
         /// <param name="index">The index of the list where the items will be inserted.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static T[] Insert<T>(T[]? itens, long index, T[] list) {
+        public static T[]? Insert<T>(T[]? itens, long index, T[]? list) {
             if (itens is null) throw ArrayNullException;
             else if (itens.LongLength == 0)
                 return list;
@@ -33,7 +33,7 @@ namespace Cobilas.Collections {
         /// <param name="index">The index of the list where the items will be inserted.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static T[] Insert<T>(T? item, long index, T[] list) {
+        public static T[]? Insert<T>(T? item, long index, T[]? list) {
             if (item is null) throw ArrayNullException;
             return Insert<T>([item], index, list);
         }
@@ -43,7 +43,7 @@ namespace Cobilas.Collections {
         /// <param name="index">The index of the list where the items will be inserted.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"/>
-        public static T[] Insert<T>(IEnumerable<T>? collection, long index, T[] list) {
+        public static T[]? Insert<T>(IEnumerable<T>? collection, long index, T[]? list) {
             if (collection is null) throw ArrayNullException;
             foreach (T item in collection)
                 list = Insert<T>(item, index, list);
@@ -55,7 +55,7 @@ namespace Cobilas.Collections {
         /// <param name="index">The index of the list where the items will be inserted.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"/>
-        public static void Insert<T>(IEnumerable<T>? collection, long index, ref T[] list)
+        public static void Insert<T>(IEnumerable<T>? collection, long index, ref T[]? list)
             => list = Insert<T>(collection, index, list);
 
         /// <summary>Insert a list of items at a given index into a target array.</summary>
@@ -63,7 +63,7 @@ namespace Cobilas.Collections {
         /// <param name="index">The index of the list where the items will be inserted.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void Insert<T>(T[]? itens, long index, ref T[] list)
+        public static void Insert<T>(T[]? itens, long index, ref T[]? list)
             => list = Insert<T>(itens, index, list);
 
         /// <summary>Insert a list of items at a given index into a target array.</summary>
@@ -71,7 +71,7 @@ namespace Cobilas.Collections {
         /// <param name="index">The index of the list where the items will be inserted.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void Insert<T>(T? item, long index, ref T[] list)
+        public static void Insert<T>(T? item, long index, ref T[]? list)
             => list = Insert<T>(item, index, list);
 
         /// <summary>Adds a list of items to the target list.
@@ -82,7 +82,7 @@ namespace Cobilas.Collections {
         /// <returns>This way, when adding the same object, the operation will not be performed 
         /// and the list will be returned without being modified.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static T[] AddNon_Existing<T>(T? item, T[] list) {
+        public static T[]? AddNon_Existing<T>(T? item, T[]? list) {
             if (!Exists<T>(item, list))
                 return Add(item, list);
             return list;
@@ -96,49 +96,49 @@ namespace Cobilas.Collections {
         /// <returns>This way, when adding the same object, the operation will not be performed 
         /// and the list will be returned without being modified.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void AddNon_Existing<T>(T? item, ref T[] list)
+        public static void AddNon_Existing<T>(T? item, ref T[]? list)
             => list = AddNon_Existing<T>(item, list);
 
         /// <summary>Adds a list of items to the target list.</summary>
         /// <param name="itens">The items that will be inserted into the list.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static T[] Add<T>(T[]? itens, T[] list)
+        public static T[]? Add<T>(T[]? itens, T[]? list)
             => Insert<T>(itens, ArrayLongLength(list), list);
 
         /// <summary>Adds a list of items to the target list.</summary>
         /// <param name="collection">The items that will be inserted into the list.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static T[] Add<T>(IEnumerable<T>? collection, T[] list)
+        public static T[]? Add<T>(IEnumerable<T>? collection, T[]? list)
             => Insert<T>(collection, ArrayLongLength(list), list);
 
         /// <summary>Adds a list of items to the target list.</summary>
         /// <param name="collection">The items that will be inserted into the list.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void Add<T>(IEnumerable<T>? collection, ref T[] list)
+        public static void Add<T>(IEnumerable<T>? collection, ref T[]? list)
             => list = Insert<T>(collection, ArrayLongLength(list), list);
 
         /// <summary>Adds a list of items to the target list.</summary>
         /// <param name="item">The item that will be inserted into the list.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static T[] Add<T>(T? item, T[] list)
+        public static T[]? Add<T>(T? item, T[]? list)
             => Insert<T>(item, ArrayLongLength(list), list);
 
         /// <summary>Adds a list of items to the target list.</summary>
         /// <param name="itens">The items that will be inserted into the list.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void Add<T>(T[]? itens, ref T[] list)
+        public static void Add<T>(T[]? itens, ref T[]? list)
             => Insert<T>(itens, ArrayLongLength(list), ref list);
 
         /// <summary>Adds a list of items to the target list.</summary>
         /// <param name="item">The item that will be inserted into the list.</param>
         /// <param name="list">The list that will receive the items.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void Add<T>(T? item, ref T[] list)
+        public static void Add<T>(T? item, ref T[]? list)
             => Insert<T>(item, ArrayLongLength(list), ref list);
 
         /// <summary>Remove items from the target list.</summary>
@@ -163,7 +163,7 @@ namespace Cobilas.Collections {
         /// <param name="list">The list from which items will be removed.</param>
         /// <exception cref="ArgumentNullException"/>
         /// <exception cref="IndexOutOfRangeException"/>
-        public static void Remove<T>(long index, long length, ref T[] list)
+        public static void Remove<T>(long index, long length, ref T[]? list)
             => list = Remove<T>(index, length, list);
 
         /// <summary>Remove items from the target list.</summary>
@@ -179,7 +179,7 @@ namespace Cobilas.Collections {
         /// <param name="list">The list from which items will be removed.</param>
         /// <exception cref="ArgumentNullException"/>
         /// <exception cref="IndexOutOfRangeException"/>
-        public static void Remove<T>(long index, ref T[] list)
+        public static void Remove<T>(long index, ref T[]? list)
             => list = Remove<T>(index, list);
 
         /// <summary>Remove items from the target list.</summary>
@@ -202,7 +202,7 @@ namespace Cobilas.Collections {
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="RankException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static void ClearArray(Array array, long index, long length) {
+        public static void ClearArray(Array? array, long index, long length) {
             if (array is null)
                 throw new ArgumentNullException("array", new ArgumentNullException());
             else if (array.Rank != 1)
@@ -220,25 +220,25 @@ namespace Cobilas.Collections {
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="RankException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static void LongClearArray(Array array)
+        public static void LongClearArray(Array? array)
             => ClearArray(array, 0L, ArrayLongLength(array));
 
         /// <summary>Array cleaning.</summary>
         /// <exception cref="ArgumentNullException"/>
         /// <exception cref="IndexOutOfRangeException"/>
-        public static void ClearArray(Array array, int index, int length)
-            => Array.Clear(array, index, length);
+        public static void ClearArray(Array? array, int index, int length)
+            => Array.Clear(array!, index, length);
 
         /// <summary>Array cleaning.</summary>
         /// <exception cref="ArgumentNullException"/>
-        public static void ClearArray(Array array)
-            => ClearArray(array, 0, array.Length);
+        public static void ClearArray(Array? array)
+            => ClearArray(array, 0, ArrayLength(array));
 
         /// <summary>Array cleaning.</summary>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="RankException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static void ClearArray<T>(long index, long length, ref T[] array) {
+        public static void ClearArray<T>(long index, long length, ref T[]? array) {
             ClearArray(array, index, length);
             array = [];
         }
@@ -247,7 +247,7 @@ namespace Cobilas.Collections {
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="RankException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static void LongClearArray<T>(ref T[] array)
+        public static void LongClearArray<T>(ref T[]? array)
             => ClearArray(0, ArrayLongLength(array), ref array);
 
         /// <summary>Array cleaning.
@@ -255,8 +255,8 @@ namespace Cobilas.Collections {
         /// </summary>
         /// <exception cref="ArgumentNullException"/>
         /// <exception cref="IndexOutOfRangeException"/>
-        public static void ClearArray<T>(int index, int length, ref T[] array) {
-            Array.Clear(array, index, length);
+        public static void ClearArray<T>(int index, int length, ref T[]? array) {
+            Array.Clear(array!, index, length);
             array = [];
         }
 
@@ -264,8 +264,8 @@ namespace Cobilas.Collections {
         /// <para>In addition to clearing the array, it returns an empty array.</para>
         /// </summary>
         /// <exception cref="ArgumentNullException"/>
-        public static void ClearArray<T>(ref T[] array)
-            => ClearArray(0, array.Length, ref array);
+        public static void ClearArray<T>(ref T[]? array)
+            => ClearArray(0, array is null ? 0 : array.Length, ref array);
 
         /// <summary>Array cleaning.
         /// <para>It will only perform cleaning if the array is not null.</para>
@@ -273,7 +273,7 @@ namespace Cobilas.Collections {
         /// <exception cref="ArgumentNullException"/>
         /// <exception cref="RankException"/>
         /// <exception cref="IndexOutOfRangeException"/>
-        public static void ClearArraySafe(Array array, long index, long length) {
+        public static void ClearArraySafe(Array? array, long index, long length) {
             if (!EmpytArray(array))
                 ClearArray(array, index, length);
         }
@@ -284,7 +284,7 @@ namespace Cobilas.Collections {
         /// <exception cref="ArgumentNullException"/>
         /// <exception cref="RankException"/>
         /// <exception cref="IndexOutOfRangeException"/>
-        public static void LongClearArraySafe(Array array) {
+        public static void LongClearArraySafe(Array? array) {
             if (!EmpytArray(array))
                 LongClearArray(array);
         }
@@ -293,7 +293,7 @@ namespace Cobilas.Collections {
         /// <para>It will only perform cleaning if the array is not null.</para>
         /// </summary>
         /// <exception cref="IndexOutOfRangeException"/>
-        public static void ClearArraySafe(Array array, int index, int length) {
+        public static void ClearArraySafe(Array? array, int index, int length) {
             if (!EmpytArray(array))
                 ClearArray(array, index, length);
         }
@@ -301,7 +301,7 @@ namespace Cobilas.Collections {
         /// <summary>Array cleaning.
         /// <para>It will only perform cleaning if the array is not null.</para>
         /// </summary>
-        public static void ClearArraySafe(Array array) {
+        public static void ClearArraySafe(Array? array) {
             if (!EmpytArray(array))
                 ClearArray(array);
         }
@@ -313,7 +313,7 @@ namespace Cobilas.Collections {
         /// <exception cref="ArgumentNullException"/>
         /// <exception cref="RankException"/>
         /// <exception cref="IndexOutOfRangeException"/>
-        public static void ClearArraySafe<T>(long index, long length, ref T[] array) {
+        public static void ClearArraySafe<T>(long index, long length, ref T[]? array) {
             if (!EmpytArray(array))
                 ClearArray(index, length, ref array);
         }
@@ -325,7 +325,7 @@ namespace Cobilas.Collections {
         /// <exception cref="ArgumentNullException"/>
         /// <exception cref="RankException"/>
         /// <exception cref="IndexOutOfRangeException"/>
-        public static void LongClearArraySafe<T>(ref T[] array) {
+        public static void LongClearArraySafe<T>(ref T[]? array) {
             if (!EmpytArray(array))
                 LongClearArray(ref array);
         }
@@ -335,7 +335,7 @@ namespace Cobilas.Collections {
         /// <para>It will only perform cleaning if the array is not null.</para>
         /// </summary>
         /// <exception cref="IndexOutOfRangeException"/>
-        public static void ClearArraySafe<T>(int index, int length, ref T[] array) {
+        public static void ClearArraySafe<T>(int index, int length, ref T[]? array) {
             if (!EmpytArray(array))
                 ClearArray(index, length, ref array);
         }
@@ -344,7 +344,7 @@ namespace Cobilas.Collections {
         /// <para>In addition to clearing the array, it returns an empty array.</para>
         /// <para>It will only perform cleaning if the array is not null.</para>
         /// </summary>
-        public static void ClearArraySafe<T>(ref T[] array) {
+        public static void ClearArraySafe<T>(ref T[]? array) {
             if (!EmpytArray(array))
                 ClearArray(ref array);
         }
@@ -789,7 +789,7 @@ namespace Cobilas.Collections {
         /// </summary>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="RankException"></exception>
-        public static T[] FindAll<T>(T[]? array, Predicate<T>? match) {
+        public static T[]? FindAll<T>(T[]? array, Predicate<T>? match) {
 #if NET6_0_OR_GREATER
             ArgumentNullException.ThrowIfNull(array, nameof(array));
             ArgumentNullException.ThrowIfNull(match, nameof(match));
@@ -803,7 +803,7 @@ namespace Cobilas.Collections {
 #endif
                 throw new RankException("The array cannot be multi-dimensional.");
             
-            T[] outArray = [];
+            T[]? outArray = [];
             for (long I = 0; I < array.LongLength; I++)
                 if (match(array[I]))
                     outArray = Add(array[I], outArray);
