@@ -120,7 +120,7 @@ namespace Cobilas.Collections.Generic {
 
         /// <inheritdoc/>
         public void Insert(long index, T item) {
-            ArrayManipulation.Insert<T>(item, index, ref longArray);
+            ArrayManipulation.Insert<T>(item, index, ref longArray!);
             _size++;
         }
 
@@ -144,7 +144,7 @@ namespace Cobilas.Collections.Generic {
         /// <inheritdoc/>
         public void RemoveAt(long index) {
             long old_capacity = Capacity;
-            ArrayManipulation.Remove<T>(index, ref longArray);
+            ArrayManipulation.Remove<T>(index, ref longArray!);
             _size--;
             Capacity = old_capacity;
         }
@@ -178,7 +178,7 @@ namespace Cobilas.Collections.Generic {
         /// <param name="count">The number of elements to remove.</param>
         public void RemoveRamge(long index, long count) {
             long old_capacity = Capacity;
-            ArrayManipulation.Remove<T>(index, count, ref longArray);
+            ArrayManipulation.Remove<T>(index, count, ref longArray!);
             _size -= count;
             Capacity = old_capacity;
         }
@@ -211,7 +211,7 @@ namespace Cobilas.Collections.Generic {
 
         /// <inheritdoc cref="ArrayManipulation.FindAll{T}(T[], Predicate{T})"/>
         public T[] FindAll(Predicate<T> match)
-            => ArrayManipulation.FindAll<T>(longArray, match);
+            => ArrayManipulation.FindAll<T>(longArray, match)!;
 
         /// <inheritdoc cref="ArrayManipulation.FindIndex{T}(T[], Predicate{T})"/>
         public long FindIndex(Predicate<T> match)

@@ -116,7 +116,7 @@ public class ATLFTextWriter : ATLFTBWriter {
     protected override void AddNode(string name, string value, ATLFNodeType nodeType) {
         if (Closed)
             throw ATLFException.ATLFTagsAfterClosing();
-        Nodes = ArrayManipulation.Add(new ATLFNode(name, value, nodeType), Nodes);
+        Nodes = ArrayManipulation.Add(new ATLFNode(name, value, nodeType), Nodes)!;
     }
 
     /// <summary>Performs an internal disposal of the object.</summary>
