@@ -39,10 +39,10 @@ public class ATLFVS10Decoding : ATLFDecoding {
         while (cursor.MoveToCharacter()) {
             if (cursor.CharIsEqualToIndex("#!")) {
                 cursor.MoveToCharacter(1L);
-                ArrayManipulation.Add(GetTag(cursor), ref res);
+                ArrayManipulation.Add(GetTag(cursor), ref res!);
             } else if (cursor.CharIsEqualToIndex("#>")) {
                 cursor.MoveToCharacter(1L);
-                ArrayManipulation.Add(GetComment(cursor), ref res);
+                ArrayManipulation.Add(GetComment(cursor), ref res!);
             } else if (!char.IsWhiteSpace(cursor.CurrentCharacter)) {
                 throw ATLFException.GetATLFException("(L:{0} C:{1})\"{2}\" Unidentified tag!", 
                 cursor.Line, cursor.Column, cursor.CurrentCharacter.EscapeSequenceToString());

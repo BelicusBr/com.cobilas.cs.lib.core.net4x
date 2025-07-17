@@ -78,7 +78,7 @@ public struct Interrupter : IDisposable {
         disposable = true;
         useASwitch = default;
         currentIndex = default;
-        ArrayManipulation.ClearArraySafe(ref _switches);
+        ArrayManipulation.ClearArraySafe(ref _switches!);
     }
 
     private readonly void WasDiscarded() {

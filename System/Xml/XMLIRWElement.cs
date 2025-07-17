@@ -103,7 +103,7 @@ namespace System.Xml {
                 return true;
             }
             element.Parent = this;
-            ArrayManipulation.Add(element, ref itens);
+            ArrayManipulation.Add(element, ref itens!);
             return true;
         }
 
@@ -127,7 +127,7 @@ namespace System.Xml {
                     Parent = XMLIRWNull.Null;
                     Type = default;
                     Text = XMLIRWTextNull.Null;
-                    ArrayManipulation.ClearArraySafe(ref itens);
+                    ArrayManipulation.ClearArraySafe(ref itens!);
                 }
                 disposedValue = true;
             }

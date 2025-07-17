@@ -127,7 +127,7 @@ public sealed class CharacterCursor : IDisposable {
     }
 
 #pragma warning disable CS1591 
-    public void Dispose() => ArrayManipulation.ClearArraySafe(ref characters);
+    public void Dispose() => ArrayManipulation.ClearArraySafe(ref characters!);
 
     public override string ToString() => new(this.characters);
 #pragma warning restore
