@@ -92,10 +92,10 @@ To create a custom decoding class, the class must inherit the `ATLFVS10Decoding`
 To include the package, open the `.csproj` file and add it.
 ```xml
 <ItemGroup>
-  <PackageReference Include="Cobilas.Core.Net4x" Version="2.0.2" />
+  <PackageReference Include="Cobilas.Core.Net4x" Version="2.4.0" />
 </ItemGroup>
 ```
 Or use command line.
 ```ps1
-dotnet add package Cobilas.Core.Net4x --version 2.0.2
+dotnet add package Cobilas.Core.Net4x --version 2.4.0
 ```
