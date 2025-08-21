@@ -1,4 +1,8 @@
-# (2.3.0} (17/07/2025)
+# [2.4.0] (21/08/2025)
+## Added
+An extension class has been added to the generic `List` class to give the `List` class last-in-first-out(LIFO) or first-in-first-out(FIFO) capability.
+
+# [2.3.0] (17/07/2025)
 ## Changed
 The methods `Insert`, `Add`, `AddNon_Existing`, `Remove`, `ClearArray`, `LongClearArray`, `ClearArraySafe`, `LongClearArraySafe`, `FindAll` have parameters or returns with possibly null reference flag.
 
