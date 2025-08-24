@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Cobilas.Collections { 
     /// <summary>Array manipulation class.</summary>
@@ -1067,13 +1068,13 @@ namespace Cobilas.Collections {
         /// <summary>
         /// Determines whether the collection is empty or null.
         /// </summary>
-        public static bool EmpytArray(ICollection? array)
+        public static bool EmpytArray([NotNullWhen(false)]ICollection? array)
             => array is null || array.Count == 0;
 
         /// <summary>
         /// Determines whether the collection is empty or null.
         /// </summary>
-        public static bool EmpytArray(ILongCollection? array)
+        public static bool EmpytArray([NotNullWhen(false)]ILongCollection? array)
             => array is null || array.Count == 0;
 
         /// <summary>

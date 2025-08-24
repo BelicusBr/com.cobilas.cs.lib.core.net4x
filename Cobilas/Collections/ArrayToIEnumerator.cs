@@ -6,7 +6,7 @@ namespace Cobilas.Collections {
     /// <summary>Transforms an array into an enumerator.</summary>
     public class ArrayToIEnumerator<T> : IEnumerator<T> {
 #pragma warning disable CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
-        protected T[] list;
+        protected T[]? list;
         protected long index;
         protected T current = default!;
 #pragma warning restore CS1591 // O comentário XML ausente não foi encontrado para o tipo ou membro visível publicamente
@@ -20,12 +20,13 @@ namespace Cobilas.Collections {
             index = -1;
         }
         /// <summary>Creates a new instance of this object.</summary>
-        public ArrayToIEnumerator(T[] list) : this()
+        public ArrayToIEnumerator(T[]? list) : this()
             => this.list = list;
 
         /// <summary>Advances the enumerator to the next element of the collection.</summary>
         public virtual bool MoveNext() {
             if (++index >= ArrayManipulation.ArrayLongLength(list)) return false;
+            else if (ArrayManipulation.EmpytArray(list)) return false;
             else current = list[index];
             return true;
         }

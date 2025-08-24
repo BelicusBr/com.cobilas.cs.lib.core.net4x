@@ -6,7 +6,7 @@ namespace Cobilas.Collections {
         /// <summary>Gets the element in the collection at the current position of the enumerator.</summary>
         public override T Current => base.Current;
         /// <summary>Creates a new instance of this object.</summary>
-        public ICollectionToIEnumerator(ICollection<T> collection) : base() {
+        public ICollectionToIEnumerator(ICollection<T>? collection) : base() {
             if (collection is null || collection.Count == 0) return;
             collection.CopyTo(list = new T[collection.Count], 0);
         }
