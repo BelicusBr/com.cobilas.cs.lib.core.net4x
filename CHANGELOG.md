@@ -1,3 +1,9 @@
+# [2.5.0] (24/08/2025)
+## Changed
+The parameter of the `ArrayManipulation.EmpytArray([NotNullWhen(false)]ICollection?)` method has been given the `NotNullWhenAttribute` attribute specifying that when a method returns `ReturnValue`, the parameter will not be null, even if the corresponding type allows it.
+
+*Note:* In .net framework or netstandard projects below 2.1 the package uses an internal implementation of the `NotNullWhenAttribute` attribute.
+
 # [2.4.0] (21/08/2025)
 ## Added
 An extension class has been added to the generic `List` class to give the `List` class last-in-first-out(LIFO) or first-in-first-out(FIFO) capability.
