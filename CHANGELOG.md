@@ -1,3 +1,7 @@
+# [2.6.0] (03/10/2025)
+## Changed
+The `ArrayManipulation.Exists`, `ArrayManipulation.ArrayLength` and `ArrayManipulation.ArrayLongLength` methods received the `NotNullWhenAttribute` attribute in their parameters.
+
 # [2.5.0] (24/08/2025)
 ## Changed
 The parameter of the `ArrayManipulation.EmpytArray([NotNullWhen(false)]ICollection?)` method has been given the `NotNullWhenAttribute` attribute specifying that when a method returns `ReturnValue`, the parameter will not be null, even if the corresponding type allows it.

@@ -840,13 +840,13 @@ namespace Cobilas.Collections {
         /// <summary>
         /// Determines whether the specified array contains elements that match the conditions defined by the specified predicate.
         /// </summary>
-        public static bool Exists<T>(T[]? array, Predicate<T>? match)
+        public static bool Exists<T>([NotNullWhen(false)]T[]? array, Predicate<T>? match)
             => LongFindIndex<T>(array, match) != -1;
 
         /// <summary>
         /// Determines whether the specified array contains elements that match the conditions defined by the specified predicate.
         /// </summary>
-        public static bool Exists<T>(T? item, T[]? array) {
+        public static bool Exists<T>(T? item, [NotNullWhen(false)]T[]? array) {
 #if NET6_0_OR_GREATER
             ArgumentNullException.ThrowIfNull(item, nameof(item));
 #else
@@ -1080,19 +1080,19 @@ namespace Cobilas.Collections {
         /// <summary>
         /// Determines the length of a collection.
         /// </summary>
-        public static int ArrayLength(ICollection? array)
+        public static int ArrayLength([NotNullWhen(false)]ICollection? array)
             => array is null ? 0 : array.Count;
 
         /// <summary>
         /// Determines the length of an Array.
         /// </summary>
-        public static long ArrayLongLength(Array? array)
+        public static long ArrayLongLength([NotNullWhen(false)]Array? array)
             => array is null ? 0L : array.LongLength;
 
         /// <summary>
         /// Determines the length of an Array.
         /// </summary>
-        public static long ArrayLongLength(ILongCollection? array)
+        public static long ArrayLongLength([NotNullWhen(false)]ILongCollection? array)
             => array is null ? 0L : array.Count;
 
         /// <summary>
