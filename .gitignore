@@ -1,16 +1,10 @@
 # folders
-.libs
-bin
-obj
-.vscode
-.github
-node_modules
+bin/
+obj/
+.mono/
+.vs/
+.vscode/
+.libs/
+
 # files
-bin.meta
-obj.meta
-node_modules.meta
-# extension files
 *.sln
-*.sln.meta
-*.ps1
-*.ps1.meta
