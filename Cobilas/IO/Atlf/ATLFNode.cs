@@ -29,7 +29,7 @@ public struct ATLFNode : IDisposable {
         builder.AppendLine($"\tname:{Name}");
         builder.AppendLine($"\ttype:{NodeType}");
         builder.AppendLine($"\tvalue:[{Value}]");
-        builder.Append("}");
+        builder.Append('}');
         return builder.ToString();
     }
 }

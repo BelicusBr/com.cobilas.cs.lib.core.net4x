@@ -1,8 +1,10 @@
 namespace System.Xml {
     /// <summary>Represents an xml declaration.</summary>
     public class XMLIRWDeclaration : XMLIRW {
-        /// <inheritdoc/>
-        public override string Name { get; set; } = string.Empty;
+		private bool disposedValue;
+
+		/// <inheritdoc/>
+		public override string Name { get; set; } = string.Empty;
         /// <inheritdoc/>
         public override XMLIRW Parent { get; set; } = XMLIRWNull.Null;
         /// <summary>Gets the XML version of the document.</summary>
@@ -39,14 +41,26 @@ namespace System.Xml {
         public XMLIRWDeclaration(string version) : this(XMLIRWNull.Null, version, string.Empty) {}
         /// <inheritdoc cref="XMLIRW()"/>
         public XMLIRWDeclaration() : this(XMLIRWNull.Null, "1.0") {}
-        /// <inheritdoc/>
-        public override void Dispose() {
-            Name =
-            Version =
-            Encoding =
-            Standalone = string.Empty;
-            Type = default;
-            Parent = XMLIRWNull.Null;
-        }
-    }
+		/// <summary>Destructor</summary>
+		~XMLIRWDeclaration() => Dispose(disposing: false);
+		/// <inheritdoc/>
+		public override void Dispose() {
+			Dispose(disposing: true);
+			GC.SuppressFinalize(this);
+		}
+        /// <inheritdoc cref="Dispose()"/>
+		protected virtual void Dispose(bool disposing) {
+			if (!disposedValue) {
+				if (disposing) {
+					Name =
+					Version =
+					Encoding =
+					Standalone = string.Empty;
+					Type = default;
+					Parent = XMLIRWNull.Null;
+				}
+				disposedValue = true;
+			}
+		}
+	}
 }

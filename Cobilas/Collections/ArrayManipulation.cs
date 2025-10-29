@@ -205,13 +205,13 @@ namespace Cobilas.Collections {
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static void ClearArray(Array? array, long index, long length) {
             if (array is null)
-                throw new ArgumentNullException("array", new ArgumentNullException());
+                throw new ArgumentNullException(nameof(array));
             else if (array.Rank != 1)
                 throw new RankException("The array cannot be multi-dimensional.");
             else if (index < 0 || index >= array.LongLength)
-                throw new ArgumentOutOfRangeException("index", new ArgumentOutOfRangeException());
+                throw new ArgumentOutOfRangeException(nameof(index));
             else if (length < 0 || length > array.LongLength || index + length > array.LongLength)
-                throw new ArgumentOutOfRangeException("length", new ArgumentOutOfRangeException());
+                throw new ArgumentOutOfRangeException(nameof(length));
             
             for (long I = index; I < length; I++)
                 array.SetValue(default, I);
@@ -361,13 +361,11 @@ namespace Cobilas.Collections {
         public static void SeparateList<T>(T[]? array, long separationIndex, out T[] part1, out T[] part2) {
             long arrayLength = ArrayManipulation.ArrayLongLength(array);
             if (array is null)
-                throw new ArgumentNullException("array", new ArgumentNullException());
+                throw new ArgumentNullException(nameof(array));
             else if (array.Rank != 1)
                 throw new RankException("The array cannot be multi-dimensional.");
-            else if (arrayLength == 0) {
-                part1 = part2 = [];
-            } else if (separationIndex < 0 || !(separationIndex < arrayLength))
-                throw new ArgumentOutOfRangeException("separationIndex", new ArgumentOutOfRangeException());
+            else if (separationIndex < 0 || !(separationIndex < arrayLength))
+                throw new ArgumentOutOfRangeException(nameof(separationIndex));
 
             Array.Copy(array, 0, part1 = new T[separationIndex + 1], 0, separationIndex + 1);
             Array.Copy(array, separationIndex + 1, part2 = new T[array.LongLength - (separationIndex + 1)], 0, array.LongLength - (separationIndex + 1));
@@ -681,16 +679,16 @@ namespace Cobilas.Collections {
         public static long FindLastIndex<T>(T[] array, long index, long length, Predicate<T> match) {
             long arrayLength = ArrayManipulation.ArrayLongLength(array);
             if (array is null)
-                throw new ArgumentNullException("array", new ArgumentNullException());
+                throw new ArgumentNullException(nameof(array));
             else if (match is null)
-                throw new ArgumentNullException("match", new ArgumentNullException());
+                throw new ArgumentNullException(nameof(match));
             else if (array.Rank != 1)
                 throw new RankException("The array cannot be multi-dimensional.");
             else if (arrayLength == 0) return -1;
             else if (length < 0 || length > arrayLength)
-                throw new ArgumentOutOfRangeException("length", new ArgumentOutOfRangeException());
+                throw new ArgumentOutOfRangeException(nameof(length));
             else if (index < 0 || !(index < arrayLength))
-                throw new ArgumentOutOfRangeException("index", new ArgumentOutOfRangeException());
+                throw new ArgumentOutOfRangeException(nameof(index));
 
             long startIndex = length - index;
             for (long I = startIndex - 1; I >= index ; I--)
@@ -709,7 +707,7 @@ namespace Cobilas.Collections {
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static long FindLastIndex<T>(T[] array, long index, Predicate<T> match) {
             if (array is null)
-                throw new ArgumentNullException("array", new ArgumentNullException());
+                throw new ArgumentNullException(nameof(array));
             else if (array.Rank != 1)
                 throw new RankException("The array cannot be multi-dimensional.");
             return FindLastIndex<T>(array, index, array.LongLength, match);
@@ -1310,8 +1308,12 @@ namespace Cobilas.Collections {
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static void ForSector<T>(IList? list, in Action<T, int>? action) {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(list, nameof(list));
+#else
             if (list is null)
-                throw new ArgumentNullException(nameof(list), new ArgumentNullException());
+                throw new ArgumentNullException(nameof(list));
+#endif
             ForSector(list, in action, (int)Math.Sqrt(list.Count));
         }
 
@@ -1322,8 +1324,12 @@ namespace Cobilas.Collections {
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static void ForSector<T>(IList<T>? list, in Action<T, int>? action, in int sectorCount) {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(list, nameof(list));
+#else
             if (list is null)
-                throw new ArgumentNullException(nameof(list), new ArgumentNullException());
+                throw new ArgumentNullException(nameof(list));
+#endif
             ForSector<T>((IList)list, action, sectorCount);
         }
 
@@ -1333,9 +1339,13 @@ namespace Cobilas.Collections {
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static void ForSector<T>(IList<T>? list, in Action<T, int>? action) {
+#if NET6_0_OR_GREATER
+			ArgumentNullException.ThrowIfNull(list, nameof(list));
+#else
             if (list is null)
-                throw new ArgumentNullException(nameof(list), new ArgumentNullException());
-            ForSector<T>((IList)list, action);
+                throw new ArgumentNullException(nameof(list));
+#endif
+			ForSector<T>((IList)list, action);
         }
 
         /// <summary>The method traverses several parts of a list simultaneously.</summary>

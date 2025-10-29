@@ -80,7 +80,7 @@ public class ATLFTextWriter : ATLFTBWriter {
             throw ATLFException.ATLFFlowAfterClosing();
         if(NodeCount == 0) return;
         Encoding encoding = Encoding ?? Encoding.UTF8;
-        Stream.Write(GetATLFEncoding(TargetVersion).Writer(this.Nodes));
+        Stream.Write(encoding.GetBytes(GetATLFEncoding(TargetVersion).Writer(this.Nodes)));
         ArrayManipulation.ClearArraySafe(Nodes);
         Nodes = [];
     }
