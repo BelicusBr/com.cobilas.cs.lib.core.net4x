@@ -1,10 +1,12 @@
 using System.Globalization;
+using System.Text;
 
 namespace System.Xml; 
 /// <summary>Represents XML text.</summary>
 public class XMLIRWText : XMLIRW, IConvertible {
-    /// <summary>The value of the XML text.</summary>
-    protected object textValue;
+	private bool disposedValue;
+	/// <summary>The value of the XML text.</summary>
+	protected object textValue;
     /// <summary>The value of the XML text.</summary>
     public object Value => textValue;
     /// <summary>Check if the value is null.</summary>
@@ -23,11 +25,12 @@ public class XMLIRWText : XMLIRW, IConvertible {
     public XMLIRWText(XMLIRW parent, object textValue) : this(parent, textValue, "#text", XmlNodeType.Text) {}
     /// <summary>Creates a new instance of the XMLIRW element.</summary>
     public XMLIRWText(object textValue) : this(XMLIRWNull.Null, textValue) {}
-    /// <inheritdoc/>
-    public override void Dispose() {
-        textValue = Name = string.Empty;
-        Parent = XMLIRWNull.Null;
-        Type = default;
+	/// <summary>Destructor</summary>
+	~XMLIRWText() => Dispose(disposing: false);
+	/// <inheritdoc/>
+	public override void Dispose() {
+		Dispose(disposing: true);
+		GC.SuppressFinalize(this);
     }
     /// <inheritdoc/>
     public override string ToString()
@@ -84,8 +87,20 @@ public class XMLIRWText : XMLIRW, IConvertible {
     ulong IConvertible.ToUInt64(IFormatProvider? provider)
         => Convert.ToUInt64(textValue, provider);
 
-    /// <summary>Provide a conversion from type <see cref="XMLIRWText"/> to <see cref="string"/>.</summary>
-    public static explicit operator string(XMLIRWText text) => Convert.ToString(text) ?? string.Empty;
+	/// <inheritdoc cref="Dispose()"/>
+	protected virtual void Dispose(bool disposing) {
+		if (!disposedValue) {
+			if (disposing) {
+				textValue = Name = string.Empty;
+				Parent = XMLIRWNull.Null;
+				Type = default;
+			}
+			disposedValue = true;
+		}
+	}
+
+	/// <summary>Provide a conversion from type <see cref="XMLIRWText"/> to <see cref="string"/>.</summary>
+	public static explicit operator string(XMLIRWText text) => Convert.ToString(text) ?? string.Empty;
     /// <summary>Provide a conversion from type <see cref="XMLIRWText"/> to <see cref="char"/>[].</summary>
     public static explicit operator char[](XMLIRWText text) => (Convert.ToString(text) ?? string.Empty).ToCharArray();
 

@@ -146,7 +146,7 @@ namespace System.Xml {
                     builder.Append("<attris: ");
                     foreach (XMLIRWAttribute item in ele.Attributes.Cast<XMLIRWAttribute>())
                         builder.AppendFormat("{0}[{1}]", item.Name, item.Text);
-                    builder.Append(">");
+                    builder.Append('>');
                 }
                 if (!ele.ValueIsEmpty) {
                     builder.AppendLine(" {").AppendLine((string)ele.Text).Append(GetTab(" ", tab))
