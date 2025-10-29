@@ -10,14 +10,14 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageId>Cobilas.Core.Net4x</PackageId>
 		<Title>Cobilas Core Net4x</Title>
-		<Version>2.7.1</Version>
+		<Version>2.7.2</Version>
 		<Authors>BélicusBr</Authors>
 		<Description>NuGet C# package for general use in apps and games.</Description>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/BelicusBr/com.cobilas.cs.lib.core.net</RepositoryUrl>
 		<PackageTags>CSharp;C#;net472;netstandard2.0;netstandard2.1;Godot3</PackageTags>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageOutputPath>C:\local.nuget\$(Configuration)</PackageOutputPath>
+		<PackageOutputPath>C:\local.nuget</PackageOutputPath>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>

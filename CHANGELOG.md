@@ -5,7 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.7.1] (29/10/2025)
+## [2.7.2] - 2025-10-29
+
+### Changed
+- **Version Update**: Bumped package version from 2.7.1 to 2.7.2
+- **Build Configuration**: 
+  - Simplified package output path from `C:\local.nuget\$(Configuration)` to `C:\local.nuget`
+- **Code Quality**:
+  - Improved exception handling in `ArrayManipulation` methods with better argument validation
+  - Enhanced null argument checks using `ArgumentNullException.ThrowIfNull` where available
+  - Updated string appending operations for better performance (e.g., using char instead of string)
+- **Documentation**: Updated README.md to reflect version 2.7.1 references
+
+### Fixed
+- **ATLF Encoding**: Fixed encoding issue in `ATLFTextWriter` where encoding wasn't properly applied
+- **HashString**: Completely refactored implementation with proper GUID conversion and operator overloads
+- **XML Serialization**: 
+  - Added proper disposal patterns to `XMLIRWDeclaration` and `XMLIRWText` classes
+  - Fixed XML attribute formatting in `XMLIRWElement`
+- **Memory Management**: Made `NullObject.nulls` dictionary static readonly for thread safety
+
+### Technical Improvements
+- **Conditional Compilation**: Added NET6_0_OR_GREATER and NET8_0_OR_GREATER preprocessor directives for modern .NET features
+- **Readonly Modifiers**: Added `readonly` modifiers to appropriate properties and methods in `Interrupter` struct
+- **Performance**: Optimized `HashString` constructor to properly process input bytes into 16-byte hash
+
+### Added
+- **Comparison Operators**: Added full set of comparison operators (`==`, `!=`, `<`, `<=`, `>`, `>=`) to `HashString` struct
+- **Disposal Patterns**: Implemented proper IDisposable patterns with finalizers in XML classes
+
+## [2.7.1] - 2025-10-29
 
 ### Changed
 - **Project Structure**: Consolidated all properties into a single `<PropertyGroup>` section
