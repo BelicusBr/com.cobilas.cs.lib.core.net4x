@@ -5,8 +5,8 @@ namespace Cobilas;
 
 /// <summary>This class represents a null object.</summary>
 public readonly struct NullObject : INullObject {
-    private static Dictionary<Type, object> nulls = [];
     private static readonly NullObject nullObject = new();
+    private static readonly Dictionary<Type, object> nulls = [];
     /// <summary>Obtain a null representation of the object</summary>
     /// <returns>Retorna uma representação nulo do objeto</returns>
     public static NullObject Null => nullObject;

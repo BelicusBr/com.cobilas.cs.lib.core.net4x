@@ -12,15 +12,15 @@ public struct Interrupter : IDisposable {
     private bool[] _switches;
 
     /// <summary>Returns the current switch index.</summary>
-    public int CurrentIndex {
+    public readonly int CurrentIndex {
         get {
             WasDiscarded();
             return currentIndex;
         }
     }
     ///<summary>This property allows the exchange of a single switch for multiple switches and vice versa.</summary>
-    public bool UseASwitch { 
-        get {
+    public bool UseASwitch {
+		readonly get {
             WasDiscarded();
             return useASwitch;
         }
@@ -32,7 +32,7 @@ public struct Interrupter : IDisposable {
 
     /// <summary>Gets or sets a switch when specifying an index.</summary>
     public bool this[int Index] {
-        get {
+		readonly get {
             WasDiscarded();
             return _switches[Index];
         }
@@ -62,7 +62,7 @@ public struct Interrupter : IDisposable {
     public Interrupter(int Capacity) : this(Capacity, true) { }
 
     /// <summary>Returns a text representation of the object.</summary>
-    public override string ToString() {
+    public override readonly string ToString() {
         WasDiscarded();
         StringBuilder builder = new();
         builder.AppendLine("Switches {");

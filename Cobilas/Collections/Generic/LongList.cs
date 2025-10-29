@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace Cobilas.Collections.Generic {
@@ -18,8 +19,12 @@ namespace Cobilas.Collections.Generic {
         public long Capacity { 
             get => ArrayManipulation.ArrayLongLength(longArray);
             set {
+#if NET8_0_OR_GREATER
+                ArgumentOutOfRangeException.ThrowIfLessThan(value, _size, nameof(Capacity));
+#else
                 if (value < _size)
-                    throw new ArgumentOutOfRangeException("The capacity cannot be smaller than the list size.");
+                    throw new ArgumentOutOfRangeException(nameof(Capacity), "The capacity cannot be smaller than the list size.");
+#endif
                 if (value != ArrayManipulation.ArrayLongLength(longArray)) {
                     if (value > 0) {
                         T[] newArray = new T[value];
@@ -67,9 +72,9 @@ namespace Cobilas.Collections.Generic {
         /// <returns>A shallow copy of a range of elements in the source <seealso cref="LongList{T}"/>.</returns>
         public LongList<T> GetRange(long index, long count) {
             if (index < 0 || index >= Count)
-                throw new ArgumentOutOfRangeException("index", new ArgumentOutOfRangeException());
+                throw new ArgumentOutOfRangeException(nameof(index));
             else if (count < 0 || count > Count)
-                throw new ArgumentOutOfRangeException("count", new ArgumentOutOfRangeException());
+                throw new ArgumentOutOfRangeException(nameof(count));
             LongList<T> clone = new(count);
             ArrayManipulation.CopyTo(longArray, index, clone.longArray, 0L, count);
             clone._size = count;
@@ -154,8 +159,12 @@ namespace Cobilas.Collections.Generic {
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>The number of elements removed from the <seealso cref="LongList{T}"/>.</returns>
         public long RemoveAll(Predicate<T> match) {
-            if (match == null)
-                throw new ArgumentNullException("match", new ArgumentNullException());
+#if NET6_0_OR_GREATER
+			ArgumentNullException.ThrowIfNull(match, nameof(match));
+#else
+			if (match == null)
+                throw new ArgumentNullException(nameof(match));
+#endif
             long freeIndex = 0;
 
             while( freeIndex < _size && !match(longArray[freeIndex])) freeIndex++;            
@@ -246,8 +255,12 @@ namespace Cobilas.Collections.Generic {
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         public void ForEach(Action<T> action) {
-            if (action == null)
-                throw new ArgumentNullException($"Action<{typeof(T)}> action", new ArgumentNullException());
+#if NET6_0_OR_GREATER
+			ArgumentNullException.ThrowIfNull(action, nameof(action));
+#else
+			if (action == null)
+                throw new ArgumentNullException(nameof(action));
+#endif
             long _version = longArray.GetHashCode();
             foreach (T item in longArray) {
                 if (_version != longArray.GetHashCode())

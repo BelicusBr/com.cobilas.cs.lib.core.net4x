@@ -1,132 +1,178 @@
-# [2.6.0] (03/10/2025)
-## Changed
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [2.7.1] (29/10/2025)
+
+### Changed
+- **Project Structure**: Consolidated all properties into a single `<PropertyGroup>` section
+- **Version Management**: Replaced `<PackageVersion>` with `<Version>` element (2.7.0 → 2.7.1)
+- **Output Configuration**: 
+  - Changed `<OutputPath>.libs/bin</OutputPath>` to `<BaseOutputPath>bin\$(Configuration)</BaseOutputPath>`
+  - Updated package output path to include configuration: `C:\local.nuget\$(Configuration)`
+- **Package Metadata**:
+  - Replaced `<PackageDescription>` with `<Description>` element
+  - Added package title: `<Title>Cobilas Core Net4x</Title>`
+  - Updated repository URL structure
+- **Target Frameworks**: Removed `netstandard2.1` (now targeting `net8.0`, `net6.0`, `netstandard2.0`, `net472`)
+
+### Added
+- **Symbol Package Support**:
+  - `<IncludeSymbols>True</IncludeSymbols>`
+  - `<SymbolPackageFormat>snupkg</SymbolPackageFormat>`
+- **Enhanced Build Configuration**:
+  - Comprehensive conditional property groups for all target frameworks in both Debug and Release configurations
+  - Warning level set to 8 for all configurations
+  - Specific warning suppressions (`NoWarn`) for common IDE warnings
+  - Overflow/underflow checking enabled for all builds
+- **Root Namespace**: Set to `Cobilas` (was previously empty)
+
+### Build System
+- **Package Generation**: Made package generation unconditional with `<GeneratePackageOnBuild>True</GeneratePackageOnBuild>`
+- **Documentation**: Maintained XML documentation generation
+- **Nullable Reference Types**: Continued support with `<Nullable>enable</Nullable>`
+
+### Technical Improvements
+- **Standardized Configuration**: Aligned with modern .NET SDK conventions
+- **Improved Debugging**: Enhanced symbol package generation for better debugging experience
+- **Consistent Warnings**: Unified warning treatment across all target frameworks
+
+### Dependencies
+- **Newtonsoft.Json**: Maintained version 13.0.3
+- **Package Files**: Continued inclusion of README.md, LICENSE.md, and CHANGELOG.md in package
+
+## [2.6.0] (03/10/2025)
+### Changed
 The `ArrayManipulation.Exists`, `ArrayManipulation.ArrayLength` and `ArrayManipulation.ArrayLongLength` methods received the `NotNullWhenAttribute` attribute in their parameters.
 
-# [2.5.0] (24/08/2025)
-## Changed
+## [2.5.0] (24/08/2025)
+### Changed
 The parameter of the `ArrayManipulation.EmpytArray([NotNullWhen(false)]ICollection?)` method has been given the `NotNullWhenAttribute` attribute specifying that when a method returns `ReturnValue`, the parameter will not be null, even if the corresponding type allows it.
 
 *Note:* In .net framework or netstandard projects below 2.1 the package uses an internal implementation of the `NotNullWhenAttribute` attribute.
 
-# [2.4.0] (21/08/2025)
-## Added
+## [2.4.0] (21/08/2025)
+### Added
 An extension class has been added to the generic `List` class to give the `List` class last-in-first-out(LIFO) or first-in-first-out(FIFO) capability.
 
-# [2.3.0] (17/07/2025)
-## Changed
+## [2.3.0] (17/07/2025)
+### Changed
 The methods `Insert`, `Add`, `AddNon_Existing`, `Remove`, `ClearArray`, `LongClearArray`, `ClearArraySafe`, `LongClearArraySafe`, `FindAll` have parameters or returns with possibly null reference flag.
 
-# [2.2.0] (25/02/2025)
-## Added
+## [2.2.0] (25/02/2025)
+### Added
 The `Contains(this string, params string[])` and `ToGuid(this string)` extension methods have been added for the `string` class.
 
-# [2.1.0] (18/11/2024)
-## Added
-### New Deserialization Methods
+## [2.1.0] (18/11/2024)
+### Added
+#### New Deserialization Methods
 - Added `Json.Deserialize(string, Type?, JsonSerializerSettings?)` and `Json.Deserialize(string, Type?)` to provide more deserialization options regarding return type.
 - **Note**: This also fixes the return type deficiency in non-generic deserialization methods.
-## Changed
-### Json Class Documentation
+### Changed
+#### Json Class Documentation
 - Changes to the `Json` class documentation to describe in more detail what each method does.
 
-# [2.0.1] (16/11/2024)
-## Changed
-### Discontinued support
+## [2.0.1] (16/11/2024)
+### Changed
+#### Discontinued support
 The npm version of the package is no longer supported and is also no longer supported as a Unity3D package.
-### New Target Frameworks
+#### New Target Frameworks
 The NuGet version of the package now supports `.NET 6.0`, `.NET 8.0`, and `.NET Standard 2.1`.
-### Nullable Types
+#### Nullable Types
 The package has been updated to more robustly handle (nullable types).
 
-## Fixed
-### Object_CB_Extension.CompareTypeAndSubType Method
+### Fixed
+#### Object_CB_Extension.CompareTypeAndSubType Method
 - **Problem**: When the IncludeInterface parameter was <kbd>true</kbd> and the method compared an interface and an object that inherited that interface, the result was always <kbd>false</kbd>.
 - **Cause**: The issue was due to incorrect usage of the `Type.IsAssignableFrom(Type)` method, which was called from the object type instead of the interface type.
 - **Fix**: Now `Type.IsAssignableFrom(Type)` method is called correctly from interface type.
 
-## Deprecated
-### ScratchObject class
+### Deprecated
+#### ScratchObject class
 The abstract class `ScratchObject` is marked as deprecated starting in `.NET 5` and will throw an error starting in `.NET 8`. \
 For more information, visit https://aka.ms/binaryformatter. \
 **Alternative**: Use the Json class as an alternative to `ScratchObject`.
 
 
-# [1.6.1] (06/07/2024)
-## Fixed
+## [1.6.1] (06/07/2024)
+### Fixed
 `IndexOutOfRangeException` issue in `Type_CB_Extension.GetAttribute<T>(this Type, bool)` method.
 
-### Details
+#### Details
 The `IndexOutOfRangeException` error consisted of the fact that the method did not correctly check the internal variable which is an array, when this array was empty it caused the `IndexOutOfRangeException`. \
 The method that checks whether the first index of the array was null did not take into account whether the array was null and whether it was empty.
-# [1.6.0] (09/05/2024)
-## Add
+## [1.6.0] (09/05/2024)
+### Add
 New methods like `ArrayManipulation.ForSector<T>(Array, in Action<T, long>, in long)`, `ArrayManipulation.ForSector<T>(Array, in Action<T, long>)`, `ArrayManipulation.ForSector <T>(T[], in Action<T, long>, in long)`, `ArrayManipulation.ForSector<T>(T[], in Action<T, long>)`, `ArrayManipulation.ForSector<T> (IList, in Action<T, int>, in int)`, `ArrayManipulation.ForSector<T>(IList, in Action<T, int>)`, `ArrayManipulation.ForSector(IList, in Action<object, int> , in int)`, `ArrayManipulation.ForSector(IList, in Action<object, int>)`, `ArrayManipulation.ForSector<T>(IList<T>, in Action<T, int>, in int)` and ` ArrayManipulation.ForSector<T>(IList<T>, in Action<T, int>)` have been added.
 
-# [1.5.0] (09/05/2024)
-## Add
+## [1.5.0] (09/05/2024)
+### Add
 The methods `ArrayManipulation.ForSector(Array, in Action<object, long>, in long)` and `ArrayManipulation.ForSector(Array, in Action<object, long>)` have been added.
 
-# [1.4.2] (14/02/2024)
-## Fixed
+## [1.4.2] (14/02/2024)
+### Fixed
 Problem checking the `index` parameter in the `ArrayManipulation.FindIndex<T>(T[], long, long, Predicate<T>)` and `ArrayManipulation.FindLastIndex<T>(T[], long, long, Predicate methods <T>)`.
-### Details
+#### Details
 The problem was checking the `index` parameter, which was done to check whether it was greater than or equal to zero. \
 If the array had size zero, the check returned a false positive, generating an `ArgumentOutOfRangeException`. \
 The fix involved checking if the array is zero size before checking the `index` parameter.
-### Affected versions
+#### Affected versions
 This problem was present since version `1.4.0`.
-## Changed
+### Changed
 Improvements to the `ArrayManipulation.SeparateList<T>(T[], long, out T[], out T[])` method.
-### Details
+#### Details
 The `ArrayManipulation.SeparateList<T>(T[], long, out T[], out T[])` method has received the following improvements:
 - Checks to raise exceptions like `ArgumentNullException`, `RankException` and `ArgumentOutOfRangeException` if they occur.
 - Returns an empty list in the `out` parameters if the input list is zero.
 
-# [04/02/2024] #1.4.1
-- ## Fixed
+## [04/02/2024] #1.4.1
+- ### Fixed
 - - The metadata files required to work in Unity3D have been added to the package.
-# [04/02/2024] #1.4.0-rc3
-## ArrayManipulation
-- ### Changed
+## [04/02/2024] #1.4.0-rc3
+### ArrayManipulation
+- #### Changed
 - - The functions `Remove<T>`, `Insert<T>`, `SeparateList<T>` and `TakeStretch<T>` had their parameters
 of type `int` changed to type `long`.
-- ### Add
+- #### Add
 - - Added `long` type versions to methods that were `int` type versions.
-- ### Obsolete
+- #### Obsolete
 - - The functions `T[] Insert<T>(IEnumerator<T>, long, T[])`, `T[] Add<T>(IEnumerator<T>, T[])` and `Add<T>( IEnumerator<T>, ref T[])` have been deprecated.
-- ## Add
+- ### Add
 - - The generic collection classes `LongList<T>`, ReadOnlyLongCollection<T> and generic and non-generic interfaces such as `ILongList`, `ILongList<T>`, `ILongCollection`, `ILongCollection<T>`, `IReadOnlyLongCollection<T> ` and `IReadOnlyLongList<T>` have been added.
-# [03/02/2024] #1.4.0-rc1
-- ## Removed
+## [03/02/2024] #1.4.0-rc1
+- ### Removed
 The `IReadOnlyArray` and `IReadOnlyArray<T>` interfaces have been removed using the `IReadOnlyLongList` or `IReadOnlyList` interface.
-# [01/02/2024] #1.3.1-rc2
-- ## Add
+## [01/02/2024] #1.3.1-rc2
+- ### Add
 The `XMLIRWDeclaration` class that represents an xml declaration has been added.<br>
 The `XMLIRWText` class that represents xml text has been added.<br>
 The `ITextValue` interface has been added.<br>
-- ## Obsolete
+- ### Obsolete
 The `XMLIRWValue` structure has been deprecated and replaced by the `XMLIRWText` class. In addition to the `XMLIRWValue` structure, functions, properties and constructors that use the `XMLIRWValue` structure have become obsolete.
-# [01/02/2024] #1.3.1-rc1
-- ## Fixed
+## [01/02/2024] #1.3.1-rc1
+- ### Fixed
 The XML extension has problems reading the xml file.<br>
 The constructor of the `ICollectionToIEnumerator` class had the `ArgumentException` problem due to the fact that the protected field `list` is not instantiated.
 # [26/01/2024] #1.3.0
-- ## Add
+- ### Add
 The `TypeUtilitarian` class received a new function called `Type TypeUtilitarian.GetType(string fullName)`.
-# [25/01/2024]
-## [nuget#1.2.0-rc6]
+### [25/01/2024]
+### [nuget#1.2.0-rc6]
 The NuGet package is using C# version 7.3
-## [npm#1.2.2]
+### [npm#1.2.2]
 The NPM package is using version 7.3 of C# in addition to having fixed the problems inherent in the migration to Unity2019.
 
 # [18/01/2024]#1.2.0-rc5
-- ## Changed
+- ### Changed
 Package has regressed to `netstandard2.0`.
-- ## Removed
+- ### Removed
 The `ReadOnlyIterrupter` class and `ALF` classes have been removed.
 
-# [17/01/2024]#1.2.0-rc3
-- ## Add
+## [17/01/2024]#1.2.0-rc3
+- ### Add
 TaskPool class objects have been added:
 ```c#
 public static int Count { get; }
@@ -137,7 +183,7 @@ public static void InitTask(Action action);
 public static void InitTask<TRes>(Func<TRes> func, out Task<TRes> res);
 public static void InitTask<TRes>(Func<TRes> func);
 ```
-- ## Removed
+- ### Removed
 Objects such as `TaskPoolItem`, `TaskPoolItem`, `TaskPoolItem`, `IAsyncTaskWait`, `IAsyncTask`, `AsyncTaskWait` and `AsyncTask` have been removed.<br>
 TaskPool class objects have been removed:
 ```c#
@@ -150,12 +196,12 @@ public static void AddTask(Action action);
 public static void AddTask(Action<InternalWait> action, CancellationToken token);
 ```
 
-# [16/01/2024]#12.0-rc2
-- ## Obsolete
+## [16/01/2024]#12.0-rc2
+- ### Obsolete
 The method `ArrayManipulation.Exists(object?, Array)` has become obsolete the alternative method is `ArrayManipulation.Exists<T>(T item, T[] array)`.
-- ## Remove
+- ### Remove
 The static class `PrintOut` has been removed.
-- ## Add
+- ### Add
 ```c#
 //String_CB_Extension extension methods have been added.
 public static sbyte ToSByte(this string S, NumberStyles style, IFormatProvider formatProvider);
@@ -205,8 +251,8 @@ public static bool Exists<T>(T item, T[] array);
 public static void Reverse(Array array, int index, int length);
 ```
 
-# [16/01/2024]#1.2.0-rc1
-- ## Removed
+## [16/01/2024]#1.2.0-rc1
+- ### Removed
 ```c#
 //The Enum_CB_Extension extension methods have been removed.
 public static bool CompareFlag(this Enum E, Enum enum);
@@ -214,7 +260,7 @@ public static bool CompareFlag(this Enum E, Enum[] enum);
 public static bool ContainsFlag(this Enum E, Enum enum);
 public static bool ContainsFlag(this Enum E, Enum[] enum);
 ```
-- ## Add
+- ### Add
 The `HashString` structure has been added.
 ```c#
 //New extension methods for `Stream` have been added.
@@ -229,8 +275,8 @@ public static bool HasFlag(this Enum E, params Enum[] enum);
 public static string Format(this Enum E, object value, string format);
 ```
 
-# [15/01/2024]#1.2.0
-- ## Removed
+## [15/01/2024]#1.2.0
+- ### Removed
 The `T[] ArrayManipulation.Empty<T>();` method has been removed.
 ```c#
 //The `HashAlgorithm_CB_Extension` extension methods have been removed.
@@ -255,7 +301,7 @@ public static string ComprestComputehashDirectoryNameToString(this HashAlgorithm
 public static byte[] ComputehashDirectoryName(this HashAlgorithm H, string DirectoryPath);
 public static byte[] ComputehashDirectory(this HashAlgorithm H, string DirectoryPath);
 ```
-- ## Add
+- ### Add
 ```c#
 //`HashAlgorithm_CB_Extension` extension methods have been added.
 public static byte[] ComputeHash(this HashAlgorithm H, string FilePath);
@@ -264,6 +310,6 @@ public static string ComputeHashToString(this HashAlgorithm H, byte[] buffer);
 public static string ComputeHashToString(this HashAlgorithm H, byte[] buffer, int offset, int count);        
 public static string ComputeHashToString(this HashAlgorithm H, Stream inputStream);
 ```
-# [31/12/2023]#1.1.0
-- ## Changed
+## [31/12/2023]#1.1.0
+- ### Changed
 The package now has the `net472` and `netstandard2.1` target frameworks.

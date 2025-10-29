@@ -2,30 +2,69 @@
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<TargetFrameworks>net8.0;net6.0;netstandard2.0;net472</TargetFrameworks>
-		<RootNamespace></RootNamespace>
 		<AssemblyName>Cobilas.Core</AssemblyName>
-		<OutputPath>.libs/bin</OutputPath>
 		<LangVersion>default</LangVersion>
 		<Nullable>enable</Nullable>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-	</PropertyGroup>
-	<PropertyGroup>
-		<Authors>BélicusBr</Authors>
+		<BaseOutputPath>bin\$(Configuration)</BaseOutputPath>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageId>Cobilas.Core.Net4x</PackageId>
-		<PackageDescription>NuGet C# package for general use in apps and games.</PackageDescription>
-		<PackageVersion>2.7.1</PackageVersion>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Title>Cobilas Core Net4x</Title>
+		<Version>2.7.1</Version>
+		<Authors>BélicusBr</Authors>
+		<Description>NuGet C# package for general use in apps and games.</Description>
 		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://github.com/BelicusBr/com.cobilas.cs.lib.core.net4x</RepositoryUrl>
-		<NeutralLanguage>en</NeutralLanguage>
+		<RepositoryUrl>https://github.com/BelicusBr/com.cobilas.cs.lib.core.net</RepositoryUrl>
 		<PackageTags>CSharp;C#;net472;netstandard2.0;netstandard2.1;Godot3</PackageTags>
-		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageOutputPath>C:\local.nuget</PackageOutputPath>
+		<PackageOutputPath>C:\local.nuget\$(Configuration)</PackageOutputPath>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
+	  <WarningLevel>8</WarningLevel>
+	  <NoWarn>1701;1702;IDE0290;IDE0300;IDE0301;IDE0130;IDE1006;IDE0056;IDE0057</NoWarn>
+	  <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+	  <WarningLevel>8</WarningLevel>
+	  <NoWarn>1701;1702;IDE0290;IDE0300;IDE0301;IDE0130;IDE1006;IDE0056;IDE0057</NoWarn>
+	  <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+	  <WarningLevel>8</WarningLevel>
+	  <NoWarn>1701;1702;IDE0290;IDE0300;IDE0301;IDE0130;IDE1006;IDE0056;IDE0057</NoWarn>
+	  <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|AnyCPU'">
+	  <WarningLevel>8</WarningLevel>
+	  <NoWarn>1701;1702;IDE0290;IDE0300;IDE0301;IDE0130;IDE1006;IDE0056;IDE0057</NoWarn>
+	  <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|AnyCPU'">
+	  <WarningLevel>8</WarningLevel>
+	  <NoWarn>1701;1702;IDE0290;IDE0300;IDE0301;IDE0130;IDE1006;IDE0056;IDE0057</NoWarn>
+	  <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+	  <WarningLevel>8</WarningLevel>
+	  <NoWarn>1701;1702;IDE0290;IDE0300;IDE0301;IDE0130;IDE1006;IDE0056;IDE0057</NoWarn>
+	  <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+	  <WarningLevel>8</WarningLevel>
+	  <NoWarn>1701;1702;IDE0290;IDE0300;IDE0301;IDE0130;IDE1006;IDE0056;IDE0057</NoWarn>
+	  <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net472|AnyCPU'">
+	  <WarningLevel>8</WarningLevel>
+	  <NoWarn>1701;1702;IDE0290;IDE0300;IDE0301;IDE0130;IDE1006;IDE0056;IDE0057</NoWarn>
+	  <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Include="README.md" Pack="true" PackagePath="\" />
-		<None Include="LICENSE.md" Pack="true" PackagePath="\" />
+		<None Include="README.md" Pack="True" PackagePath="\" />
+		<None Include="LICENSE.md" Pack="True" PackagePath="\" />
 		<None Include="CHANGELOG.md" Pack="true" PackagePath="\" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
