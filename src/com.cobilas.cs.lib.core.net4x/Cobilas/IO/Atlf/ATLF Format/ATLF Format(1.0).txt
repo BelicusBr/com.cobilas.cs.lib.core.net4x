@@ -1,5 +1,4 @@
-#>Header
-The use of the header is not mandatory.<#
+#>Header The use of the header is not mandatory.<#
 #! version:/*std:1.0*/
 #! encoding:/*utf-8*/
 

@@ -17,12 +17,8 @@ public readonly struct NullObject : INullObject {
     /// <exception cref="ArgumentNullException">It occurs when the <c>target</c> parameter is null.</exception>
     /// <returns>Returns a null representation of the object that inherits the <seealso cref="INullObject"/> interface.</returns>
     public static object GetNullObject(Type? target, bool ignoreINullObject = false) {
-#if NET7_0_OR_GREATER
-        ArgumentNullException.ThrowIfNull(target, nameof(target));
-#else
-        if (target is null)
-            throw new ArgumentNullException(nameof(target));
-#endif
+        ExceptionMessages.ThrowIfNull(target, nameof(target));
+
         if (!typeof(INullObject).IsAssignableFrom(target) && !ignoreINullObject)
             throw new InvalidCastException($"Object {target} does not inherit the {nameof(INullObject)} interface.");
         if (target == typeof(NullObject)) return nullObject;
