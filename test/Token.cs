@@ -1,4 +1,6 @@
-﻿namespace com.cobilas.cs.lib.core.net4x.test;
+﻿using Cobilas.IO.Atlf.Components;
+
+namespace com.cobilas.cs.lib.core.net4x.test;
 
 public enum TokenType
 {
@@ -11,7 +13,6 @@ public enum TokenType
 	BlockClose,       // */
 	Identifier,       // Tag, version, encoding...
 	Text,             // Conteúdo
-	EscapeCharacter,
 	EndOfFile
 }
 
@@ -20,13 +21,15 @@ public sealed class Token
 {
 	public TokenType Type { get; }
 	public string Value { get; }
+	public CharacterCursor.LineEndColumn LineEndColumn { get; }
 
-	public Token(TokenType type, string value = null)
+	public Token(TokenType type, CharacterCursor.LineEndColumn lc, string value = null)
 	{
 		Type = type;
 		Value = value;
+		LineEndColumn = lc;
 	}
 
 	public override string ToString() =>
-		Value == null ? Type.ToString() : $"{Type} ({Value})";
+		Value == null ? $"{Type} [{LineEndColumn}]" : $"{Type} [{LineEndColumn}]({Value})";
 }

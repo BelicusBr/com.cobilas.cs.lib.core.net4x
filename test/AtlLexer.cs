@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Collections.Generic;
+using Cobilas.IO.Atlf.Components;
 
 namespace com.cobilas.cs.lib.core.net4x.test;
 
@@ -23,16 +24,15 @@ public sealed class AtlLexer
 	{
 		while (!IsEOF())
 		{
-			if (Match("#>") && !isValueBlock) yield return new Token(textBlock = TokenType.CommentOpen);
-			else if (Match("<#") && !isTextBlock) yield return new Token(textBlock = TokenType.CommentClose);
-			else if (Match("#!") && !isValueBlock) yield return new Token(TokenType.MarkOpen);
-			else if (Match("/*") && !isValueBlock) yield return new Token(textBlock = TokenType.BlockOpen);
-			else if (Match("*/") && !isCommentBlock) yield return new Token(textBlock = TokenType.BlockClose);
-			else if (Match("\\*")) yield return new Token(textBlock = TokenType.EscapeCharacter, "\\*");
+			if (Match("#>") && !isValueBlock) yield return new Token(textBlock = TokenType.CommentOpen, CharacterCursor.LineEndColumn.Default);
+			else if (Match("<#") && !isTextBlock) yield return new Token(textBlock = TokenType.CommentClose, CharacterCursor.LineEndColumn.Default);
+			else if (Match("#!") && !isValueBlock) yield return new Token(TokenType.MarkOpen, CharacterCursor.LineEndColumn.Default);
+			else if (Match("/*") && !isValueBlock) yield return new Token(textBlock = TokenType.BlockOpen, CharacterCursor.LineEndColumn.Default);
+			else if (Match("*/") && !isCommentBlock) yield return new Token(textBlock = TokenType.BlockClose, CharacterCursor.LineEndColumn.Default);
 			else if (Peek() == ':' && !isValueBlock)
 			{
 				_pos++;
-				yield return new Token(TokenType.Colon);
+				yield return new Token(TokenType.Colon, CharacterCursor.LineEndColumn.Default);
 			}
 			else if (char.IsWhiteSpace(Peek()) && !isValueBlock)
 			{
@@ -48,7 +48,7 @@ public sealed class AtlLexer
 			}
 		}
 
-		yield return new Token(TokenType.EndOfFile);
+		yield return new Token(TokenType.EndOfFile, CharacterCursor.LineEndColumn.Default);
 	}
 
 	private Token ReadIdentifier()
@@ -59,26 +59,29 @@ public sealed class AtlLexer
 			sb.Append(Peek());
 			_pos++;
 		}
-		return new Token(TokenType.Identifier, sb.ToString());
+		return new Token(TokenType.Identifier, CharacterCursor.LineEndColumn.Default, sb.ToString());
 	}
 
 	private Token ReadText()
 	{
 		var sb = new StringBuilder();
-		while (!IsEOF() &&
-			   (!StartsWith("#>") || isValueBlock) &&
-			   (!StartsWith("<#") || isTextBlock) &&
-			   (!StartsWith("#!") || isValueBlock) &&
-			   (!StartsWith("/*") || isValueBlock) &&
-			   (!StartsWith("*/") || isCommentBlock))
-		{
+		while (!IsEOF() && CheckBlock()) {
 
+			if (StartsWith("\\*"))
+				_pos++;
 			sb.Append(Peek());
 			_pos++;
 		}
 
-		return new Token(TokenType.Text, sb.ToString());
+		return new Token(TokenType.Text, CharacterCursor.LineEndColumn.Default, sb.ToString());
 	}
+
+	public bool CheckBlock()
+		=> (!StartsWith("#>") || isValueBlock) &&
+		   (!StartsWith("<#") || isTextBlock) &&
+		   (!StartsWith("#!") || isValueBlock) &&
+		   (!StartsWith("/*") || isValueBlock) &&
+		   (!StartsWith("*/") || isCommentBlock);
 
 	private bool Match(string value)
 	{
