@@ -1,0 +1,17 @@
+#>Header The use of the header is not mandatory.<#
+#! version:/*std:1.0*/
+#! encoding:/*utf-8*/
+
+#> Comment <#
+#> ATLF format(1.0) <#
+
+#> Uni-line marking <#
+#! Tag1:/*value1*/
+
+#> Multi-line marking <#
+#! Tag2:/*
+value1
+value2
+value3
+value4
+*/
