@@ -101,7 +101,7 @@ public class ATLFTextWriter : ATLFTBWriter {
     protected override ATLFEncoding GetATLFEncoding(string targetVersion) {
         if (EncodingsCollection.ContainsEncoding(targetVersion))
             return EncodingsCollection.GetEncoding(targetVersion);
-        return EncodingsCollection.GetEncoding(def_version);
+        return EncodingsCollection.GetEncoding(EncodingsCollection.def_ecd_version);
     }
 
     /// <summary>Performs automatic indentation.</summary>

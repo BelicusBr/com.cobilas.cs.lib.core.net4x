@@ -19,12 +19,7 @@ namespace Cobilas.Collections.Generic {
         public long Capacity { 
             get => ArrayManipulation.ArrayLongLength(longArray);
             set {
-#if NET8_0_OR_GREATER
-                ArgumentOutOfRangeException.ThrowIfLessThan(value, _size, nameof(Capacity));
-#else
-                if (value < _size)
-                    throw new ArgumentOutOfRangeException(nameof(Capacity), "The capacity cannot be smaller than the list size.");
-#endif
+				ExceptionMessages.ThrowIfLessThan(value, _size, nameof(Capacity));
                 if (value != ArrayManipulation.ArrayLongLength(longArray)) {
                     if (value > 0) {
                         T[] newArray = new T[value];
@@ -159,12 +154,7 @@ namespace Cobilas.Collections.Generic {
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>The number of elements removed from the <seealso cref="LongList{T}"/>.</returns>
         public long RemoveAll(Predicate<T> match) {
-#if NET6_0_OR_GREATER
-			ArgumentNullException.ThrowIfNull(match, nameof(match));
-#else
-			if (match == null)
-                throw new ArgumentNullException(nameof(match));
-#endif
+			ExceptionMessages.ThrowIfNull(match, nameof(match));
             long freeIndex = 0;
 
             while( freeIndex < _size && !match(longArray[freeIndex])) freeIndex++;            
@@ -255,12 +245,8 @@ namespace Cobilas.Collections.Generic {
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         public void ForEach(Action<T> action) {
-#if NET6_0_OR_GREATER
-			ArgumentNullException.ThrowIfNull(action, nameof(action));
-#else
-			if (action == null)
-                throw new ArgumentNullException(nameof(action));
-#endif
+			ExceptionMessages.ThrowIfNull(action, nameof(action));
+
             long _version = longArray.GetHashCode();
             foreach (T item in longArray) {
                 if (_version != longArray.GetHashCode())

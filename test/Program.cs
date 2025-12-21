@@ -1,8 +1,10 @@
 ﻿using Cobilas;
-using System;
-using com.cobilas.cs.lib.core.net4x.test;
-using System.Collections.Generic;
 using Cobilas.IO.Atlf;
+using Cobilas.IO.Atlf.Components;
+using Newtonsoft.Json.Linq;
+using System.Text;
+using System;
+using System.Collections.Generic;
 
 internal class Program
 {
@@ -32,8 +34,7 @@ internal class Program
 
 #> Multi-line marking <#
 
-#!Tag2/Tag33.Tag90_Tag65\Tag22:/*
-value1
+#! Tag2/Tag33.Tag90_Tag65\Tag22:/*value1
 value2
 value3
 value4
@@ -44,69 +45,24 @@ value4
 */
 ";
 		Console.Clear();
-		//var lexer = new AtlLexer(text);
-		//foreach (var token in lexer.Tokenize())
-		//{
-		//	WriteLine(token);
-		//}
-		var lexer = ATLFLexer.Tokenize(text);
-		//foreach (Token item in lexer)
-		//	WriteLine(item);
+		using ATLFReader read = ATLFReader.Create(new StringBuilder(text));
+		read.Reader();
+		foreach (ATLFNode item in read)
+			WriteLine(item);
+	}
 
-		IEnumerator<Token> enumerator = lexer.GetEnumerator();
-		while (enumerator.MoveNext()) {
-			switch (enumerator.Current.Type) {
-				case TokenType.CommentOpen:
-					GetComment(enumerator);
-					break;
-				case TokenType.CommentClose:
-					throw new ATLFException("O comentario não foi inisializado!");
-				case TokenType.MarkOpen:
-					GetTag(enumerator);
-					break;
-				case TokenType.Colon:
-					throw new ATLFException("O bloco de tag não foi inisializado!");
-				case TokenType.BlockOpen:
-					GetTextBlock(enumerator);
-					break;
-				case TokenType.BlockClose:
-					throw new ATLFException("O bloco de texto não foi inisializado!");
-				case TokenType.Identifier:
-					throw new ATLFException($"O {TokenType.Identifier} está fora de um bloco de tag!");
-				case TokenType.Text:
-					throw new ATLFException($"O {TokenType.Text} está fora de um bloco de texto!");
-				case TokenType.EndOfFile:
-					WriteLine(enumerator.Current);
-					break;
-			}
+	private static void WriteLine(ATLFNode node) {
+		switch (node.NodeType) {
+			case ATLFNodeType.Comment:
+				WriteLine(node.ToString(), ConsoleColor.DarkGreen);
+				break;
+			case ATLFNodeType.Tag:
+				WriteLine(node.ToString(), ConsoleColor.DarkYellow);
+				break;
+			case ATLFNodeType.Spacing:
+				WriteLine(node.ToString(), ConsoleColor.DarkCyan);
+				break;
 		}
-	}
-
-	private static void GetTextBlock(IEnumerator<Token> enumerator) {
-		do {
-			WriteLine(enumerator.Current);
-			if (enumerator.Current.Type == TokenType.BlockClose)
-				return;
-		} while (enumerator.MoveNext());
-		throw new ATLFException("O bloco de texto não foi finalizado!");
-	}
-
-	private static void GetTag(IEnumerator<Token> enumerator) {
-		do {
-			WriteLine(enumerator.Current);
-			if (enumerator.Current.Type == TokenType.Colon)
-				return;
-		} while (enumerator.MoveNext());
-		throw new ATLFException("O bloco de tag não foi finalizado!");
-	}
-
-	private static void GetComment(IEnumerator<Token> enumerator) {
-		do {
-			WriteLine(enumerator.Current);
-			if (enumerator.Current.Type == TokenType.CommentClose)
-				return;
-		} while (enumerator.MoveNext());
-		throw new ATLFException("O comentario não foi finalizado!");
 	}
 
 	private static void WriteLine(Token token) {

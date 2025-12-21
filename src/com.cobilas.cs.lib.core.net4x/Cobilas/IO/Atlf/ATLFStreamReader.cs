@@ -126,6 +126,6 @@ public class ATLFStreamReader : ATLFSBReader {
     protected override ATLFDecoding GetATLFDecoding(string targetVersion) {
         if (EncodingsCollection.ContainsDecoding(targetVersion))
             return EncodingsCollection.GetDecoding(targetVersion);
-        return EncodingsCollection.GetDecoding(def_version);
+        return EncodingsCollection.GetDecoding(EncodingsCollection.def_dcd_version);
     }
 }

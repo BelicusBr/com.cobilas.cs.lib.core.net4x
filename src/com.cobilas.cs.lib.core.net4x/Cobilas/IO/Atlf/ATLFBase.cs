@@ -25,8 +25,6 @@ public abstract class ATLFBase : IDisposable {
     /// <summary>Sets or returns the current stream.</summary>
     protected abstract MarshalByRefObject RefObject { get; set; }
 
-    internal static string def_version = "std:1.0";
-
     /// <summary>Allows you to close the current flow.</summary>
     public abstract void Close();
     /// <summary>Allows you to discard the current stream.</summary>

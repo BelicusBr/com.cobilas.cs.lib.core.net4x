@@ -6,8 +6,12 @@ namespace Cobilas.IO.Atlf.Text;
 public static class EncodingsCollection {
     private static readonly ATLFEncoding[] encodings = [];
     private static readonly ATLFDecoding[] decodings = [];
+	/// <summary>Indicates the default version of the encoder.</summary>
+	internal const string def_ecd_version = "std:1.0";
+	/// <summary>Indicates the default version of the decoder.</summary>
+	internal const string def_dcd_version = "std:1.1.0";
 
-    static EncodingsCollection() {
+	static EncodingsCollection() {
         foreach(Type item in TypeUtilitarian.GetTypes()) {
             if (item == typeof(NullATLFDecoding) || item == typeof(NullATLFEncoding)) continue;
             if (item.IsSubclassOf(typeof(ATLFEncoding)) && item != typeof(ATLFEncoding))
@@ -16,7 +20,6 @@ public static class EncodingsCollection {
                 ArrayManipulation.Add((ATLFDecoding)item.Activator(), ref decodings!);
         }
     }
-
     /// <summary>Checks whether a given version of the ATLF encoder exists.</summary>
     public static bool ContainsEncoding(string version) {
         foreach (var item in encodings)
@@ -24,7 +27,6 @@ public static class EncodingsCollection {
                 return true;
         return false;
     }
-
     /// <summary>Checks whether a certain version of the ATLF decoder exists.</summary>
     public static bool ContainsDecoding(string version) {
         foreach (var item in decodings)
@@ -32,7 +34,6 @@ public static class EncodingsCollection {
                 return true;
         return false;
     }
-
     /// <summary>Gets a list of ATLF encoder versions.</summary>
     public static string[] GetEncodingVersionList() {
         string[] stg = new string[ArrayManipulation.ArrayLength(encodings)];
@@ -40,7 +41,6 @@ public static class EncodingsCollection {
             stg[I] = encodings[I].Version;
         return stg;
     }
-
     /// <summary>Gets a list of ATLF decoder versions.</summary>
     public static string[] GetDecodingVersionList() {
         string[] stg = new string[ArrayManipulation.ArrayLength(decodings)];
@@ -48,7 +48,6 @@ public static class EncodingsCollection {
             stg[I] = decodings[I].Version;
         return stg;
     }
-
     /// <summary>Gets a specific version of the ATLF encoder.</summary>
     public static ATLFEncoding GetEncoding(string version) {
         foreach (var item in encodings)
@@ -56,7 +55,6 @@ public static class EncodingsCollection {
                 return item;
         return ATLFEncoding.Null;
     }
-
     /// <summary>Gets a specific version of the ATLF decoder.</summary>
     public static ATLFDecoding GetDecoding(string version) {
         foreach (var item in decodings)

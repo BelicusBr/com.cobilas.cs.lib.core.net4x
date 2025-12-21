@@ -48,7 +48,7 @@ public sealed class CharacterCursor : IDisposable {
     /// <returns>The method will return true whenever there are characters to read.</returns>
     public bool MoveToCharacter(long index) {
         bool res = (this.index += index) < Count;
-        ++column;
+        column += index;
         if (CurrentCharacter == '\n') {
             ++line;
             column = 0L;
