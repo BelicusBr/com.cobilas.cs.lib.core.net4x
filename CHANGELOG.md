@@ -5,7 +5,47 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.7.2] - 2025-10-29
+## [2.8.0-rc.3] (21/12/2025)
+
+### Core Infrastructure
+- **Refactored Exception Handling**: Replaced conditional compilation blocks (`#if NET6_0_OR_GREATER`, `#if NET8_0_OR_GREATER`) with unified `ExceptionMessages.ThrowIf...()` methods throughout the codebase, improving maintainability and reducing code duplication.
+- **Enhanced XML Documentation**: Added comprehensive documentation to multiple classes and methods across `ExceptionMessages.cs`, `TypeUtilitarian.cs`, `Dictionary_CB_Extension.cs`, `AssemblyNotFoundException.cs`, and various ATLF classes.
+- **Code Quality**: Removed unused `using System.Threading;` directive from `ReadOnlyLongCollection.cs`.
+
+### ATLF Module (Version 1.1.0)
+- **New Lexical Components**: Introduced `Token` struct and `TokenType` enum to support a token-based parser for the ATLF format.
+- **New Decoder Implementation**: Added `ATLFVS110Decoding` class supporting ATLF standard version `std:1.1.0` with improved parsing logic.
+- **Enhanced Error Handling**:
+  - Added specialized exception classes `ATLFCommentException` and `ATLFMarkException` for more granular error reporting.
+  - Expanded `ATLFException` with new factory methods for common parsing errors (unopened/closed blocks, invalid characters).
+- **Configuration Constants**: Moved default version strings (`def_ecd_version`, `def_dcd_version`) from `ATLFBase` to `EncodingsCollection`.
+- **Parser Fix**: Corrected column increment logic in `CharacterCursor.MoveToCharacter(long index)`.
+- **Documentation**: Added extensive XML comments to all public ATLF classes, methods, and parameters.
+
+### Project Structure
+- **Build Configuration**: Added `<RootNamespace>` element to the main project file (`com.cobilas.cs.lib.core.net4x.csproj`).
+- **Test Cleanup**: Removed experimental lexer files (`ATLFLexer.cs`, `AtlLexer.cs`, `Token.cs`) from the test project as functionality was integrated into the main library.
+
+## [2.8.0-rc.2] (20/12/2025)
+
+### Project Reorganization
+- **Solution & Project Restructuring**:
+  - Created a new solution file (`com.cobilas.cs.lib.core.net4x.slnx`) with proper project references.
+  - Moved all source code from root directory into a structured `src/` folder.
+  - Moved test project from root `com.cobilas.cs.lib.core.net4x.test/` to a dedicated `test/` folder.
+- **Build System**: Removed the legacy single-project file (`com.cobilas.cs.lib.core.net4x.csproj`) from the repository root.
+
+### ATLF Module Development
+- **Experimental Lexer**: Added initial tokenization logic in test files (`ATLFLexer.cs`, `AtlLexer.cs`, `Token.cs`) for prototyping the new ATLF 1.1.0 parser.
+
+## [2.8.0-rc.1] (18/12/2025)
+
+### Release Preparation
+- **Version Update**: Updated all documentation and project files to reflect the new version `2.8.0`.
+- **Repository Cleanup**: Initiated major reorganization of the codebase into a standard `src/` and `test/` structure.
+
+
+## [2.7.2] (29/10/2025)
 
 ### Changed
 - **Version Update**: Bumped package version from 2.7.1 to 2.7.2
@@ -34,7 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Comparison Operators**: Added full set of comparison operators (`==`, `!=`, `<`, `<=`, `>`, `>=`) to `HashString` struct
 - **Disposal Patterns**: Implemented proper IDisposable patterns with finalizers in XML classes
 
-## [2.7.1] - 2025-10-29
+## [2.7.1] (29/10/2025)
 
 ### Changed
 - **Project Structure**: Consolidated all properties into a single `<PropertyGroup>` section

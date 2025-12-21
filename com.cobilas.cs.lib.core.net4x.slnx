@@ -1,0 +1,9 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="test/com.cobilas.cs.lib.core.net4x.test.csproj" Id="b4e355bc-49ed-48ed-bddd-7d6ed36c6a36" />
+  <Project Path="src\com.cobilas.cs.lib.core.net4x\com.cobilas.cs.lib.core.net4x.csproj" />
+</Solution>

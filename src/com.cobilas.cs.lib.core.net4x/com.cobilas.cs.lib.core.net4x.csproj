@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<TargetFrameworks>net8.0;net6.0;netstandard2.0;net472</TargetFrameworks>
+		<AssemblyName>Cobilas.Core</AssemblyName>
+		<RootNamespace></RootNamespace>
+		<LangVersion>default</LangVersion>
+		<Nullable>enable</Nullable>
+		<BaseOutputPath>bin\$(Configuration)</BaseOutputPath>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<NoWarn>1701;1702;IDE0290;IDE0300;IDE0301;IDE0130;IDE1006;IDE0056;IDE0057</NoWarn>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	</PropertyGroup>
+	<!--NuGet-->
+	<PropertyGroup>
+		<Title>Cobilas Core Net4x</Title>
+		<PackageId>Cobilas.Core.Net4x</PackageId>
+		<Authors>BélicusBr</Authors>
+		<Version>2.8.0</Version>
+		<Description>NuGet C# package for general use in apps and games.</Description>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/BelicusBr/com.cobilas.cs.lib.core.net</RepositoryUrl>
+		<PackageTags>CSharp;C#;net472;netstandard2.0;net6.0;net8.0</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageOutputPath>C:\local.nuget</PackageOutputPath>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <WarningLevel>8</WarningLevel>
+	  <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\..\README.md" Pack="True" PackagePath="\" />
+		<None Include="..\..\LICENSE.md" Pack="True" PackagePath="\" />
+		<None Include="..\..\CHANGELOG.md" Pack="true" PackagePath="\" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
+</Project>
