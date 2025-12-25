@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0] - (25/12/2025)
+
+### Added
+- **ExceptionMessages class**: Introduced two new static methods for `ObjectDisposedException` validation:
+  - `ExceptionMessages.ThrowIf(bool condition, Type type)`
+  - `ExceptionMessages.ThrowIf(bool condition, object instance)`
+- **Stack trace optimization**: Applied `[Diagnostics.StackTraceHidden]` attribute to multiple validation methods for cleaner stack traces in .NET 6.0+ targets.
+
+### Changed
+S- **Package version references**: Updated all documentation and project references from version `2.8.0` to `2.9.0`.
+
+### Technical Notes
+- The new `ThrowIf` methods provide forward and backward compatibility:
+  - On .NET 7.0+, they delegate to the built-in `ObjectDisposedException.ThrowIf`.
+  - On earlier frameworks, they manually throw `ObjectDisposedException` with the appropriate type name.
+- The changes maintain the library's purpose of offering consistent exception-throwing utilities across different .NET versions.
+
 ## [2.8.0-rc.3] (21/12/2025)
 
 ### Core Infrastructure
