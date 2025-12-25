@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.10.0] - (25/12/2025)
+
+### Added
+- **TypeUtilitarian class**: Added three new overloaded static methods for type discovery and validation:
+  - `GetTypes()` - Parameterless overload that retrieves types from all loaded assemblies
+  - `TypeExist(string fullName)` - Simplified overload for checking type existence without specifying assembly
+  - `GetType(string fullName)` - Simplified overload for retrieving types without specifying assembly
+
+### Changed
+- **Package version references**: Updated all documentation and project references from version `2.9.0` to `2.10.0`
+- **Method signatures**: Modified existing methods to remove optional parameters, replacing them with explicit overloads for clearer API design:
+  - `GetTypes(string? assemblyName)` now requires explicit parameter
+  - `TypeExist(string fullName, string? assemblyName)` now requires explicit parameters
+  - `GetType(string fullName, string? assemblyName)` now requires explicit parameters
+
 ## [2.9.0] - (25/12/2025)
 
 ### Added
