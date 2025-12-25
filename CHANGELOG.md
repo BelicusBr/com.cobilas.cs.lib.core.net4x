@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Stack trace optimization**: Applied `[Diagnostics.StackTraceHidden]` attribute to multiple validation methods for cleaner stack traces in .NET 6.0+ targets.
 
 ### Changed
-S- **Package version references**: Updated all documentation and project references from version `2.8.0` to `2.9.0`.
+- **Package version references**: Updated all documentation and project references from version `2.8.0` to `2.9.0`.
 
 ### Technical Notes
 - The new `ThrowIf` methods provide forward and backward compatibility:
