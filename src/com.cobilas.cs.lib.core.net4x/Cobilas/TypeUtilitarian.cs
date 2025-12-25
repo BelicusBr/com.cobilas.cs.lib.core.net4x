@@ -14,7 +14,7 @@ public static class TypeUtilitarian {
 	/// When <paramref name="assemblyName"/> is <see langword="null"/>, this method returns types from all loaded assemblies.
 	/// Otherwise, it returns types only from the specified assembly.
 	/// </remarks>
-	public static Type[] GetTypes(string? assemblyName = null) {
+	public static Type[] GetTypes(string? assemblyName) {
 		Type[] types = [];
 		if (assemblyName is null) {
 			Assembly[] assemblies = GetAssemblies();
@@ -26,6 +26,9 @@ public static class TypeUtilitarian {
 		}
 		return types;
 	}
+	/// <inheritdoc cref="GetTypes(string?)"/>
+	/// <remarks>This overload retrieves types from all loaded assemblies.</remarks>
+	public static Type[] GetTypes() => GetTypes(null);
 	/// <summary>Checks if the type exists.</summary>
 	/// <param name="fullName">The full name of the type (e.g., <c>System.String</c>).</param>
 	/// <param name="assemblyName">The full name of the assembly to search in. If <see langword="null"/>, all assemblies are searched.</param>
@@ -33,12 +36,14 @@ public static class TypeUtilitarian {
 	/// <remarks>
 	/// This method compares the type's full name (including namespace) with the provided <paramref name="fullName"/>.
 	/// </remarks>
-	public static bool TypeExist(string fullName, string? assemblyName = null) {
+	public static bool TypeExist(string fullName, string? assemblyName) {
 		foreach (var item in GetTypes(assemblyName))
 			if (item.Name == fullName)
 				return true;
 		return false;
 	}
+	/// <inheritdoc cref="TypeExist(string, string?)"/>
+	public static bool TypeExist(string fullName) => TypeExist(fullName, null);
 	/// <summary>Get a specific type.</summary>
 	/// <param name="fullName">The full name of the type (e.g., <c>System.String</c>).</param>
 	/// <param name="assemblyName">The full name of the assembly to search in. If <see langword="null"/>, all assemblies are searched.</param>
@@ -49,12 +54,14 @@ public static class TypeUtilitarian {
 	/// <remarks>
 	/// This method searches for a type by its full name (including namespace). If not found, it returns the type of <see cref="NullObject.Null"/>.
 	/// </remarks>
-	public static Type GetType(string fullName, string? assemblyName = null) {
+	public static Type GetType(string fullName, string? assemblyName) {
 		foreach (Type item in GetTypes(assemblyName))
 			if (item.FullName == fullName)
 				return item;
 		return NullObject.Null.GetType();
 	}
+	/// <inheritdoc cref="GetType(string, string?)"/>
+	public static Type GetType(string fullName) => GetType(fullName, null);
 	/// <summary>Get all assemblies for the current domain.</summary>
 	/// <returns>Returns a list of all assemblies in the current application domain.</returns>
 	public static Assembly[] GetAssemblies()
