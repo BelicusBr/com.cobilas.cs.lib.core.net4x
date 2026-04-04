@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+---
+
+## [2.11.0] - (04/04/2026)
+
+### Added
+- `Printer` class in `Cobilas` namespace – a flexible, event‑driven console printing API.
+  - Supports plain output, formatted strings, and inline colour tagging via `<colorId:text>` markup.
+  - Colour‑tagged strings are parsed once and cached by hash for performance.
+  - Custom output routing via `PrintFunction` delegate; default behaviour writes to `Console`.
+  - `ColoringPrint` event allows external colour resolution (e.g., mapping `#404` to `ConsoleColor.DarkRed`).
+  - Escape sequences inside tags: `$lft` → `>`, `$rgt` → `<`, `$\lft` → literal `$lft`, `$\rgt` → literal `$rgt`.
+- `project-git-funcs.ps1` – PowerShell script for automated git branching and merging workflows (merges `main.dev`/`main.fix` branches and pushes to remotes).
+
+### Changed
+- Bumped package version from `2.10.0` to `2.11.0`.
+- Project file now includes `project-git-funcs.ps1` in the packaged content.
+
+---
+
 ## [2.10.0] - (25/12/2025)
 
 ### Added
