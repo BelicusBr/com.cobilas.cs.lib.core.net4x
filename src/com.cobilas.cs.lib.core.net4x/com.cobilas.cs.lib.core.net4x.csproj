@@ -16,7 +16,7 @@
 		<Title>Cobilas Core Net4x</Title>
 		<PackageId>Cobilas.Core.Net4x</PackageId>
 		<Authors>BélicusBr</Authors>
-		<Version>2.10.0</Version>
+		<Version>2.11.0</Version>
 		<Description>NuGet C# package for general use in apps and games.</Description>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/BelicusBr/com.cobilas.cs.lib.core.net</RepositoryUrl>
@@ -35,6 +35,7 @@
 		<None Include="..\..\README.md" Pack="True" PackagePath="\" />
 		<None Include="..\..\LICENSE.md" Pack="True" PackagePath="\" />
 		<None Include="..\..\CHANGELOG.md" Pack="true" PackagePath="\" />
+        <None Include="..\..\project-git-funcs.ps1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 </Project>
