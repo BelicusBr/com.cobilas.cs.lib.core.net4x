@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.12.0] - (04/04/2026)
+
+### Changed
+- NuGet package generation (`GeneratePackageOnBuild`) now only occurs in `Release` configuration.
+- Moved `WarningLevel` and `CheckForOverflowUnderflow` settings from a conditional `Release` property group to the main `PropertyGroup` so they apply to all configurations.
+- Updated `Newtonsoft.Json` dependency from version `13.0.3` to `13.0.4`.
+
+---
+
 ## [2.11.0] - (04/04/2026)
 
 ### Added
