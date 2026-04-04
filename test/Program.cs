@@ -5,10 +5,25 @@ using Newtonsoft.Json.Linq;
 using System.Text;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
-internal class Program
-{
+internal class Program {
 	private static void Main(string[] args) {
+		Printer.ColoringPrint += (stg) => {
+			switch (stg) {
+				case "#404":
+					Console.ForegroundColor = ConsoleColor.DarkRed;
+					break;
+				case "#202":
+					Console.ForegroundColor = ConsoleColor.DarkYellow;
+					break;
+			}
+		};
+
+		string txt = "tds forg <#404:lost> jjug <#202:lost> ffre juyt <#404:$rgtlost$lft> llopd <#402:lost2>";
+		Printer.ColorPrinting(txt);
+		Printer.ColorPrinting(txt);
+		//Printer.ColorPrinting2("Status: <Red:ERRO> no módulo <Green:OK>");
 		//int vl = int.Parse(Console.ReadLine()!);
 		//ExceptionMessages.ThrowIfZero(vl);
 		//ExceptionMessages.ThrowIfNegative(vl);
@@ -21,34 +36,34 @@ internal class Program
 		//Console.WriteLine("Finalizado");
 		//foreach (var item in TypeUtilitarian.GetAssemblies())
 		//	Console.WriteLine(item.FullName);
-		string text =
-@"#>Header The use of the header is not mandatory.<#
-#! version:/*std:1.0*/
-#! encoding:/*utf-8*/
+		//		string text =
+		//@"#>Header The use of the header is not mandatory.<#
+		//#! version:/*std:1.0*/
+		//#! encoding:/*utf-8*/
 
-#> Comment <#
-#> ATLF format(1.0) <#
+		//#> Comment <#
+		//#> ATLF format(1.0) <#
 
-#> Uni-line marking <#
-#! Tag1:/*value1*/
+		//#> Uni-line marking <#
+		//#! Tag1:/*value1*/
 
-#> Multi-line marking <#
+		//#> Multi-line marking <#
 
-#! Tag2/Tag33.Tag90_Tag65\Tag22:/*value1
-value2
-value3
-value4
-/*\*/
-#\!
-\<#
-\\
-*/
-";
-		Console.Clear();
-		using ATLFReader read = ATLFReader.Create(new StringBuilder(text));
-		read.Reader();
-		foreach (ATLFNode item in read)
-			WriteLine(item);
+		//#! Tag2/Tag33.Tag90_Tag65\Tag22:/*value1
+		//value2
+		//value3
+		//value4
+		///*\*/
+		//#\!
+		//\<#
+		//\\
+		//*/
+		//";
+		//		Console.Clear();
+		//		using ATLFReader read = ATLFReader.Create(new StringBuilder(text));
+		//		read.Reader();
+		//		foreach (ATLFNode item in read)
+		//			WriteLine(item);
 	}
 
 	private static void WriteLine(ATLFNode node) {
