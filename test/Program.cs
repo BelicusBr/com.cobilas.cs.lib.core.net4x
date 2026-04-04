@@ -6,11 +6,14 @@ using System.Text;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Cobilas.IO.Serialization.Json;
 
 internal class Program {
 	private static void Main(string[] args) {
-		Printer.ColoringPrint += (stg) => {
-			switch (stg) {
+		Printer.ColoringPrint += (stg) =>
+		{
+			switch (stg)
+			{
 				case "#404":
 					Console.ForegroundColor = ConsoleColor.DarkRed;
 					break;
@@ -23,7 +26,7 @@ internal class Program {
 		string txt = "tds forg <#404:lost> jjug <#202:lost> ffre juyt <#404:$rgtlost$lft> llopd <#402:lost2>";
 		Printer.ColorPrinting(txt);
 		Printer.ColorPrinting(txt);
-		//Printer.ColorPrinting2("Status: <Red:ERRO> no módulo <Green:OK>");
+
 		//int vl = int.Parse(Console.ReadLine()!);
 		//ExceptionMessages.ThrowIfZero(vl);
 		//ExceptionMessages.ThrowIfNegative(vl);
